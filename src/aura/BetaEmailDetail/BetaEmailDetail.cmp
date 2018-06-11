@@ -1,0 +1,5 @@
+<aura:component>
+	<aura:handler event="c:caseEmailDetailEvent" action="{!c.loadEmailDetails}"/>
+	<div>Beta Email Details</div>
+	<div>BED 2</div>	
+</aura:component>

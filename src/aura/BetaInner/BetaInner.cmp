@@ -1,0 +1,8 @@
+<aura:component >
+<aura:attribute name="version" type="String" default="v0.63"/>
+<div>See cmh18_TemplatePicker component</div>    
+
+<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div> 
+
+
+</aura:component>

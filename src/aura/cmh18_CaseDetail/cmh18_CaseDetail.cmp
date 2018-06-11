@@ -1,0 +1,23 @@
+<aura:component controller="cmh18_CaseController"  implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="theCase" type="Case" />
+	<aura:attribute name="properties" type="list" />
+	<aura:attribute name="message" type="String" default="empty" />
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<div>Case ID {!v.recordId}</div>
+	<div>Case Number {!v.theCase.CaseNumber}</div>
+	<div class="slds-form" role="list">
+		<aura:iteration items="{!v.properties}" indexVar="key" var="prop">
+			<div class="slds-grid slds-gutters_small">
+				<div class="slds-col slds-has-flexi-truncate" role="listitem">
+					<div
+						class="slds-form-element slds-form-element_edit slds-hint-parent">
+						<div class="slds-form-element__label">{!prop.label}</div>
+						<div class="slds-form-element__control">{!prop.value}</div>
+					</div>
+				</div>
+			</div>
+		</aura:iteration>
+	</div>
+	<div>CD1</div>
+</aura:component>

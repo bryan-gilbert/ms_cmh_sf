@@ -1,0 +1,121 @@
+<aura:component controller="cmh18_EmailTemplatesController">
+<aura:attribute name="version" type="String" default="v0.67"/>
+<aura:attribute name="templates" type="EmailTemplate[]"/>
+<aura:attribute name="folders" type="Folder[]"/>
+<aura:attribute name="listOfSearchRecords" type="EmailTemplate[]"/>    
+<aura:attribute name="spinner" type="boolean" default="true" />
+<aura:attribute name="branding" type="BrandTemplate[]"/>
+<aura:attribute name="searchName" type="String"/>
+<aura:attribute name="searchFolder" type="String"/>
+<aura:attribute name="searchSubject" type="String"/>
+<aura:attribute name="message" type="String" />
+<aura:attribute name="selectedCount" type="Integer" />
+    
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+<!--loading spinner start... style=Brand Medium (blue dots)-->
+<aura:if isTrue="{!v.spinner}">
+	<div aura:id="spinnerId" class="slds-spinner_container">
+		<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+			<span class="slds-assistive-text">Loading</span>
+			<div class="slds-spinner__dot-a"></div>
+			<div class="slds-spinner__dot-b"></div>
+		</div>
+	</div>
+</aura:if>
+    
+<!--div>{!v.message}</div-->
+<article class="slds-card">
+	<div class="slds-card__header slds-grid">
+		<header class="slds-media slds-media_center slds-has-flexi-truncate">
+			<div class="slds-media__body">
+				<h2 class="slds-card__header-title">
+					<span class="slds-text-heading_small">Templates ({!v.selectedCount})</span>
+				</h2>
+			</div>
+		</header>
+	</div>
+	<div class="slds-card__body">
+		<table class="tableBodyScroll slds-table_bordered slds-table_cell-buffer">            
+			<thead>
+				<tr class="slds-text-title_caps">
+					<th scope="col"> 
+					<div>Name
+					</div>
+					</th>
+					<th scope="col"> 
+					<div>Folder
+					</div>
+					</th>
+					<th scope="col"> 
+					<div>
+						Subject 
+					</div>
+					</th>
+					<th scope="col" class="cev-col-date"> 
+					<div>
+						Date 
+					</div>
+					</th>
+				</tr>
+				<tr class="slds-text-title_caps">
+					<th scope="col"> 
+					<div>
+<ui:inputText updateOn="keyup" keyup="{!c.keyPressController}" 
+  class="slds-input" value="{!v.searchName}" placeholder="Search..."/>
+
+					</div>
+					</th>
+					<th scope="col"> 
+					<div>
+<ui:inputText updateOn="keyup" keyup="{!c.keyPressController}" 
+  class="slds-input" value="{!v.searchFolder}" placeholder="Search..."/>
+
+					</div>
+					</th>
+					<th scope="col"> 
+					<div>
+<ui:inputText updateOn="keyup" keyup="{!c.keyPressController}" 
+  class="slds-input" value="{!v.searchSubject}" placeholder="Search..."/>
+ 
+					</div>
+					</th>
+					<th scope="col" class="cev-col-date"> 
+					<div>
+						&nbsp; 
+					</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+<aura:iteration items="{!v.listOfSearchRecords}" var="template">                    
+				<tr class="slds-hint-parent" >
+					<td> 
+					<div class="slds-cell-wrap">
+                        <a href="javascript:void(0);" id="{!template.Id}" onclick="{!c.trClickHandler}">{!template.Name}</a>
+					</div>
+					</td>
+					<td> 
+					<div>{!template.FolderName}
+					</div>
+					</td>
+					<td> 
+					<div class="slds-cell-wrap"> {!template.Subject}
+					</div>
+					</td>
+					<td class="cev-col-date"> 
+					<div><ui:outputDate format="YYYY-MM-DD" value="{!template.LastModifiedDate}" />                        
+					</div>
+					</td>
+				</tr>
+</aura:iteration>
+			</tbody>
+		</table>
+	</div>
+</article>
+                
+
+<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div> 
+
+
+</aura:component>

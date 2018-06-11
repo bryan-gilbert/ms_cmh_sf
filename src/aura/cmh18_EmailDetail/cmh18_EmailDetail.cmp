@@ -1,0 +1,55 @@
+<aura:component controller="cmh18_EmailController" >
+    <aura:attribute name="emailId" type="String" default=""/>
+    <aura:attribute name="version" type="String" default="v0.12"/>
+    <aura:attribute name="isLoaded" type="Boolean" default="false"/>
+ 	<aura:attribute name="theEmail" type="EmailMessage" />
+	<aura:attribute name="properties" type="list" />
+    <aura:attribute name="subject" type="String" default=" "/>
+    <aura:attribute name="id" type="String" />
+    <aura:attribute name="to" type="String" />
+    <aura:attribute name="cc" type="String" />
+    <aura:attribute name="from" type="String" />    
+    <aura:attribute name="fromAdress" type="String" />
+    <aura:attribute name="date" type="Date" />
+    <aura:attribute name="hasAttachments" type="Boolean" />
+    <aura:attribute name="status" type="Integer" />
+    <aura:attribute name="body" type="String" />    
+    <aura:attribute name="error" type="String" />  
+    <aura:handler event="c:cmh18_CaseEmailDetailEvent" action="{!c.loadEmailDetails}"/>	
+    
+<aura:if isTrue="{!v.isLoaded}">
+   <article class="slds-tile">
+    <h3 class="slds-tile__title slds-truncate slds-text-heading_small" title="Subject"><b>{!v.subject}</b></h3>
+    <div class="slds-tile__detail">
+      <dl class="slds-list_horizontal slds-wrap">
+        <dt class="slds-item_label slds-text-title_caps " title="To">To:</dt>
+        <dd class="slds-item_detail " title="To Value">{!v.to}</dd>
+        <dt class="slds-item_label slds-text-title_caps " title="From">From:</dt>
+        <dd class="slds-item_detail " title="From Value">
+			<div class="slds-grid">            
+            <div class="slds-col slds-p-left_none"> {!v.from} </div> 
+            <div class="slds-col"> {!v.fromAdress} </div>
+            </div>
+            </dd>
+        <dt class="slds-item_label slds-text-title_caps " title="CC">CC:</dt>
+        <dd class="slds-item_detail " title="CC Value">{!v.cc}</dd>
+        <dt class="slds-item_label slds-text-title_caps " title="Status">Status:</dt>
+        <dd class="slds-item_detail " title="Status Value">{!v.status}</dd>
+        <dt class="slds-item_label slds-text-title_caps " title="Date">Date:</dt>
+        <dd class="slds-item_detail " title="Date Value">
+<ui:outputDate format="YYYY-MM-DD, hh:mm a" value="{!v.date}" />                                    
+          </dd>
+        <dt class="slds-item_label slds-text-title_caps " title="Attachments">Attachments:</dt>
+        <dd class="slds-item_detail " title="Attachments Value">{!v.hasAttachments}</dd>
+        <dt class="slds-item_label slds-text-title_caps " title="Id">Id:</dt>
+        <dd class="slds-item_detail " title="Id Value">{!v.id}</dd>
+        </dl>
+    </div>
+  </article>
+  <aura:unescapedHtml value="{!v.body}"/>
+<aura:set attribute="else">
+    <div>Select an email to see details</div></aura:set>    
+   	<div>{!v.error}</div>
+</aura:if>        
+<div class="slds-text-body_small slds-text-color_weak">{!v.version}  &nbsp;-&nbsp; {!v.emailId}</div>
+</aura:component>

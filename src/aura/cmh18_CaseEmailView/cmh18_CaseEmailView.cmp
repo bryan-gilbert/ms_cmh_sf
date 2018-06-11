@@ -1,0 +1,98 @@
+<aura:component controller="cmh18_CaseEmailListController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+	<aura:attribute name="emails" type="EmailMessage[]" />
+    <aura:attribute name="version" type="String" default="v0.25"/>
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="count" type="Integer" />
+	<aura:attribute name="message" type="String" default="empty" />
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:registerEvent name="cmh18_CaseEmailDetailEvent" type="c:cmh18_CaseEmailDetailEvent" />
+
+    <!-- Pick Template component--> 
+    <c:cmh18_TemplateDialog/>    
+    <aura:attribute name="templateId" type="String"/>
+    <aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.getTemplateIdFromEvent}"/>
+    <div>TemplateId: &nbsp; {!v.templateId}</div>
+<!-- end pick template -->    
+    
+	<div class="slds-grid slds-gutters">
+		<div class="slds-col slds-size_2-of-4">
+           
+<article class="slds-card">
+	<div class="slds-card__header slds-grid">
+		<header class="slds-media slds-media_center slds-has-flexi-truncate">
+			<div class="slds-media__body">
+				<h2 class="slds-card__header-title">
+					<span class="slds-text-heading_small">Emails ({!v.count})</span>
+				</h2>
+			</div>
+			<!--div class="slds-no-flex">
+				<button class="slds-button slds-button_neutral">New</button> 
+			</div-->
+		</header>
+	</div>
+	<div class="slds-card__body">
+		<table class="slds-table slds-table_fixed-layout slds-table_bordered slds-no-row-hover slds-table_cell-buffer">
+			<thead>
+				<tr class="slds-text-title_caps">
+					<th scope="col" class="cev-col-action" > 
+					<div class="slds-truncate" title="Action">&nbsp;
+					</div>
+					</th>
+					<th scope="col" class="cev-col-date"> 
+					<div class="slds-truncate" title="Date">
+						Date 
+					</div>
+					</th>
+					<th scope="col" width="60%"  class="cev-col-subject"> 
+					<div class="slds-cell-wrap" title="Subject">
+						Subject 
+					</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+<aura:iteration items="{!v.emails}" indexVar="key" var="email">                    
+				<tr class="slds-hint-parent">
+					<td class="cev-col-action" > 
+					<div title="Action">
+<lightning:button variant="base" label="view" value="{!email.Id}" onclick="{! c.fireCaseEmailDetailEvent }" >
+    <lightning:icon class="icn" iconName="utility:email" size="xx-small" alternativeText="Email" />
+</lightning:button>    
+<lightning:button variant="base" label="reply" value="{!email.Id}" onclick="{! c.fireCaseEmailDetailEvent }" >
+    <lightning:icon class="icn" iconName="utility:reply" size="xx-small" alternativeText="Reply" />
+</lightning:button>    
+<lightning:button variant="base" label="reply all" value="{!email.Id}" onclick="{! c.fireCaseEmailDetailEvent }" >
+    <lightning:icon class="icn" iconName="utility:reply_all" size="xx-small" alternativeText="Reply All" />
+</lightning:button>    
+<lightning:button variant="base" label="forward" value="{!email.Id}" onclick="{! c.fireCaseEmailDetailEvent }" >
+    <lightning:icon class="icn" iconName="utility:forward" size="xx-small" alternativeText="Forward" />
+</lightning:button>    
+					</div>
+					</td>
+					<td class="cev-col-date"> 
+					<div  title="{!email.MessageDate}">
+<ui:outputDate format="YYYY-MM-DD, hh:mm a" value="{!email.MessageDate}" />                        
+					</div>
+					</td>
+					<td class="cev-col-subject" > 
+					<div class="slds-cell-wrap"  title="{!email.Subject}">
+{!email.Subject}
+					</div>
+					</td>
+				</tr>
+				</aura:iteration>
+			</tbody>
+		</table>
+	</div>
+	<!--footer class="slds-card__footer">
+		<a class="slds-card__footer-action" href="javascript:void(0);">View All <span class="slds-assistive-text">Contacts</span> </a> 
+	</footer-->
+</article>
+            
+<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId}</div>
+		</div>
+		<div class="slds-col slds-size_2-of-4">
+			<c:cmh18_EmailDetail />
+		</div>
+	</div>
+</aura:component>

@@ -1,0 +1,42 @@
+<aura:component>
+<aura:attribute name="version" type="String" default="v0.5"/>
+<aura:attribute name="title" type="String" default="Modal Dialog Demo" />    
+<aura:attribute name="launchButtonText" type="String" default="Open Modal" />    
+<aura:attribute name="doneButtonText" type="String" default="Done" />    
+<aura:attribute name="cancelButtonText" type="String" default="Cancel" />    
+<aura:attribute name="isOpen" type="boolean" default="false"/>
+  <!--Use "slds-m-around- -xx-large" class to add standard Large padding to the component--> 
+  <div class="slds-m-around--xx-large">
+    <button class="slds-button slds-button--brand" onclick="{!c.openModel}">{!v.launchButtonText}</button>  
+    <aura:if isTrue="{!v.isOpen}">
+      <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+        <div class="slds-modal__container">
+          <!-- HEADER -->
+          <div class="slds-modal__header">
+            <button class="slds-button slds-modal__close slds-button--icon-inverse" title="{!v.cancelButtonText}" onclick="{!c.cancelModel}">
+            X
+            <span class="slds-assistive-text">{!v.cancelButtonText}</span>
+            </button>
+            <h2 id="header99" class="slds-text-heading--medium">{!v.title}</h2>
+          </div>
+          <!-- BODY -->
+          <div class="slds-modal__content slds-p-around--medium">
+            <p><b>The goal of this component is to demonstrate a modal dialog and provide
+                the basis for developing dialogs like this.
+              </b>
+            </p>
+          </div>
+          <!-- FOOTER -->
+          <div class="slds-modal__footer">
+            <button class="slds-button slds-button--neutral" onclick="{!c.cancelModel}" >{!v.cancelButtonText}</button>
+            <button class="slds-button slds-button--brand" onclick="{!c.doneModal}">{!v.doneButtonText}</button>
+          </div>
+        </div>
+      </div>
+      <div class="slds-backdrop slds-backdrop--open"></div>
+ </aura:if>
+  </div>
+          <!-- END MODAL -->
+    
+<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>    
+</aura:component>
