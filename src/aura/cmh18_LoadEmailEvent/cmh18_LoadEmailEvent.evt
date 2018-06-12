@@ -1,0 +1,4 @@
+<!-- cmh18_LoadEmailEvent -->
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="emailId" type="String"/>    
+</aura:event>

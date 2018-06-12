@@ -12,4 +12,9 @@
         myEvent.setParams({"action": action});
         myEvent.fire();
     },
+	fireLoadEmailDetailEvent : function(emailId) {
+        var cmh18_LoadEmailEvent = $A.get("e.c:cmh18_LoadEmailEvent");
+        cmh18_LoadEmailEvent.setParams({"emailId": emailId});
+        cmh18_LoadEmailEvent.fire();
+	},    
 })

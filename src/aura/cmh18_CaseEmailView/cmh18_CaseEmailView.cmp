@@ -1,12 +1,18 @@
 <aura:component controller="cmh18_CaseEmailListController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
 	<aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="cev-v0.31"/>
+    <aura:attribute name="version" type="String" default="cev-v0.37"/>
 	<aura:attribute name="recordId" type="String" />
 	<aura:attribute name="count" type="Integer" />
 	<aura:attribute name="message" type="String" default="empty" />
-	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:attribute name="action_view" type="String" default="view"/>
+	<aura:attribute name="action_reply" type="String" default="reply"/>
+	<aura:attribute name="action_replyAll" type="String" default="replyAll"/>
+	<aura:attribute name="action_forward" type="String" default="forward"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 	<aura:registerEvent name="cmh18_CaseEmailDetailEvent" type="c:cmh18_CaseEmailDetailEvent" />
 	<aura:registerEvent name="cmh18_OpenEditEmailPanelEvent" type="c:cmh18_OpenEditEmailPanelEvent" />    
+    <!-- cmh18_LoadEmailEvent fired by this component when it need an email to be loaded -->
+	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
 	<div class="slds-grid slds-gutters">
 		<div class="slds-col slds-size_2-of-4">
 <article class="slds-card">
@@ -47,16 +53,16 @@
 				<tr class="slds-hint-parent">
 					<td class="cev-col-action" > 
 					<div title="Action">
-<lightning:button variant="base" label="view" value="{!email.Id}" onclick="{! c.generateCaseEmailDetailEvent }" >
+<lightning:button variant="base" label="{!v.action_view}" value="{!email.Id}" onclick="{! c.generateEvent }" >
     <lightning:icon class="icn" iconName="utility:email" size="xx-small" alternativeText="Email" />
 </lightning:button>    
-<lightning:button variant="base" label="reply" value="{!email.Id}" onclick="{! c.generateCaseEmailEditEvent }" >
+<lightning:button variant="base" label="{!v.action_reply}" value="{!email.Id}" onclick="{! c.generateEvent }" >
     <lightning:icon class="icn" iconName="utility:reply" size="xx-small" alternativeText="Reply" />
 </lightning:button>    
-<lightning:button variant="base" label="reply all" value="{!email.Id}" onclick="{! c.generateCaseEmailEditEvent }" >
+<lightning:button variant="base" label="{!v.action_replyAll}" value="{!email.Id}" onclick="{! c.generateEvent }" >
     <lightning:icon class="icn" iconName="utility:reply_all" size="xx-small" alternativeText="Reply All" />
 </lightning:button>    
-<lightning:button variant="base" label="forward" value="{!email.Id}" onclick="{! c.generateCaseEmailEditEvent }" >
+<lightning:button variant="base" label="{!v.action_forward}" value="{!email.Id}" onclick="{! c.generateEvent }" >
     <lightning:icon class="icn" iconName="utility:forward" size="xx-small" alternativeText="Forward" />
 </lightning:button>    
 					</div>
@@ -82,9 +88,13 @@
 </article>            
 <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId}</div>
 		</div>
-		<div class="slds-col slds-size_2-of-4">
+        <!-- End Left and start Right side panel -->
+		<div class="slds-col slds-size_2-of-4 cmh18_cev_right_panel">
             <c:cmh18_EditEmailPanel />
 			<c:cmh18_EmailDetail />
 		</div>
 	</div>
+	<!-- include email loader component - it has no UI elements - just loads an email -->
+    <c:cmh18_EmailLoader />
+    
 </aura:component>

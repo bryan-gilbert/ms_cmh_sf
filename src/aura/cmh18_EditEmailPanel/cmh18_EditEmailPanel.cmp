@@ -1,5 +1,5 @@
 <aura:component >
-<aura:attribute name="version" type="String" default="eep-v0.11"/>
+<aura:attribute name="version" type="String" default="eep-v0.29"/>
 <aura:attribute name="isOpen" type="Boolean" default="false"/>    
 <aura:attribute name="emailId" type="String"/>
 <aura:attribute name="action" type="String"/>
@@ -10,25 +10,31 @@
 <aura:attribute name="body" type="String" />    
 
 <aura:attribute name="templateId" type="String"/>
+<!-- 1. openEditEmailPanelFromEvent fired by email list when user select email to reply to -->
 <aura:handler event="c.cmh18_OpenEditEmailPanelEvent" action="{!c.openEditEmailPanelFromEvent}"/>
+<!-- 2. cmh18_EmailLoadedEvent fired by email loading component when it has an email-->
+<aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
+<!-- getTemplateIdFromEvent fired by email template picker when user selects template-->
 <aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.getTemplateIdFromEvent}"/>
-
+  
+<aura:handler name="change" value="{!v.body}" action="{!c.bodyChanged}"/>
     <aura:if isTrue="{!v.isOpen}">
 <article class="slds-card">
 	<div class="slds-card__header slds-grid">
+<!--
 		<header class="slds-media slds-media_center slds-has-flexi-truncate">
 			<div class="slds-media__body">
 				<h2 class="slds-card__header-title">
 					<span class="slds-text-heading_small">{!v.action} &nbsp; Email</span>
-                    &nbsp;
-					<span class="slds-text-body_small">{!v.emailId}</span>
 				</h2>
+    <h3 class="slds-tile__title slds-truncate slds-text-heading_small" title="Subject"><b>{!v.subject}</b></h3>
 			</div>
 		</header>
+-->
 	</div>
+
 	<div class="slds-card__body">
    <article class="slds-tile">
-    <h3 class="slds-tile__title slds-truncate slds-text-heading_small" title="Subject"><b>{!v.subject}</b></h3>
     <div class="slds-tile__detail eep-panel">
       <dl class="slds-list_horizontal slds-wrap">
         <dt class="slds-item_label slds-text-title_caps " title="To">To:</dt>
@@ -52,34 +58,20 @@
    
     <div class="slds-tile__detail">
         <lightning:inputRichText value="{!v.body}" aura:id="iBody">
-         <lightning:insertImageButton/>
         </lightning:inputRichText>
 <!--        
-
-
-Failed to save xx.cmp: The attribute "updateOn" was not found on the COMPONENT markup://lightning:inputRichText: Source
-Failed to save xx.cmp: The attribute "blur" was not found on the COMPONENT markup://lightning:inputRichText: Source
-onBlur="{!c.blurBody}" doesn't fire
-
-
-
+Don't use insertImageButton because it has a 1MB limit and terrible experience
+for the user if they load an image that exceeds this limit.
     <lightning:inputRichText value="{!v.body}">
         <lightning:insertImageButton/>
     </lightning:inputRichText>        
-        <ui:inputRichText label="Body" aura:id="eBody" value="{!v.body}" class="slds-input" labelClass="assistiveText" isRichText="true"/>
-inputRichText    
 -->
         </div>       
-
   </article>
-  <aura:unescapedHtml value="{!v.body}"/>
-
-        
-           <!-- Pick Template component--> 
+<!-- Pick Template component--> 
     <c:cmh18_TemplateDialog/>    
     <div>TemplateId: &nbsp; {!v.templateId}</div>
 <!-- end pick template -->    
- 
 	</div>
 </article>
 </aura:if>        

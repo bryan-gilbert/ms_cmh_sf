@@ -1,5 +1,5 @@
 <aura:component>
-<aura:attribute name="version" type="String" default="etd-v0.10"/>
+<aura:attribute name="version" type="String" default="etd-v0.11"/>
 <aura:attribute name="title" type="String" default="Select Email Template" />    
 <aura:attribute name="launchButtonText" type="String" default="Open Template Picker" />    
 <aura:attribute name="doneButtonText" type="String" default="Done" />    

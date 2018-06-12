@@ -1,2 +1,5 @@
-.THIS {
+.THIS .cmh18_ed_body {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 10px;
 }

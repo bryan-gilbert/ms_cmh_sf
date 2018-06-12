@@ -1,0 +1,11 @@
+<!-- cmh18_EmailLoadedEvent -->
+<aura:event type="APPLICATION" description="Email has been loaded from DB" >
+<!--
+emailData.emailId	the db id of the email
+emailData.errors	non-empty string if errors happened
+emailData.data		details of the email
+status, date, id, to, cc, from, fromAddress, subject, html, text, hasAttachments
+
+ -->
+    <aura:attribute name="emailData" type="Object"/>
+</aura:event>

@@ -14,6 +14,6 @@
     getTemplateIdFromEvent: function(component, event) {
         var templateId = event.getParam("templateId");
         component.set("v.templateId", templateId);
-        console.log("TODO Have template id so now could close dialog", templateId);
+        component.set("v.isOpen", false);
     },    
 })
