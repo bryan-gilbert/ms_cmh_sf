@@ -1,5 +1,5 @@
 <aura:component>
-<aura:attribute name="version" type="String" default="v0.9"/>
+<aura:attribute name="version" type="String" default="etd-v0.10"/>
 <aura:attribute name="title" type="String" default="Select Email Template" />    
 <aura:attribute name="launchButtonText" type="String" default="Open Template Picker" />    
 <aura:attribute name="doneButtonText" type="String" default="Done" />    
@@ -9,11 +9,9 @@
 <aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.getTemplateIdFromEvent}"/>
 <div>TemplateId: &nbsp; {!v.templateId}</div>    
   <!--Use "slds-m-around- -xx-large" class to add standard Large padding to the component--> 
-  <div class="slds-m-around--xx-large">
     <button class="slds-button slds-button--brand" onclick="{!c.openModel}">{!v.launchButtonText}</button>  
-      
-      
     <aura:if isTrue="{!v.isOpen}">
+  <div class="slds-m-around--xx-large">      
       <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
         <div class="slds-modal__container">
           <!-- HEADER -->
@@ -36,8 +34,8 @@
         </div>
       </div>
       <div class="slds-backdrop slds-backdrop--open"></div>
- </aura:if>
   </div>
+ </aura:if>
           <!-- END MODAL -->
     
 <div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>    

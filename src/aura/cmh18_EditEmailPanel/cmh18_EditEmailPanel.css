@@ -1,0 +1,6 @@
+.THIS .eep-panel .slds-list_horizontal .slds-item_label{
+    width: 10%;
+}
+.THIS .eep-panel .slds-list_horizontal .slds-item_detail{
+    width: 90%;
+}

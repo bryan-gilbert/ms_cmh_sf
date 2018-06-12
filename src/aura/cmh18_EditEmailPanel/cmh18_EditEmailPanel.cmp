@@ -1,0 +1,87 @@
+<aura:component >
+<aura:attribute name="version" type="String" default="eep-v0.11"/>
+<aura:attribute name="isOpen" type="Boolean" default="false"/>    
+<aura:attribute name="emailId" type="String"/>
+<aura:attribute name="action" type="String"/>
+<aura:attribute name="subject" type="String" default=" "/>
+<aura:attribute name="to" type="String" />
+<aura:attribute name="cc" type="String" />
+<aura:attribute name="from" type="String" />    
+<aura:attribute name="body" type="String" />    
+
+<aura:attribute name="templateId" type="String"/>
+<aura:handler event="c.cmh18_OpenEditEmailPanelEvent" action="{!c.openEditEmailPanelFromEvent}"/>
+<aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.getTemplateIdFromEvent}"/>
+
+    <aura:if isTrue="{!v.isOpen}">
+<article class="slds-card">
+	<div class="slds-card__header slds-grid">
+		<header class="slds-media slds-media_center slds-has-flexi-truncate">
+			<div class="slds-media__body">
+				<h2 class="slds-card__header-title">
+					<span class="slds-text-heading_small">{!v.action} &nbsp; Email</span>
+                    &nbsp;
+					<span class="slds-text-body_small">{!v.emailId}</span>
+				</h2>
+			</div>
+		</header>
+	</div>
+	<div class="slds-card__body">
+   <article class="slds-tile">
+    <h3 class="slds-tile__title slds-truncate slds-text-heading_small" title="Subject"><b>{!v.subject}</b></h3>
+    <div class="slds-tile__detail eep-panel">
+      <dl class="slds-list_horizontal slds-wrap">
+        <dt class="slds-item_label slds-text-title_caps " title="To">To:</dt>
+        <dd class="slds-item_detail " title="To Value">
+<ui:inputText label="ToEmail" aura:id="iToEmail" blur="{!c.blurTo}" value="{!v.to}" class="slds-input" labelClass="assistiveText"/>
+        </dd>
+        <dt class="slds-item_label slds-text-title_caps " title="From">From:</dt>
+        <dd class="slds-item_detail " title="From Value">
+<ui:inputText label="FromEmail" aura:id="iFromEmail" value="{!v.from}" class="slds-input" labelClass="assistiveText"/>
+        </dd>
+        <dt class="slds-item_label slds-text-title_caps " title="CC">CC:</dt>
+        <dd class="slds-item_detail " title="CC Value">
+            <ui:inputText label="CcEmail" aura:id="iCcEmail" value="{!v.cc}" class="slds-input" labelClass="assistiveText"/>
+        </dd>
+        <dt class="slds-item_label slds-text-title_caps " title="Subject">Subject:</dt>
+        <dd class="slds-item_detail " title="Subject Value">
+<ui:inputText label="Subject" aura:id="iSubject" value="{!v.subject}" class="slds-input" labelClass="assistiveText"/>
+        </dd>
+        </dl>
+    </div>
+   
+    <div class="slds-tile__detail">
+        <lightning:inputRichText value="{!v.body}" aura:id="iBody">
+         <lightning:insertImageButton/>
+        </lightning:inputRichText>
+<!--        
+
+
+Failed to save xx.cmp: The attribute "updateOn" was not found on the COMPONENT markup://lightning:inputRichText: Source
+Failed to save xx.cmp: The attribute "blur" was not found on the COMPONENT markup://lightning:inputRichText: Source
+onBlur="{!c.blurBody}" doesn't fire
+
+
+
+    <lightning:inputRichText value="{!v.body}">
+        <lightning:insertImageButton/>
+    </lightning:inputRichText>        
+        <ui:inputRichText label="Body" aura:id="eBody" value="{!v.body}" class="slds-input" labelClass="assistiveText" isRichText="true"/>
+inputRichText    
+-->
+        </div>       
+
+  </article>
+  <aura:unescapedHtml value="{!v.body}"/>
+
+        
+           <!-- Pick Template component--> 
+    <c:cmh18_TemplateDialog/>    
+    <div>TemplateId: &nbsp; {!v.templateId}</div>
+<!-- end pick template -->    
+ 
+	</div>
+</article>
+</aura:if>        
+   <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.emailId}</div> 
+</aura:component>

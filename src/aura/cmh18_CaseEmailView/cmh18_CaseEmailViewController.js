@@ -14,21 +14,19 @@
             }
         });
         $A.enqueueAction(action);		
-	}, 
-	fireCaseEmailDetailEvent : function(component, event, helper) {
+	}, 	
+	generateCaseEmailDetailEvent : function(component, event, helper) {
+		var btnClicked = event.getSource();
+		var emailId = btnClicked.get("v.value");
+        helper.fireCaseEmailEditEvent("Close");
+        helper.fireCaseEmailDetailEvent(emailId);
+    },
+	generateCaseEmailEditEvent : function(component, event, helper) {
 		var btnClicked = event.getSource();
 		var emailId = btnClicked.get("v.value");		
-		console.log("fileCaseEmailDetailEvent emailId", emailId);
-        var myEvent = $A.get("e.c:cmh18_CaseEmailDetailEvent");
-		console.log("fileCaseEmailDetailEvent myEvent", myEvent);
-        myEvent.setParams({"emailId": emailId});
-        myEvent.fire();
+		var action = btnClicked.get("v.label");		
+        helper.fireCaseEmailDetailEvent(emailId);
+        helper.fireCaseEmailEditEvent(action, emailId);
     },
-    /**  
-     * get the template id once the template picker fires it's done event
-     */
-    getTemplateIdFromEvent: function(component, event) {
-        var templateId = event.getParam("templateId");
-        component.set("v.templateId", templateId);
-    }
+    
 })

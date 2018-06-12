@@ -1,22 +1,14 @@
 <aura:component controller="cmh18_CaseEmailListController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
 	<aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="v0.25"/>
+    <aura:attribute name="version" type="String" default="cev-v0.31"/>
 	<aura:attribute name="recordId" type="String" />
 	<aura:attribute name="count" type="Integer" />
 	<aura:attribute name="message" type="String" default="empty" />
 	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 	<aura:registerEvent name="cmh18_CaseEmailDetailEvent" type="c:cmh18_CaseEmailDetailEvent" />
-
-    <!-- Pick Template component--> 
-    <c:cmh18_TemplateDialog/>    
-    <aura:attribute name="templateId" type="String"/>
-    <aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.getTemplateIdFromEvent}"/>
-    <div>TemplateId: &nbsp; {!v.templateId}</div>
-<!-- end pick template -->    
-    
+	<aura:registerEvent name="cmh18_OpenEditEmailPanelEvent" type="c:cmh18_OpenEditEmailPanelEvent" />    
 	<div class="slds-grid slds-gutters">
 		<div class="slds-col slds-size_2-of-4">
-           
 <article class="slds-card">
 	<div class="slds-card__header slds-grid">
 		<header class="slds-media slds-media_center slds-has-flexi-truncate">
@@ -55,16 +47,16 @@
 				<tr class="slds-hint-parent">
 					<td class="cev-col-action" > 
 					<div title="Action">
-<lightning:button variant="base" label="view" value="{!email.Id}" onclick="{! c.fireCaseEmailDetailEvent }" >
+<lightning:button variant="base" label="view" value="{!email.Id}" onclick="{! c.generateCaseEmailDetailEvent }" >
     <lightning:icon class="icn" iconName="utility:email" size="xx-small" alternativeText="Email" />
 </lightning:button>    
-<lightning:button variant="base" label="reply" value="{!email.Id}" onclick="{! c.fireCaseEmailDetailEvent }" >
+<lightning:button variant="base" label="reply" value="{!email.Id}" onclick="{! c.generateCaseEmailEditEvent }" >
     <lightning:icon class="icn" iconName="utility:reply" size="xx-small" alternativeText="Reply" />
 </lightning:button>    
-<lightning:button variant="base" label="reply all" value="{!email.Id}" onclick="{! c.fireCaseEmailDetailEvent }" >
+<lightning:button variant="base" label="reply all" value="{!email.Id}" onclick="{! c.generateCaseEmailEditEvent }" >
     <lightning:icon class="icn" iconName="utility:reply_all" size="xx-small" alternativeText="Reply All" />
 </lightning:button>    
-<lightning:button variant="base" label="forward" value="{!email.Id}" onclick="{! c.fireCaseEmailDetailEvent }" >
+<lightning:button variant="base" label="forward" value="{!email.Id}" onclick="{! c.generateCaseEmailEditEvent }" >
     <lightning:icon class="icn" iconName="utility:forward" size="xx-small" alternativeText="Forward" />
 </lightning:button>    
 					</div>
@@ -87,11 +79,11 @@
 	<!--footer class="slds-card__footer">
 		<a class="slds-card__footer-action" href="javascript:void(0);">View All <span class="slds-assistive-text">Contacts</span> </a> 
 	</footer-->
-</article>
-            
+</article>            
 <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId}</div>
 		</div>
 		<div class="slds-col slds-size_2-of-4">
+            <c:cmh18_EditEmailPanel />
 			<c:cmh18_EmailDetail />
 		</div>
 	</div>
