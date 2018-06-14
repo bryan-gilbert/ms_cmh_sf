@@ -1,6 +1,9 @@
 <aura:component controller="cmh18_CaseEmailListController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
-	<aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="cev-v0.37"/>
+    <!-- uses cmh18_EditEmailPanel, cmh18_EmailDetail, and cmh18_UserInfo -->
+    <!-- https://github.com/bryan-gilbert/ms_cmh_sf -->
+    <aura:attribute name="emails" type="EmailMessage[]" />
+    <aura:attribute name="version" type="String" default="cev-v0.39"/>
+    <aura:attribute name="globals" type="Object" default="{UserId:'1'}"/>
 	<aura:attribute name="recordId" type="String" />
 	<aura:attribute name="count" type="Integer" />
 	<aura:attribute name="message" type="String" default="empty" />
@@ -13,6 +16,8 @@
 	<aura:registerEvent name="cmh18_OpenEditEmailPanelEvent" type="c:cmh18_OpenEditEmailPanelEvent" />    
     <!-- cmh18_LoadEmailEvent fired by this component when it need an email to be loaded -->
 	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
+    
+    
 	<div class="slds-grid slds-gutters">
 		<div class="slds-col slds-size_2-of-4">
 <article class="slds-card">
@@ -87,14 +92,16 @@
 	</footer-->
 </article>            
 <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId}</div>
-		</div>
+</div>
         <!-- End Left and start Right side panel -->
 		<div class="slds-col slds-size_2-of-4 cmh18_cev_right_panel">
-            <c:cmh18_EditEmailPanel />
+            <c:cmh18_EditEmailPanel globals="{!v.globals}"/>
 			<c:cmh18_EmailDetail />
 		</div>
 	</div>
-	<!-- include email loader component - it has no UI elements - just loads an email -->
+    
+    <!-- include non UI elements -->
     <c:cmh18_EmailLoader />
+    <c:cmh18_UserInfo showInfo="true" globals="{!v.globals}"/>    
     
 </aura:component>

@@ -1,4 +1,5 @@
 <aura:component controller="cmh18_EmailController">
+	<aura:attribute name="globals" type="Object" />    
     <aura:attribute name="version" type="String" default="el-v0.3"/>
     <aura:attribute name="emailId" type="String" default=""/>
     <!-- cmh18_LoadEmailEvent fired by a component that wants an email record -->

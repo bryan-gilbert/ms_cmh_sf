@@ -1,12 +1,19 @@
 <aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
-<aura:attribute name="version" type="String" default="v0.7"/>
-<aura:handler name="init" value="{!this}" action="{!c.initValues}" /> 
-<aura:attribute name="myCat" type="String" default="Jerry"/>
-    <div>My Cat: &nbsp; {!v.myCat}</div>
-    <lightning:button
-        label="Click here to get your cat"
-        onclick="{!c.getValFromStorage}" />
-
+    <aura:attribute name="globals" type="Object" default="{UserId:'1'}"/>
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" /> 
+    <aura:attribute name="userName" type="String"/>
     
-<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId}</div> 
+	<div style="border: 1px solid black; padding: 2rem">    
+    <p> User name = {!v.userName} </p>
+    <h2>Container</h2>
+    <lightning:button label="update" onclick="{!c.update}"/>
+    <div>BetaComponent</div>
+    <p>
+    	globals.UserId = {!v.globals.UserId}
+    </p>
+   	<!-- pass the global down to the inner component -->
+    <c:BetaInner propInner="{!v.globals}"/>
+        
+        <c:cmh18_UserInfo/>        
+    </div>
 </aura:component>

@@ -11,7 +11,7 @@
     /**  
      * get the template id once the template picker fires it's done event
      */
-    getTemplateIdFromEvent: function(component, event) {
+    cmh18_PickTemplateEvent: function(component, event) {
         var templateId = event.getParam("templateId");
         component.set("v.templateId", templateId);
         component.set("v.isOpen", false);

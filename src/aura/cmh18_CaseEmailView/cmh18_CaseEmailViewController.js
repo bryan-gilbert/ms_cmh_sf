@@ -2,6 +2,11 @@
 	doInit : function(component, event, helper) {
         var recordId = component.get("v.recordId");
         component.set("v.message", "The rId is" + recordId);
+        var userId = $A.get("$SObjectType.CurrentUser.Id");
+        var globals = {'userId': userId, 'caseId' : recordId};
+        component.set("v.globals", globals);
+
+        
         var action = component.get("c.getList");
 		action.setParams({"caseId": recordId});
         action.setCallback(this, function(response){

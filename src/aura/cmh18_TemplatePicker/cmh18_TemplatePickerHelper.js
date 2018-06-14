@@ -19,6 +19,16 @@
         })
 		return combined;
     },
+    loadTemplateBody : function(component, handler, templateId, whoId, whatId) {
+        var action = component.get("c.getTemplate");
+        // Id templateId, Id whoId, Id whatId
+		action.setParams({"templateId": templateId});
+		action.setParams({"whoId": whoId});
+		action.setParams({"whatId": whatId});
+        action.setCallback(this, function(response){
+            // TODO process array of string results
+        });
+    },
 	searchHelper : function(sName, sFolder, sSubject, templates) {
         function toL(str) {return str && str.length > 0 ? str.toLowerCase() : null;}
         var sName = toL(sName);
@@ -54,4 +64,15 @@
         component.set("v.message", msg);
         component.set("v.selectedCount", cnt);
 	},
+    getStashedTemplates : function (component) {
+        var globals = component.get("v.globals");
+        var templates = globals.templates;
+        //console.log("getting existing templates", templates);
+        return templates;
+    },
+    stashTemplates : function (component, templates) {
+        var globals = component.get("v.globals");
+		globals.templates = templates;
+        //console.log("stashing templates", templates);
+    },    
 })

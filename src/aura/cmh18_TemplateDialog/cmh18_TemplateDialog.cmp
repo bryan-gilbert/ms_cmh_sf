@@ -1,12 +1,14 @@
 <aura:component>
+    <!-- uses cmh18_TemplatePicker -->
 <aura:attribute name="version" type="String" default="etd-v0.11"/>
+<aura:attribute name="globals" type="Object" /> 
 <aura:attribute name="title" type="String" default="Select Email Template" />    
 <aura:attribute name="launchButtonText" type="String" default="Open Template Picker" />    
 <aura:attribute name="doneButtonText" type="String" default="Done" />    
 <aura:attribute name="cancelButtonText" type="String" default="Cancel" />    
 <aura:attribute name="isOpen" type="boolean" default="false"/>
 <aura:attribute name="templateId" type="String"/>    
-<aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.getTemplateIdFromEvent}"/>
+<aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.cmh18_PickTemplateEvent}"/>
 <div>TemplateId: &nbsp; {!v.templateId}</div>    
   <!--Use "slds-m-around- -xx-large" class to add standard Large padding to the component--> 
     <button class="slds-button slds-button--brand" onclick="{!c.openModel}">{!v.launchButtonText}</button>  
@@ -24,7 +26,7 @@
           </div>
           <!-- BODY -->
           <div class="slds-modal__content slds-p-around--medium">
-              <c:cmh18_TemplatePicker/>              
+              <c:cmh18_TemplatePicker globals="{!v.globals}"/>              
           </div>
           <!-- FOOTER -->
           <div class="slds-modal__footer">

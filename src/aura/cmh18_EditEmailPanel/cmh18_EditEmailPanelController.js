@@ -15,10 +15,16 @@
     cmh18_EmailLoadedEvent : function(component, event, helper) {
         var emailData = event.getParam("emailData");
 		var action = component.get("v.action");
+        var globals = component.get("v.globals");
+        var orgInfo = globals.orgInfo;
+        var userInfo = globals.userInfo;      
+        var fromAddress = orgInfo ? orgInfo.Address : userInfo.Email;
+        var from = orgInfo ? orgInfo.DisplayName : userInfo.Name;
+        console.log("Org wide email " + from + "  " + fromAddress);
         console.log("In edit email panel cmh18_EmailLoadedEvent ", emailData);
-        component.set("v.to", "");
-        component.set("v.from", "");
-        component.set("v.fromAdress", "");
+        component.set("v.to", from);
+        component.set("v.from", fromAddress);
+        component.set("v.fromAdress", fromAddress);
         component.set("v.subject", "");
         component.set("v.cc", "");
         component.set("v.body", "");
@@ -47,22 +53,24 @@
             component.set("v.isLoaded", true);
         }     
     },
-    
-    bodyChanged : function (component) {
-        console.log("In bodyChanged");
-        //var bodyText = component.find("iBody").get("v.value");
-        //console.log('body ', bodyText);        
-    },
-    blurTo : function (component, event, handler) {
-        console.log("In blur to");
-    },
+   
     /**  
-     * get the template id once the template picker fires it's done event
+     * User selects template from the template picker which fires an event that is handled
+     * and that causes a request to the server to render the template. This handler takes 
+     * the rendered results and applies them to the email loaded into the form.
+     * 
+     * TODO add spinner to this area once the template picker has been opened. Close when 
+     * the rendered text is ready.
      */
-    getTemplateIdFromEvent: function(component, event) {
-        var templateId = event.getParam("templateId");
-        component.set("v.templateId", templateId);
-        //var bodyText = component.set("v.body","<p>boy this might<b>be easy</b><p>");
+    cmh18_TemplateRenderedEvent: function(component, event) {
+        // cmh18_TemplateRenderedEvent sends renderedSubject, renderedText and optionally renderedHtml
+        var renderedSubject = event.getParam("renderedSubject");
+        var renderedText = event.getParam("renderedText");
+        var renderedHtml = event.getParam("renderedHtml");
+        renderedText = renderedText.replace(/\n/g,'<br/>');
+        var body = renderedHtml ? renderedHtml : renderedText;
+        component.set("v.subject", renderedSubject);
+        component.set("v.body", body);
     }
 
 })

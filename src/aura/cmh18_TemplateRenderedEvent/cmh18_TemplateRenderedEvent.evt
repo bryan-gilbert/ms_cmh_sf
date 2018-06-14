@@ -1,0 +1,9 @@
+<!-- cmh18_TemplateRenderedEvent -->
+<aura:event type="APPLICATION" description="A rendered email template has been loaded" >
+<!--
+template data ... to do
+
+ -->
+    <aura:attribute name="renderedHtml" type="String"/>
+    <aura:attribute name="renderedText" type="String"/>
+</aura:event>

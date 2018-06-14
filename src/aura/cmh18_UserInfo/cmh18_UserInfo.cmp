@@ -1,0 +1,38 @@
+<aura:component controller="cmh18_UserInfoServer">
+    <!-- init handler event call "doInit" function on component load and fetch current user information -->
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <aura:attribute name="globals" type="Object" />    
+    <aura:attribute name="userInfo" type="User"/>  
+    <aura:attribute name="orgInfo" type="OrgWideEmailAddress"/>
+    <aura:attribute name="showInfo" type="Boolean" default="true"/>
+    
+   <!-- can show information by exposing this.  --> 
+    <aura:if isTrue="{!v.showInfo}">
+    
+    <div style="border: 1px solid black; padding: 2rem"> 
+    <b>Organization Wide Email Address</b>
+    <p>Id : {!v.orgInfo.Id}</p>
+    <p>Name : {!v.orgInfo.DisplayName}</p>
+    <p>Email : {!v.orgInfo.Address}</p>        
+    </div>
+    
+    <div style="border: 1px solid black; padding: 2rem"> 
+    <img src="{!v.SmallPhotoUrl}" alt=""/>
+    <b>Current User Information</b>
+    <p>Id : {!v.userInfo.Id}</p>
+    <p>Name : {!v.userInfo.Name}</p>
+    <p>FirstName : {!v.userInfo.FirstName}</p>
+    <p>LastName : {!v.userInfo.LastName}</p>
+    <p>Email : {!v.userInfo.Email}</p>
+    <p>Username : {!v.userInfo.Username}</p>
+    <p>TimeZoneSidKey : {!v.userInfo.TimeZoneSidKey}</p>
+    <p>Country : {!v.userInfo.Country}</p>
+    <p>IsActive : {!v.userInfo.IsActive}</p>
+    <p>UserRoleId : {!v.userInfo.UserRoleId}</p>
+    <p>UserType : {!v.userInfo.UserType}</p>
+    <p>Avatar : {!v.SmallPhotoUrl}</p>
+    </div>
+
+    </aura:if>
+        
+</aura:component>

@@ -1,4 +1,5 @@
 <aura:component controller="cmh18_EmailTemplatesController">
+<aura:attribute name="globals" type="Object" />     
 <aura:attribute name="version" type="String" default="etp-v0.67"/>
 <aura:attribute name="templates" type="EmailTemplate[]"/>
 <aura:attribute name="folders" type="Folder[]"/>

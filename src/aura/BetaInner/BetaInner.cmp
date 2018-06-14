@@ -1,8 +1,12 @@
 <aura:component >
-<aura:attribute name="version" type="String" default="v0.63"/>
-<div>See cmh18_TemplatePicker component</div>    
+    <aura:attribute name="propInner" type="Object"/>
+    
+    <div style="border: 1px solid black; padding: 2rem">
 
-<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div> 
-
-
+    <h3>Inner component</h3>
+	<p>Get user from propInner.UserId = {!v.propInner.UserId}</p>   
+    
+	<!-- pass the global down to the inner component -->
+    <c:BetaInnerInner propInnerInner="{!v.propInner}"/>
+    </div>
 </aura:component>

@@ -1,0 +1,9 @@
+<aura:component >
+    <aura:attribute name="propInnerInner" type="Object"/>
+    
+	<div style="border: 1px solid black; padding: 2rem">
+    <h4>Inner Inner component</h4>
+    <lightning:button label="update" onclick="{!c.update}"/>
+    <p>Get user from propInnerInner.UserId = {!v.propInnerInner.UserId}</p>   
+    </div>
+</aura:component>

@@ -1,9 +1,11 @@
 ({
     doInit : function(component, event, helper) {
-        var existingTemplates = component.get("v.templates");
-        console.log("existingTemplates", existingTemplates);
+        var existingTemplates = helper.getStashedTemplates(component);
         if (existingTemplates && existingTemplates.length > 1) {
             console.log("use templates loaded before");
+            component.set("v.templates", existingTemplates);  
+            helper.searchController(component,helper);                  
+            component.set("v.spinner", false);            
             return;
         }
 		//console.log("Show Spiner");        
@@ -20,8 +22,9 @@
                 if(responseCnt === 2) {
                     var folders = component.get("v.folders");
                     var templates = component.get("v.templates");                  
-                    var combined = helper.combineData(component, templates, folders);
-                    component.set("v.templates", combined);                            
+                    templates = helper.combineData(component, templates, folders);
+                    component.set("v.templates", templates);  
+                    helper.stashTemplates(component, templates);
                     //console.log("Hide Spiner");
                     component.set("v.spinner", false);
                     helper.searchController(component,helper);                  
@@ -36,7 +39,10 @@
         });
         $A.enqueueAction(getFoldersAction);		
         $A.enqueueAction(getTemplatesAction);		
-	}, 
+	},
+	loadTemplateBody : function(component, event, handler) {
+        var templateId, whoId, whatId;
+    },
     keyPressController : function(component, event, helper) {
         helper.searchController(component,helper);
 	},
