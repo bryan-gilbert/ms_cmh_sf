@@ -1,6 +1,7 @@
 <aura:component controller="cmh18_UserInfoServer">
     <!-- init handler event call "doInit" function on component load and fetch current user information -->
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <aura:attribute name="version" type="String" default="uinfo-v0.4"/>    
     <aura:attribute name="globals" type="Object" />    
     <aura:attribute name="userInfo" type="User"/>  
     <aura:attribute name="orgInfo" type="OrgWideEmailAddress"/>
@@ -34,5 +35,6 @@
     </div>
 
     </aura:if>
+    <span class="slds-text-body_small slds-text-color_weak">{!v.version}&nbsp;</span>	
         
 </aura:component>

@@ -1,10 +1,10 @@
 <aura:component controller="cmh18_EmailController">
 	<aura:attribute name="globals" type="Object" />    
-    <aura:attribute name="version" type="String" default="el-v0.3"/>
+    <aura:attribute name="version" type="String" default="eLoader-v0.4"/>
     <aura:attribute name="emailId" type="String" default=""/>
     <!-- cmh18_LoadEmailEvent fired by a component that wants an email record -->
     <aura:handler event="c:cmh18_LoadEmailEvent" action="{!c.cmh18_LoadEmailEvent}"/>	
 	<!-- cmh18_EmailLoadedEvent fired by this component when an email record has been retrieved. -->
 	<aura:registerEvent name="cmh18_EmailLoadedEvent" type="c:cmh18_EmailLoadedEvent" />
-    <div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>	
+    <span class="slds-text-body_small slds-text-color_weak">{!v.version}&nbsp;</span>	
 </aura:component>

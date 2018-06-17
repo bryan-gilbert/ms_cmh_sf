@@ -1,0 +1,43 @@
+<aura:component >
+    <aura:attribute name="email" type="EmailMessage" />
+	<aura:attribute name="action_view" type="String" default="view"/>
+	<aura:attribute name="action_reply" type="String" default="reply"/>
+	<aura:attribute name="action_replyAll" type="String" default="replyAll"/>
+	<aura:attribute name="action_forward" type="String" default="forward"/>
+
+<td class="cev-col-action" >                        
+<div class="slds-button-group" role="group" title="Action">
+    <lightning:button variant="base" label="{!v.action_reply}" value="{!v.email.Id}" onclick="{! c.generateEvent }" 
+    class="slds-button slds-button_neutral cmh18_list_action">
+    <lightning:icon class="icn" iconName="utility:reply" size="xx-small" alternativeText="Reply" />
+    </lightning:button>    
+    <lightning:button variant="base" label="{!v.action_replyAll}" value="{!v.email.Id}" onclick="{! c.generateEvent }" 
+    class="slds-button slds-button_neutral cmh18_list_action">
+    <lightning:icon class="icn" iconName="utility:reply_all" size="xx-small" alternativeText="Reply All" />
+    </lightning:button>    
+    <lightning:button variant="base" label="{!v.action_forward}" value="{!v.email.Id}" onclick="{! c.generateEvent }" 
+    class="slds-button slds-button_neutral cmh18_list_action">
+    <lightning:icon class="icn" iconName="utility:forward" size="xx-small" alternativeText="Forward" />
+    </lightning:button>    
+    </div>
+</td>                   
+<td class="cev-col-date"> 
+    <div  title="{!v.email.MessageDate}">
+        <div>
+        <ui:outputDate format="YYYY-MM-DD" value="{!v.email.MessageDate}" />                        
+            </div><div>
+        <ui:outputDate format="hh:mm a" value="{!v.email.MessageDate}" />                        
+        </div>
+    </div>
+</td>
+<td class="cev-col-subject" > 
+    <div class="slds-cell-wrap"  title="{!v.email.Subject}">
+        <a href="javascript:void(0);" id="{!v.email.Id}" onclick="{!c.viewEmail}">{!v.email.Subject}</a>        
+    </div>
+</td>
+<td scope="col" class="cev-col-attachments"> 
+    <aura:if isTrue="{!v.email.HasAttachment}">
+    <lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="attach" />
+    </aura:if>    
+</td>	
+</aura:component>

@@ -23,7 +23,7 @@
 				ed.status = theEmail.Status;
 				ed.subject = theEmail.Subject;
 				ed.html = theEmail.HtmlBody;
-                var text = theEmail.TextBody.replace(/\n/g,"<br/>");
+                var text = theEmail.TextBody ? theEmail.TextBody.replace(/\n/g,"<br/>") : "";
 				ed.text = text;
             } else if (state === "ERROR") {
                 emailData.error = "Error: ";

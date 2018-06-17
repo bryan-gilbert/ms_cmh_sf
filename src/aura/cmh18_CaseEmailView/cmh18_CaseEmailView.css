@@ -5,7 +5,7 @@
 	fill: t(cmh18_iconFillColor);
 }
 
-.THIS .slds-button {
+.THIS .cmh18_list_action {
     width: 2rem;
     padding-right: 23px;
     padding-left: 11px;
@@ -18,4 +18,22 @@
 
 .THIS .cmh18_cev_right_panel {
     border-left: 1px solid #cccccc;
+}
+
+.THIS .cev-col-date {
+    width:15%
+}
+
+.THIS .cev-col-action {
+    padding-left: 0 !important;
+    width: 23%;
+}
+
+.THIS .cev-col-subject {
+/*    width:60%;
+ */
+}
+
+.THIS .cev-col-indicators {
+    width:8%;
 }
