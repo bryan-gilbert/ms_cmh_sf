@@ -1,0 +1,105 @@
+<aura:component controller="cmh18_CaseEmailListController" >
+    <aura:attribute name="emails" type="EmailMessage[]" />
+    <aura:attribute name="version" type="String" default="elist-v0.51"/>
+    <aura:attribute name="globals" type="Object" default="{UserId:'1'}"/>
+	<aura:attribute name="caseId" type="String" />
+	<aura:attribute name="count" type="Integer" />
+	<aura:attribute name="message" type="String" default="empty" />
+	<aura:attribute name="action_view" type="String" default="view"/>
+	<aura:attribute name="action_reply" type="String" default="reply"/>
+	<aura:attribute name="action_replyAll" type="String" default="replyAll"/>
+	<aura:attribute name="action_forward" type="String" default="forward"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:registerEvent name="cmh18_CaseEmailDetailEvent" type="c:cmh18_CaseEmailDetailEvent" />
+	<aura:registerEvent name="cmh18_OpenEditEmailPanelEvent" type="c:cmh18_OpenEditEmailPanelEvent" />    
+    <!-- cmh18_LoadEmailEvent fired by this component when it need an email to be loaded -->
+	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
+   	<aura:attribute name="showInfo" type="Boolean" /> 
+    
+<article class="slds-card">
+	<div class="slds-card__header slds-grid">
+		<header class="slds-media slds-media_center slds-has-flexi-truncate">
+			<div class="slds-media__body">
+				<h2 class="slds-card__header-title">
+					<span class="slds-text-heading_small">Emails ({!v.count})</span>
+				</h2>
+			</div>
+			<!--div class="slds-no-flex">
+				<button class="slds-button slds-button_neutral">New</button> 
+			</div-->
+		</header>
+	</div>
+	<div class="slds-card__body">
+		<table class="slds-table slds-table_fixed-layout slds-table_bordered slds-no-row-hover slds-table_cell-buffer">
+			<thead>
+				<tr class="slds-text-title_caps">
+					<th scope="col" class="cev-col-action" > 
+					<div  class="cev-col-action" title="Action">&nbsp;
+					</div>
+					</th>
+					<th scope="col" class="cev-col-date"> 
+					<div class="slds-cell-wrap" title="Date">
+						Date 
+					</div>
+					</th>
+					<th scope="col" class="cev-col-subject"> 
+					<div class="slds-cell-wrap" title="Subject">
+						Subject 
+					</div>
+					</th>
+					<th scope="col" class="cev-col-attachments"> 
+					<div title="Attachments">
+						<lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="attach" />
+					</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+<aura:iteration items="{!v.emails}" indexVar="key" var="email">                    
+				<tr class="slds-hint-parent">
+					<td class="cev-col-action" >                        
+                        <div class="slds-button-group" role="group" title="Action">
+<lightning:button variant="base" label="{!v.action_view}" value="{!email.Id}" onclick="{! c.generateEvent }"  class="slds-button slds-button_neutral">
+    <lightning:icon class="icn" iconName="utility:email" size="xx-small" alternativeText="Email" />
+</lightning:button>    
+<lightning:button variant="base" label="{!v.action_reply}" value="{!email.Id}" onclick="{! c.generateEvent }" class="slds-button slds-button_neutral">
+    <lightning:icon class="icn" iconName="utility:reply" size="xx-small" alternativeText="Reply" />
+</lightning:button>    
+<lightning:button variant="base" label="{!v.action_replyAll}" value="{!email.Id}" onclick="{! c.generateEvent }" class="slds-button slds-button_neutral">
+    <lightning:icon class="icn" iconName="utility:reply_all" size="xx-small" alternativeText="Reply All" />
+</lightning:button>    
+<lightning:button variant="base" label="{!v.action_forward}" value="{!email.Id}" onclick="{! c.generateEvent }" class="slds-button slds-button_neutral">
+    <lightning:icon class="icn" iconName="utility:forward" size="xx-small" alternativeText="Forward" />
+</lightning:button>    
+					</div>
+					</td>                   
+					<td class="cev-col-date"> 
+					<div  title="{!email.MessageDate}">
+                        <div>
+<ui:outputDate format="YYYY-MM-DD" value="{!email.MessageDate}" />                        
+                            </div><div>
+<ui:outputDate format="hh:mm a" value="{!email.MessageDate}" />                        
+                        </div>
+					</div>
+					</td>
+					<td class="cev-col-subject" > 
+					<div class="slds-cell-wrap"  title="{!email.Subject}">
+{!email.Subject}
+					</div>
+					</td>
+					<td scope="col" class="cev-col-attachments"> 
+                        <aura:if isTrue="{!email.HasAttachment}">
+                        <lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="attach" />
+                        </aura:if>    
+					</td>
+                    
+				</tr>
+				</aura:iteration>
+			</tbody>
+		</table>
+	</div>
+	<footer class="slds-card__footer">
+<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}</div>
+	</footer>
+</article> 	
+</aura:component>

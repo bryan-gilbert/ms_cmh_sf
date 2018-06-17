@@ -12,7 +12,9 @@
     <lightning:icon class="icn" iconName="doctype:folder" size="small" alternativeText="folder" />
     <lightning:icon class="icn" iconName="doctype:pdf" size="small" alternativeText="pdf" />
     <lightning:icon class="icn" iconName="utility:user" size="small" alternativeText="user" />
-    </div><div>
+    </div><div> 
+    <lightning:icon class="icn" iconName="utility:attach" size="small" alternativeText="attach" />
+    <lightning:icon class="icn" iconName="utility:insert_template" size="small" alternativeText="insert_template" />
     <lightning:icon class="icn" iconName="utility:file" size="small" alternativeText="file" />
     <lightning:icon class="icn" iconName="utility:image" size="small" alternativeText="image" />
     <lightning:icon class="icn" iconName="utility:preview" size="small" alternativeText="preview" />

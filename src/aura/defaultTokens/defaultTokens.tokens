@@ -1,0 +1,3 @@
+<aura:tokens>
+<aura:token name="cmh18_iconFillColor" value="#0070D2"/>    
+</aura:tokens>

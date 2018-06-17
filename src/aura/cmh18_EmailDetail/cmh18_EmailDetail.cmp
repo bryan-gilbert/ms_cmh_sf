@@ -1,5 +1,5 @@
 <aura:component>
-    <aura:attribute name="version" type="String" default="ed-v0.25"/>
+    <aura:attribute name="version" type="String" default="ed-v0.41"/>
     <aura:attribute name="emailId" type="String" default=""/>
     <aura:attribute name="isLoaded" type="Boolean" default="false"/>
  	<aura:attribute name="theEmail" type="EmailMessage" />
@@ -19,7 +19,11 @@
     <aura:handler event="c:cmh18_CaseEmailDetailEvent" action="{!c.cmh18_CaseEmailDetailEvent}"/>	
     <!-- 2. cmh18_EmailLoadedEvent fired by email loading component when it has an email-->
     <aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
-<aura:if isTrue="{!v.isLoaded}">
+
+<!-- BEING UI -->
+   <div id="view">
+       <div class="email_details">
+<aura:if  isTrue="{!v.isLoaded}">    
    <article class="slds-tile">
     <h3 class="slds-tile__title slds-truncate slds-text-heading_small" title="Subject"><b>{!v.subject}</b></h3>
     <div class="slds-tile__detail">
@@ -49,12 +53,14 @@
     </div>
     <div class="slds-tile cmh18_ed_body" >
         <aura:unescapedHtml value="{!v.body}"/>
-    </div>        
-  </article>
+    </div> 
+    </article>
 <aura:set attribute="else">
     <div>Select an email to see details</div></aura:set>    
    	<div>{!v.error}</div>
 </aura:if>  
+</div>           
     
-<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>
+<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>      
+    </div>
 </aura:component>

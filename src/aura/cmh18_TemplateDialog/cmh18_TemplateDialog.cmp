@@ -1,6 +1,6 @@
 <aura:component>
     <!-- uses cmh18_TemplatePicker -->
-<aura:attribute name="version" type="String" default="etd-v0.11"/>
+<aura:attribute name="version" type="String" default="etd-v0.13"/>
 <aura:attribute name="globals" type="Object" /> 
 <aura:attribute name="title" type="String" default="Select Email Template" />    
 <aura:attribute name="launchButtonText" type="String" default="Open Template Picker" />    
@@ -9,9 +9,11 @@
 <aura:attribute name="isOpen" type="boolean" default="false"/>
 <aura:attribute name="templateId" type="String"/>    
 <aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.cmh18_PickTemplateEvent}"/>
-<div>TemplateId: &nbsp; {!v.templateId}</div>    
+<div id="view">
   <!--Use "slds-m-around- -xx-large" class to add standard Large padding to the component--> 
-    <button class="slds-button slds-button--brand" onclick="{!c.openModel}">{!v.launchButtonText}</button>  
+    <button onclick="{!c.openModel}">
+        <lightning:icon class="icn" iconName="utility:insert_template" size="small" alternativeText="{!v.launchButtonText}" />
+    </button>  
     <aura:if isTrue="{!v.isOpen}">
   <div class="slds-m-around--xx-large">      
       <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
@@ -40,5 +42,6 @@
  </aura:if>
           <!-- END MODAL -->
     
-<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>    
+<span class="slds-text-body_small slds-text-color_weak">{!v.version}</span>    
+</div>    
 </aura:component>

@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.47"/>    
+<aura:attribute name="version" type="String" default="eep-v0.53"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="isOpen" type="Boolean" default="false"/>    
 <aura:attribute name="emailId" type="String"/>
@@ -21,7 +21,9 @@
 <!-- this next handler is sample way to follow changes in UI elements 
 <aura:handler name="change" value="{!v.body}" action="{!c.bodyChanged}"/>
 -->
+   <div id="view">
     <aura:if isTrue="{!v.isOpen}">
+        
 <article class="slds-card">
 	<div class="slds-card__header slds-grid">
 <!--
@@ -40,15 +42,23 @@
    	<article class="slds-tile">
         <div class="slds-tile__detail eep-panel">
           <dl class="slds-list_horizontal slds-wrap">
+            <dt class="slds-item_label slds-text-title_caps " title="From">From:</dt>
+            <dd class="slds-item_detail " title="From Value">
+                <div class="slds-grid">            
+                    <div class="slds-col slds-p-left_none">  
+                    <ui:inputText label="FromEmail" aura:id="iFromEmail" 
+                      value="{!v.from}" class="slds-input" labelClass="assistiveText"/>
+                    </div> 
+                    <div class="slds-col"> 
+                    <c:cmh18_TemplateDialog globals="{!v.globals}"/>                    
+                    </div>
+                </div>
+                
+            </dd>
             <dt class="slds-item_label slds-text-title_caps " title="To">To:</dt>
             <dd class="slds-item_detail " title="To Value">
                 <ui:inputText label="ToEmail" aura:id="iToEmail" 
                       value="{!v.to}" class="slds-input" labelClass="assistiveText"/>
-            </dd>
-            <dt class="slds-item_label slds-text-title_caps " title="From">From:</dt>
-            <dd class="slds-item_detail " title="From Value">
-                <ui:inputText label="FromEmail" aura:id="iFromEmail" 
-                      value="{!v.from}" class="slds-input" labelClass="assistiveText"/>
             </dd>
             <dt class="slds-item_label slds-text-title_caps " title="CC">CC:</dt>
             <dd class="slds-item_detail " title="CC Value">
@@ -75,14 +85,15 @@
             </lightning:inputRichText>        
         -->
     </article>
-<!-- Include Pick Template component inside the email edit panel --> 
-<c:cmh18_TemplateDialog globals="{!v.globals}"/>    
-<!-- end pick template -->    
 	</div> <!-- end edit email panel body -->
 </article>
 </aura:if> 
 
+<!-- Include template loader non UI component --> 
 <c.cmh18_TemplateLoader globals="{!v.globals}"/>
+
+
     
 <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.emailId}</div> 
+</div>       
 </aura:component>

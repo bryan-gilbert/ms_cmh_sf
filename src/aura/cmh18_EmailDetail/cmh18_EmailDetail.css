@@ -1,3 +1,11 @@
+.THIS {    
+}
+
+.THIS .email_details {
+    border-top: 1px solid #0070D2;
+    padding: 10px;
+}
+
 .THIS .cmh18_ed_body {
     border: 1px solid #cccccc;
     border-radius: 5px;

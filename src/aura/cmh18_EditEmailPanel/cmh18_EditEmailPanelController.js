@@ -43,6 +43,8 @@
             }
             if (action.includes("reply") || "forward" === action) {
                 component.set("v.subject", theEmail.subject);
+            }
+            if ("forward" === action) {
                 if(theEmail.html && theEmail.html.length > 0){
                     component.set("v.body", theEmail.html);
                 }

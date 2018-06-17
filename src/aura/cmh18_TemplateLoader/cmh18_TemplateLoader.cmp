@@ -1,7 +1,7 @@
 <!-- cmh18_TemplateLoader -->
 <aura:component controller="cmh18_EmailTemplatesController">
 	<aura:attribute name="globals" type="Object" />    
-    <aura:attribute name="version" type="String" default="etl-v0.9"/>
+    <aura:attribute name="version" type="String" default="etl-v0.10"/>
     <aura:attribute name="templateId" type="String" default=""/>
 
     <!-- cmh18_PickTemplateEvent fired by email template picker when user selects template-->
@@ -9,5 +9,8 @@
 
 	<!-- cmh18_TemplateRenderedEvent fired here when email template has been rendered -->
 	<aura:registerEvent name="cmh18_TemplateRenderedEvent" type="c:cmh18_TemplateRenderedEvent" />
-    <div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>	
+<!-- hide version on this non ui component unless we need to develop further -->
+<aura:if isTrue="false">
+    <div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>
+</aura:if>    
 </aura:component>

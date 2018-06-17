@@ -1,0 +1,17 @@
+.THIS .cev-col-date {
+    width:15%
+}
+
+.THIS .cev-col-action {
+    padding-left: 0 !important;
+    width: 23%;
+}
+
+.THIS .cev-col-subject {
+/*    width:60%;
+ */
+}
+
+.THIS .cev-col-attachments {
+    width:8%;
+}
