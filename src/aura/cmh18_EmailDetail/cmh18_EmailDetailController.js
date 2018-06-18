@@ -1,6 +1,6 @@
 ({
     // Handle request to open email viewer.  Fire the event to load an email record
-	cmh18_CaseEmailDetailEvent : function(component, event, helper) {
+	cmh18evt_EmailView : function(component, event, helper) {
         component.set("v.isLoaded", false);
         console.log("In CMH 18 Email Detail event handler");
         var emailId = event.getParam("emailId");        

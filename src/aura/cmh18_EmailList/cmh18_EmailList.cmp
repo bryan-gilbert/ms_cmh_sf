@@ -1,16 +1,18 @@
 <aura:component controller="cmh18_CaseEmailListController" >
     <aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="elist-v0.57"/>
+    <aura:attribute name="version" type="String" default="elist-v0.64"/>
     <aura:attribute name="globals" type="Object"/>
 	<aura:attribute name="caseId" type="String" />
 	<aura:attribute name="count" type="Integer" />
 	<aura:attribute name="message" type="String" default="empty" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-	<aura:registerEvent name="cmh18_CaseEmailDetailEvent" type="c:cmh18_CaseEmailDetailEvent" />
-	<aura:registerEvent name="cmh18_OpenEditEmailPanelEvent" type="c:cmh18_OpenEditEmailPanelEvent" />    
+	<aura:registerEvent name="cmh18evt_EmailView" type="c:cmh18evt_EmailView" />
+	<aura:registerEvent name="cmh18evt_EmailEdit" type="c:cmh18evt_EmailEdit" />    
     <!-- cmh18_LoadEmailEvent fired by this component when it need an email to be loaded -->
 	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
    	<aura:attribute name="showInfo" type="Boolean" /> 
+   
+    <c:cmh18_EmailSender globals="{!v.globals}" />
     
 <article class="slds-card">
 	<div class="slds-card__header slds-grid">

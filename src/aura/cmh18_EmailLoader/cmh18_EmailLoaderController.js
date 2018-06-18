@@ -20,7 +20,8 @@
 				ed.fromAddress = theEmail.FromAddress;
 				ed.date = theEmail.MessageDate;
 				ed.hasAttachment = theEmail.HasAttachment;
-				ed.status = theEmail.Status;
+				ed.status = helper.convertStatus(theEmail.Status);
+                console.log("email status ", ed.status);
 				ed.subject = theEmail.Subject;
 				ed.html = theEmail.HtmlBody;
                 var text = theEmail.TextBody ? theEmail.TextBody.replace(/\n/g,"<br/>") : "";

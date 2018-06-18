@@ -1,4 +1,4 @@
-<!-- application event: cmh18_CaseEmailDetailEvent -->
+<!-- application event: cmh18evt_EmailView -->
 <aura:event type="APPLICATION" description="User selected a email record to view">
     <aura:attribute name="emailId" type="String"/>
 </aura:event>

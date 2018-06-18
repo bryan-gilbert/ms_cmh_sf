@@ -4,7 +4,7 @@
 	<aura:attribute name="action_reply" type="String" default="reply"/>
 	<aura:attribute name="action_replyAll" type="String" default="replyAll"/>
 	<aura:attribute name="action_forward" type="String" default="forward"/>
-
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 <td class="cev-col-action" >                        
 <div class="slds-button-group" role="group" title="Action">
     <lightning:button variant="base" label="{!v.action_reply}" value="{!v.email.Id}" onclick="{! c.generateEvent }" 
@@ -32,7 +32,8 @@
 </td>
 <td class="cev-col-subject" > 
     <div class="slds-cell-wrap"  title="{!v.email.Subject}">
-        <a href="javascript:void(0);" id="{!v.email.Id}" onclick="{!c.viewEmail}">{!v.email.Subject}</a>        
+        <a href="javascript:void(0);" id="{!v.email.Id}" onclick="{!c.viewEmail}">{!v.email.Subject}</a>  
+        Status: {!v.email.Status}
     </div>
 </td>
 <td scope="col" class="cev-col-attachments"> 

@@ -1,5 +1,5 @@
 ({
-	openEditEmailPanelFromEvent : function(component, event, helper) {
+	cmh18evt_EmailEdit : function(component, event, helper) {
         var action = event.getParam("action");
         var emailId = event.getParam("emailId");
         component.set("v.action", action);

@@ -15,8 +15,8 @@
     <aura:attribute name="status" type="Integer" />
     <aura:attribute name="body" type="String" />    
     <aura:attribute name="error" type="String" />  
-    <!-- 1. cmh18_CaseEmailDetailEvent fired by email list when user select email -->
-    <aura:handler event="c:cmh18_CaseEmailDetailEvent" action="{!c.cmh18_CaseEmailDetailEvent}"/>	
+    <!-- 1. cmh18evt_EmailView fired by email list when user select email -->
+    <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
     <!-- 2. cmh18_EmailLoadedEvent fired by email loading component when it has an email-->
     <aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
 

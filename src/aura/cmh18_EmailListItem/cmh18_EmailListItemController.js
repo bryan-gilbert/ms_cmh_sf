@@ -1,4 +1,12 @@
 ({
+    doInit : function(component, event, helper) {
+        var email = component.get("v.email");
+        var status = helper.convertStatus(email.Status);
+        console.log("Status", email.Status, status );
+        
+        email.Status = status;
+        console.log("Status", email.Status, status );
+	}, 
     generateEvent : function(component, event, helper) {
 		var btnClicked = event.getSource();
 		var emailId = btnClicked.get("v.value");
@@ -14,5 +22,5 @@
         helper.fireLoadEmailDetailEvent(emailId);
         helper.fireCaseEmailEditEvent("view",emailId);
         helper.fireCaseEmailDetailEvent(emailId);
-    }    
+    }, 
 })

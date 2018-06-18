@@ -12,8 +12,8 @@
 <aura:attribute name="body" type="String" />    
 
 <aura:attribute name="templateId" type="String"/>
-<!-- 1. openEditEmailPanelFromEvent fired by email list when user select email to reply to -->
-<aura:handler event="c.cmh18_OpenEditEmailPanelEvent" action="{!c.openEditEmailPanelFromEvent}"/>
+<!-- 1. cmh18evt_EmailEdit fired by email list when user select email to reply to -->
+<aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
 <!-- 2. cmh18_EmailLoadedEvent fired by email loading component when it has an email-->
 <aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
 <!-- email template picker has rendereded a template-->
