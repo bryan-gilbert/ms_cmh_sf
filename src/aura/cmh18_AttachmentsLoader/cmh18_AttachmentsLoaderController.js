@@ -11,6 +11,7 @@
             if (state === "SUCCESS") {                
             	var theList = response.getReturnValue();
                 data.attachments = theList;
+                // Id, ParentId,  Name, Description, BodyLength, OwnerId, LastModifiedDate 
             } else if (state === "ERROR") {
                 data.error = "Unknown Error";
                 var errors = response.getError();

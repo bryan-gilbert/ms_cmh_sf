@@ -1,34 +1,51 @@
 <aura:component controller="cmh18apex_Email">
-    <aura:attribute name="version" type="String" default="eSndr-v0.33"/>
-	<aura:attribute name="globals" type="Object" />    
-    <aura:attribute name="attachments" type="Attachment[]"/>
-	<aura:attribute name="caseId" type="String" default="500f4000006AZsRAAW"/>
-    <aura:attribute name="caseRef" type="String"/>    
-    <aura:attribute name="toList" type="String[]" default="['bgil2002@shaw.ca']"/>    
-	<aura:attribute name="subject" type="String" default="This is a test email"/>    
-	<aura:attribute name="resultMessage" type="String" />    
-	<aura:attribute name="errorMessage" type="String" />    
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
+    <aura:attribute name="version" type="String" default="eSndr-v0.51"/>
+	<aura:attribute name="globals" type="Object" /> 
+    <aura:attribute name="emailData" type="Object" default="{}"/>
+    <!--
+emailData.toList : String[]
+emailData.ccList : null || String[]
+emailData.fromAddressOptional : String
+emailData.fromNameOptional : String
+emailData.caseId : String
+emailData.subject : String
+emailData.plainTextBody : String
+emailData.htmlBody : String
+emailData.attachmentIdList : String
+-->
     
-	<aura:attribute name="plainText" type="String" default="Testing sending one emal with ref."/>    
-    <aura:attribute name="htmlBody" type="String" default="&lt;p>Testing email with ref auto added &lt;/p>"/>    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />   
+    <aura:handler event="c:cmh18evt_EmailSend" action="{!c.cmh18evt_EmailSend}" />
+
+    <!-- Emits cmh18evt_EmailSent once an email has been sent -->
+    <aura:registerEvent name="cmh18evt_EmailSent" type="c:cmh18evt_EmailSent" />
+
+    <aura:attribute name="inDev" type="Boolean" default="true" />    
+	<aura:attribute name="results" type="Object" default="{}"/>    
+    <!-- TO DO MOVE THIS REG TO THE EVENTUAL LOCATION FOR THE SEND BUTTON -->
+    <aura:registerEvent name="cmh18evt_EmailSend" type="c:cmh18evt_EmailSend" />
+    <aura:handler event="c:cmh18evt_EmailSent" action="{!c.cmh18evt_EmailSent}" />
+
+    <aura:if isTrue="{!v.inDev}">
+    <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</div>
+        
+    <lightning:button label="Send" onclick="{! c.sendEmail }" >
+    </lightning:button>
+        
 	
-    <div>CaseId: {!v.caseId} </div>
+    <div>CaseId: {!v.emailData.caseId} </div>
     <div>To:
-    <aura:iteration items="{!v.toList}" var="to">
+    <aura:iteration items="{!v.emailData.toList}" var="to">
         <span>{!to}</span>&nbsp;
     </aura:iteration>
     </div>        
-    <div>Subject: {!v.subject} </div>
-    <div>Body: {!v.plainText} </div>
-    <div>Html: {!v.htmlBody} </div>
+    <div>Subject: {!v.emailData.subject} </div>
+    <div>Body: {!v.emailData.plainTextBody} </div>
+    <div>Html: {!v.emailData.htmlBody} </div>
+    <hr></hr>
 
-    <lightning:button variant="base" label="Send" onclick="{! c.sendEmail }" >
-    </lightning:button>
+    <div>ResultMessage: {!v.results.successMessage}</div>
+    <div>{!v.results.errorMessage}</div>
     
-    <div>CaseRef: {!v.caseRef}</div>
-    <div>ResultMessage: {!v.resultMessage}</div>
-        <div>{!v.errorMessage}</div>
-<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</div>
-    
+</aura:if>        
 </aura:component>

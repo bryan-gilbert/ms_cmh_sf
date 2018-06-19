@@ -11,18 +11,25 @@ public with sharing class cmh18apex_Email {
     @AuraEnabled
     public static String sendEmailMessage(
         String[] toList, String[] ccList, String fromAddressOptional, String fromNameOptional,
-        String caseId, String ref, String subject, String plainTextBody, String htmlBody) {   
-        try{
+        String caseId, String subject, String plainTextBody, String htmlBody, String[] attachmentIdList) 
+    {   
         System.debug(Logginglevel.ERROR,'In cmh18apex_Email with ' + caseId + ' ' + subject
             + 'toList[0] ' + toList[0]
             + ' plainTextBody ' + plainTextBody);
         
+        if (caseId == null || caseId.length() < 10) {
+            return 'ERROR: Must provide case ID';
+        }
+        if (toList == null || toList.size() == 0) {
+            return 'ERROR: Must provide list of to addresses';
+        }
+        try{
         Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage m = new Messaging.SingleEmailMessage();
         m.setToAddresses(toList);
-        if( ccList.size() > 0)
+        if( ccList.size() > 0) {
             m.setCcAddresses(ccList);
-
+        }
         String fromAddress = fromAddressOptional;
         String fromName = fromNameOptional;
         if(fromAddress == null) {
@@ -34,7 +41,8 @@ public with sharing class cmh18apex_Email {
         }
         System.debug(Logginglevel.ERROR,'cmh18apex_Email fromAddress ' + fromAddress + ' ' + fromName);        
         
-        if(plainTextBody != null && !plainTextBody.contains(ref)) {
+        String ref = getRef(caseId);
+	    if(plainTextBody != null && !plainTextBody.contains(ref)) {
             plainTextBody += '\n'+ ref + '\n';
         }
         System.debug(Logginglevel.ERROR,'cmh18apex_Email plainTextBody ' + plainTextBody);
@@ -44,6 +52,12 @@ public with sharing class cmh18apex_Email {
         System.debug(Logginglevel.ERROR,'cmh18apex_Email htmlBody ' + htmlBody);
         m.setSubject(subject);
         m.setPlainTextBody(plainTextBody); 
+            
+        if(attachmentIdList<> null && attachmentIdList.size() > 0) {
+            // TODO create new attachment objects from a given id
+            String newId = createAttachment(attachmentIdList[0]);
+	        m.setEntityAttachments(new List<String> {newId});
+        }
         m.setHtmlBody(htmlBody);
         messages.add(m);
         Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
@@ -58,8 +72,7 @@ public with sharing class cmh18apex_Email {
             emailMsg.FromAddress = fromAddress;
             emailMsg.FromName = fromName;
             emailMsg.CcAddress = String.join(ccList,';');
-            //emailMsg.BccAddress = 
-            
+            //emailMsg.BccAddress =             
             emailMsg.Subject = subject;
             emailMsg.TextBody = plainTextBody;
             emailMsg.HtmlBody = htmlBody;
@@ -72,21 +85,24 @@ public with sharing class cmh18apex_Email {
             Insert emailMsg;
             
         } else {
-            result = 'The email failed to send: ' + results[0].errors[0].message;
+            result = 'ERROR: The email failed to send: ' + results[0].errors[0].message;
             System.debug(Logginglevel.ERROR,result);
         }
         return result;
-        } catch( Exception error ) {
-            
-                 Messaging.SingleEmailMessage errorEmail=new Messaging.SingleEmailMessage();
-     String[] toAddresses = new String[] {'bryan.gilbert@gmail.com'};
-     errorEmail.setToAddresses(toAddresses);
-     errorEmail.setReplyTo('developer@acme.com');
-     errorEmail.setSenderDisplayName('Apex error message');
-     errorEmail.setSubject('Error from Org : ' + UserInfo.getOrganizationName());
-     errorEmail.setPlainTextBody(error.getMessage());
-     Messaging.sendEmail(new Messaging.SingleEmailMessage[] { errorEmail });
+        } catch( Exception error ) {            
+            Messaging.SingleEmailMessage errorEmail=new Messaging.SingleEmailMessage();
+            String[] toAddresses = new String[] {'bryan.gilbert@gmail.com'};
+            errorEmail.setToAddresses(toAddresses);
+            errorEmail.setReplyTo('developer@acme.com');
+            errorEmail.setSenderDisplayName('Apex error message');
+            errorEmail.setSubject('Error from Org : ' + UserInfo.getOrganizationName());
+            errorEmail.setPlainTextBody(error.getMessage());
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { errorEmail });
             return 'ERROR: ' + error.getMessage();
         }
     }
+    
+    private static Id createAttachment(String attachmentId) {   
+        return attachmentId;
+    }  
 }

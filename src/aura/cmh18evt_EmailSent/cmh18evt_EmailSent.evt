@@ -1,0 +1,8 @@
+<!-- cmh18evt_EmailSent -->
+<aura:event type="APPLICATION" description="Email message send is completed">
+    <aura:attribute name="results" type="Object"/>
+    <!-- 
+    results.errorMessage : String || null
+    results.successMessage : String || null
+     -->
+</aura:event>
