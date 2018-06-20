@@ -7,19 +7,14 @@
         })
         component.set("v.attachments", attachments);
         component.set("v.count", attachments.length);
+        component.set("v.emailId", '');
+        helper.selectSort(component,event,helper);
 	},
-    showMore : function(component) {
-        var limit = component.get('v.listLimit');
-    	component.set('v.listLimit', limit + 5);
-    },
     cmh18evt_EmailView : function(component, event, helper) {
         var emailId = event.getParam("emailId");
+        component.set("v.emailId", emailId);
         console.log("Attachment list respond to view email event", emailId);
-        var attachments = component.get("v.attachments");
-        attachments.forEach(function(a) {
-            a.isSelected = emailId === a.ParentId;
-        })        
-        component.set("v.attachments", attachments);
+        helper.selectSort(component,event,helper);
     },
 
 })

@@ -11,6 +11,9 @@
     padding-left: 11px;
 }
 
+.THIS .selected_row{
+    background-color: blanchedalmond
+}
 
 /*
  * Define styles for this main component
@@ -26,7 +29,7 @@
 
 .THIS .cev-col-action {
     padding-left: 0 !important;
-    width: 23%;
+    width: 18%;
 }
 
 .THIS .cev-col-subject {
@@ -35,5 +38,5 @@
 }
 
 .THIS .cev-col-indicators {
-    width:8%;
+    width: 5%;
 }

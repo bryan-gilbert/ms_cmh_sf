@@ -28,7 +28,8 @@
     
 <aura:handler name="change" value="{!v.body}" action="{!c.contentChanged}"/>
 <aura:handler name="change" value="{!v.subject}" action="{!c.contentChanged}"/>
-    
+ 
+<!-- BEGIN UI -->    
    <div id="view">
     <aura:if isTrue="{!v.isOpen}">
         

@@ -20,7 +20,13 @@
     <lightning:icon class="icn" iconName="utility:forward" size="xx-small" alternativeText="Forward" />
     </lightning:button>    
     </div>
-</td>                   
+</td>
+<td scope="col" class="cev-col-indicators"> 
+    <aura:if isTrue="{!v.email.HasAttachment}">
+    <lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="attach" />
+    </aura:if>    
+</td>	
+    
 <td class="cev-col-date"> 
     <div  title="{!v.email.MessageDate}">
         <div>
@@ -32,13 +38,12 @@
 </td>
 <td class="cev-col-subject" > 
     <div class="slds-cell-wrap"  title="{!v.email.Subject}">
+        <div>
         <a href="javascript:void(0);" id="{!v.email.Id}" onclick="{!c.viewEmail}">{!v.email.Subject}</a>  
-        Status: {!v.email.Status}
+            </div>
+        <div>
+        Status: {!v.email.Status} &nbsp; To: {!v.email.ToAddress} &nbsp; From: {!v.email.FromName}
+            </div>
     </div>
 </td>
-<td scope="col" class="cev-col-attachments"> 
-    <aura:if isTrue="{!v.email.HasAttachment}">
-    <lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="attach" />
-    </aura:if>    
-</td>	
 </aura:component>

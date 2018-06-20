@@ -1,15 +1,17 @@
 <aura:component controller="cmh18_CaseEmailListController" >
     <aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="elist-v0.64"/>
+    <aura:attribute name="version" type="String" default="elist-v0.75"/>
     <aura:attribute name="globals" type="Object"/>
 	<aura:attribute name="caseId" type="String" />
 	<aura:attribute name="count" type="Integer" />
+    <aura:attribute name="selectedEmail" type="String" default="02sf4000002QegeAAC"/>
 	<aura:attribute name="message" type="String" default="empty" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 	<aura:registerEvent name="cmh18evt_EmailView" type="c:cmh18evt_EmailView" />
 	<aura:registerEvent name="cmh18evt_EmailEdit" type="c:cmh18evt_EmailEdit" />    
     <!-- cmh18_LoadEmailEvent fired by this component when it need an email to be loaded -->
 	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
+    <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>
    	<aura:attribute name="showInfo" type="Boolean" /> 
     
 <article class="slds-card">
@@ -25,17 +27,19 @@
 			</div-->
 		</header>
 	</div>
+<div class="slds-scrollable" style="max-height: 20rem;">    
 	<div class="slds-card__body">
-		<table class="slds-table slds-table_fixed-layout slds-table_bordered slds-no-row-hover slds-table_cell-buffer">
+		<table class="slds-table slds-table_fixed-layout slds-table_bordered">
 			<tbody>
 				<aura:iteration items="{!v.emails}" indexVar="key" var="email">                    
-				<tr class="slds-hint-parent">
+				<tr class="{!email.displayClass}">
                     <c:cmh18_EmailListItem email="{!email}"/>
 				</tr>
 				</aura:iteration>
 			</tbody>
 		</table>
 	</div>
+    </div>
 	<footer class="slds-card__footer">
 <span class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</span>
 	</footer>
