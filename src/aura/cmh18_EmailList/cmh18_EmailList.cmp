@@ -6,6 +6,8 @@
 	<aura:attribute name="count" type="Integer" />
     <aura:attribute name="selectedEmail" type="String" default="02sf4000002QegeAAC"/>
 	<aura:attribute name="message" type="String" default="empty" />
+    <aura:attribute name="isOpen" type="Boolean" default="true"/>    
+ 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 	<aura:registerEvent name="cmh18evt_EmailView" type="c:cmh18evt_EmailView" />
 	<aura:registerEvent name="cmh18evt_EmailEdit" type="c:cmh18evt_EmailEdit" />    
@@ -22,12 +24,15 @@
 					<span class="slds-text-heading_small">Emails ({!v.count})</span>
 				</h2>
 			</div>
-			<!--div class="slds-no-flex">
-				<button class="slds-button slds-button_neutral">New</button> 
-			</div-->
+      <div class="slds-no-flex">
+        <lightning:button variant="base" label="Refresh" onclick="{! c.refresh }" >
+        <lightning:icon class="icn" iconName="utility:refresh" size="small" alternativeText="refresh" />                
+        </lightning:button>    
+      </div>
+            
 		</header>
 	</div>
-<div class="slds-scrollable" style="max-height: 20rem;">    
+<div class="slds-scrollable" style="max-height: 16rem;">    
 	<div class="slds-card__body">
 		<table class="slds-table slds-table_fixed-layout slds-table_bordered">
 			<tbody>
@@ -39,9 +44,7 @@
 			</tbody>
 		</table>
 	</div>
-    </div>
-	<footer class="slds-card__footer">
 <span class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</span>
-	</footer>
+    </div>
 </article> 	
 </aura:component>

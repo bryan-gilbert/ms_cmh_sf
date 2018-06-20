@@ -1,5 +1,5 @@
 <aura:component>
-    <aura:attribute name="version" type="String" default="ed-v0.44"/>
+    <aura:attribute name="version" type="String" default="ed-v0.47"/>
     <aura:attribute name="emailId" type="String" default=""/>
     <aura:attribute name="isLoaded" type="Boolean" default="false"/>
  	<aura:attribute name="theEmail" type="EmailMessage" />
@@ -25,7 +25,9 @@
        <div class="email_details">
 <aura:if  isTrue="{!v.isLoaded}">    
    <article class="slds-tile">
-    <h3 class="slds-tile__title slds-truncate" title="Subject">{!v.subject}</h3>
+    <h2 class="slds-card__header-title">
+    <span class="slds-text-heading_small">{!v.subject}</span>
+    </h2>
     <div class="slds-tile__detail">
       <dl class="slds-list_horizontal slds-wrap">
         <dt class="slds-item_label" title="To">To:</dt>
@@ -38,8 +40,8 @@
         <dd class="slds-item_detail " title="Status Value">{!v.status}</dd>
         <dt class="slds-item_label  " title="Date">Date:</dt>
         <dd class="slds-item_detail " title="Date Value">
-<ui:outputDate format="YYYY-MM-DD, hh:mm a" value="{!v.date}" />                                    
-          </dd>
+            <ui:outputDate format="YYYY-MM-DD, hh:mm a" value="{!v.date}" />                                    
+        </dd>
         <dt class="slds-item_label  " title="Attachments">Attachments:</dt>
         <dd class="slds-item_detail " title="Attachments Value">{!v.hasAttachments}</dd>
         <dt class="slds-item_label  " title="Id">Id:</dt>
@@ -53,9 +55,9 @@
 <aura:set attribute="else">
     <div>Select an email to see details</div></aura:set>    
    	<div>{!v.error}</div>
+	<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>          
 </aura:if>  
 </div>           
-    
-<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>      
-    </div>
+</div>
+	<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>          
 </aura:component>

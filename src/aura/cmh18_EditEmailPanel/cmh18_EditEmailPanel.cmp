@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.76"/>    
+<aura:attribute name="version" type="String" default="eep-v0.79"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
 <aura:attribute name="requestedAction" type="String"/>
@@ -30,23 +30,11 @@
 <aura:handler name="change" value="{!v.subject}" action="{!c.contentChanged}"/>
  
 <!-- BEGIN UI -->    
-   <div id="view">
     <aura:if isTrue="{!v.isOpen}">
+   <div id="view" >
+   <div class="edit_panel">
         
 <article class="slds-card">
-	<div class="slds-card__header slds-grid">
-<!--
-<header class="slds-media slds-media_center slds-has-flexi-truncate">
-<div class="slds-media__body">
-    <h2 class="slds-card__header-title">
-        <span class="slds-text-heading_small">{!v.requestedAction} &nbsp; Email</span>
-    </h2>
-    <h3 class="slds-tile__title slds-truncate slds-text-heading_small" title="Subject"><b>{!v.subject}</b></h3>
-</div>
-</header>
--->
-	</div> <!-- end header -->
-
 	<div class="slds-card__body">
    	<article class="slds-tile">
         <div class="slds-tile__detail eep-panel">
@@ -103,13 +91,14 @@
         
 	</div> <!-- end edit email panel body -->
 </article>
-</aura:if> 
-
+<footer class="slds-card__footer">
+    <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.emailId}</div> 
+</footer>        
 <!-- Include template loader non UI component --> 
 <c.cmh18_TemplateLoader globals="{!v.globals}"/>
 
-
-    
-<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.emailId}</div> 
 </div>       
+</div>       
+</aura:if> 
+
 </aura:component>

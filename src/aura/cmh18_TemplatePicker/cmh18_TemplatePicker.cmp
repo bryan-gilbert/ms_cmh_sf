@@ -115,8 +115,8 @@
 	</div>
 </article>
                 
-
+<!--
 <div class="slds-text-body_small slds-text-color_weak">{!v.version}</div> 
-
+-->
 
 </aura:component>

@@ -4,7 +4,8 @@
 .THIS .slds-tile__detail {
     border-top: 1px solid #0070D2;    
 }
-.THIS .email_details {
+.THIS .email_details h3 {
+    font-weight: bold;
 /*
  *     border-top: 1px solid #0070D2;
     padding: 10px;
