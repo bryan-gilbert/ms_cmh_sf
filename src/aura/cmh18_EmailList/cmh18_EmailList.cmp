@@ -11,8 +11,6 @@
     <!-- cmh18_LoadEmailEvent fired by this component when it need an email to be loaded -->
 	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
    	<aura:attribute name="showInfo" type="Boolean" /> 
-   
-    <c:cmh18_EmailSender globals="{!v.globals}" />
     
 <article class="slds-card">
 	<div class="slds-card__header slds-grid">

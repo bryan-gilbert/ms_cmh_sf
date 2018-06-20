@@ -1,15 +1,19 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.53"/>    
+<aura:attribute name="version" type="String" default="eep-v0.76"/>    
 <aura:attribute name="globals" type="Object" />    
+<aura:attribute name="originalEmail" type="Object" />    
+<aura:attribute name="requestedAction" type="String"/>
+<aura:attribute name="helperData" type="Object" />    
 <aura:attribute name="isOpen" type="Boolean" default="false"/>    
 <aura:attribute name="emailId" type="String"/>
-<aura:attribute name="action" type="String"/>
 <aura:attribute name="subject" type="String" default=" "/>
 <aura:attribute name="to" type="String" />
 <aura:attribute name="cc" type="String" />
 <aura:attribute name="from" type="String" />    
 <aura:attribute name="body" type="String" />    
+<aura:attribute name="results" type="String" />
+<aura:attribute name="modified" type="Boolean" default="false" />    
 
 <aura:attribute name="templateId" type="String"/>
 <!-- 1. cmh18evt_EmailEdit fired by email list when user select email to reply to -->
@@ -18,9 +22,13 @@
 <aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
 <!-- email template picker has rendereded a template-->
 <aura:handler event="c.cmh18_TemplateRenderedEvent" action="{!c.cmh18_TemplateRenderedEvent}"/>
-<!-- this next handler is sample way to follow changes in UI elements 
-<aura:handler name="change" value="{!v.body}" action="{!c.bodyChanged}"/>
--->
+    
+<aura:registerEvent name="cmh18evt_EmailSend" type="c:cmh18evt_EmailSend" />
+<aura:handler event="c:cmh18evt_EmailSent" action="{!c.cmh18evt_EmailSent}" />
+    
+<aura:handler name="change" value="{!v.body}" action="{!c.contentChanged}"/>
+<aura:handler name="change" value="{!v.subject}" action="{!c.contentChanged}"/>
+    
    <div id="view">
     <aura:if isTrue="{!v.isOpen}">
         
@@ -30,7 +38,7 @@
 <header class="slds-media slds-media_center slds-has-flexi-truncate">
 <div class="slds-media__body">
     <h2 class="slds-card__header-title">
-        <span class="slds-text-heading_small">{!v.action} &nbsp; Email</span>
+        <span class="slds-text-heading_small">{!v.requestedAction} &nbsp; Email</span>
     </h2>
     <h3 class="slds-tile__title slds-truncate slds-text-heading_small" title="Subject"><b>{!v.subject}</b></h3>
 </div>
@@ -72,7 +80,8 @@
             </dd>
             </dl>
         </div>
-   
+       Id:  {!v.emailId} &nbsp; {!v.requestedAction}
+        
         <div class="slds-tile__detail">
             <lightning:inputRichText value="{!v.body}" aura:id="iBody">
             </lightning:inputRichText>
@@ -85,6 +94,12 @@
             </lightning:inputRichText>        
         -->
     </article>
+    <lightning:button label="Send" onclick="{! c.sendEmail }" >
+    </lightning:button> 
+    <lightning:button label="Cancel" variant="base" onclick="{! c.cancelEdit }" >
+    </lightning:button> 
+    <div>Results: {!v.results.error}</div>
+        
 	</div> <!-- end edit email panel body -->
 </article>
 </aura:if> 

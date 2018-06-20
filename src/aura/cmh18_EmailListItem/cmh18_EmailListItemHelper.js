@@ -8,8 +8,7 @@
 	fireCaseEmailEditEvent : function(action, emailId) {
         console.log("fireCaseEmailEditEvent emailId: " + emailId + " action: " + action);
         var myEvent = $A.get("e.c:cmh18evt_EmailEdit");
-        myEvent.setParams({"emailId": emailId});
-        myEvent.setParams({"action": action});
+        myEvent.setParams({"emailId": emailId, "action": action});
         myEvent.fire();
     },
 	fireLoadEmailDetailEvent : function(emailId) {

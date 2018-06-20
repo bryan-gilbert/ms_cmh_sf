@@ -26,11 +26,6 @@
           </a-->
         </h2>
       </div>
-      <div class="slds-no-flex">
-        <lightning:button variant="base" label="Refresh" onclick="{! c.refresh }" >
-        <lightning:icon class="icn" iconName="utility:refresh" size="small" alternativeText="refresh" />                
-        </lightning:button>    
-      </div>
     </header>            
 	</div>
 	<div class="slds-card__body">

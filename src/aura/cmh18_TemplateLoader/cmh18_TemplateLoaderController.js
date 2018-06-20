@@ -20,15 +20,18 @@
             console.log("In rendered template callback id/status: " + templateId + "/" + status);
             if (state === "SUCCESS") {                
             	var list = response.getReturnValue();
-                if (list && list.length > 0) {
-                    console.log("In callback with response to get rendered template", list);
+                if (list && list.length >= 2) {
+                    console.log("In callback with response to get rendered template", list[0], list[1]);
                     var renderedHtml = list.length > 2 ? list[2] : /* html is optional */ undefined;
-                    var renderedText = list.length > 1 ? list[1] : "empty text body";
-                    var renderedSubject = list.length > 0 ? list[0] : "empty subject";
+                    var renderedText = list[1];
+                    var renderedSubject = list[0];
                     var cmh18_TemplateRenderedEvent = $A.get("e.c:cmh18_TemplateRenderedEvent");
-                    cmh18_TemplateRenderedEvent.setParams({"renderedHtml": renderedHtml});
-                    cmh18_TemplateRenderedEvent.setParams({"renderedText": renderedText});
-                    cmh18_TemplateRenderedEvent.setParams({"renderedSubject": renderedSubject});
+                    var params = {
+                        "renderedSubject": renderedSubject
+                        ,"renderedText": renderedText
+                        ,"renderedHtml": renderedHtml
+                    };
+                    cmh18_TemplateRenderedEvent.setParams(params);
                     cmh18_TemplateRenderedEvent.fire();
                 } else {
                     console.error("Error. No rendered data received.")
