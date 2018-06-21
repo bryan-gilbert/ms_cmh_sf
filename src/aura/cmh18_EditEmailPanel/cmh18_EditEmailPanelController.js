@@ -155,7 +155,14 @@ component.find("iBody").focus();
         emailData.fromAddressOptional = null;
         emailData.fromNameOptional = null;
         emailData.caseId = "500f4000006AZsRAAW";
-        console.log("Sending email for case ", emailData.caseId);
+        console.log("TODO get real case id Sending email for case ", emailData.caseId);
+                var includedAttachments = component.get("v.includedAttachments"); 
+        emailData.attachmentIdList=[];
+        for(var i = 0; i< includedAttachments.length; i++ ){
+            var a = includedAttachments[i];
+            var id = a.Id;
+            emailData.attachmentIdList.push(id);
+        }
         var cmh18evt_EmailSend = $A.get("e.c:cmh18evt_EmailSend");
         cmh18evt_EmailSend.setParams({emailData: emailData });
         cmh18evt_EmailSend.fire();            

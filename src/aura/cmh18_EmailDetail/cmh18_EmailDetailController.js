@@ -34,5 +34,20 @@
             }
             component.set("v.isLoaded", true);
         }     
-    }
+    },
+    cmh18evt_AttachmentList : function(component,event,helper) {
+        var attachments = event.getParam("attachments");
+        var includedAttachments = [];
+        console.log("In email detail attachment list handler")
+        if(!attachments) {
+            return;
+        }
+        attachments.forEach(function(a) {
+            // the edit panel filters isChecked. Here we filter isSelected.
+            if(a.isSelected) {
+                includedAttachments.push(a);
+            }
+        })
+        component.set("v.includedAttachments",includedAttachments);        
+    },
 })

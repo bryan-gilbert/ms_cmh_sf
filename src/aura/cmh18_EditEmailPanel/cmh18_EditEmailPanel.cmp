@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.104"/>    
+<aura:attribute name="version" type="String" default="eep-v0.105"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
 <aura:attribute name="requestedAction" type="String"/>
@@ -15,20 +15,15 @@
 <aura:attribute name="results" type="String" />
 <aura:attribute name="includedAttachments" type="Object[]" default="[]"/>    
 <aura:attribute name="modified" type="Boolean" default="false" />    
-
 <aura:attribute name="templateId" type="String"/>
-<!-- 1. cmh18evt_EmailEdit fired by email list when user select email to reply to -->
-<aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
-<!-- 2. cmh18_EmailLoadedEvent fired by email loading component when it has an email-->
-<aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
-<!-- email template picker has rendereded a template-->
-<aura:handler event="c.cmh18_TemplateRenderedEvent" action="{!c.cmh18_TemplateRenderedEvent}"/>
     
-<aura:registerEvent name="cmh18evt_EmailSend" type="c:cmh18evt_EmailSend" />
-<aura:handler event="c:cmh18evt_EmailSent" action="{!c.cmh18evt_EmailSent}" />
- 
-<!-- cmh18evt_AttachmentList fired by this component when there is a change in selection -->
+<aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
+<aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
+<aura:handler event="c.cmh18_TemplateRenderedEvent" action="{!c.cmh18_TemplateRenderedEvent}"/>
+<aura:handler event="c:cmh18evt_EmailSent" action="{!c.cmh18evt_EmailSent}" /> 
 <aura:handler event="c:cmh18evt_AttachmentList" action="{!c.cmh18evt_AttachmentList}"/>	
+
+<aura:registerEvent name="cmh18evt_EmailSend" type="c:cmh18evt_EmailSend" />
     
 <aura:handler name="change" value="{!v.body}" action="{!c.contentChanged}"/>
 <aura:handler name="change" value="{!v.subject}" action="{!c.contentChanged}"/>

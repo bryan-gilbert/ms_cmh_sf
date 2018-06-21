@@ -42,5 +42,6 @@
         }
         component.set("v.attachments", attachments);
         helper.fireLoadEmailDetailEvent(component);
-    }
+    },
+    
 })

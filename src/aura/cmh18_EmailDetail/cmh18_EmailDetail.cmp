@@ -1,5 +1,5 @@
 <aura:component>
-    <aura:attribute name="version" type="String" default="ed-v0.50"/>
+    <aura:attribute name="version" type="String" default="ed-v0.53"/>
     <aura:attribute name="emailId" type="String" default=""/>
     <aura:attribute name="isLoaded" type="Boolean" default="false"/>
  	<aura:attribute name="theEmail" type="EmailMessage" />
@@ -14,10 +14,12 @@
     <aura:attribute name="hasAttachments" type="Boolean" />
     <aura:attribute name="status" type="Integer" />
     <aura:attribute name="body" type="String" />    
+    <aura:attribute name="includedAttachments" type="Object[]" default="[]"/>    
     <aura:attribute name="error" type="String" />  
-    <!-- 1. cmh18evt_EmailView fired by email list when user select email -->
+    
     <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
-    <!-- 2. cmh18_EmailLoadedEvent fired by email loading component when it has an email-->
+	<aura:handler event="c:cmh18evt_AttachmentList" action="{!c.cmh18evt_AttachmentList}"/>	
+
     <aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
 
 <!-- BEING UI -->
@@ -46,6 +48,14 @@
     <div class="slds-tile cmh18_ed_body" >
         <aura:unescapedHtml value="{!v.body}"/>
     </div> 
+    <div class="attachment_list_horizontal">
+        <aura:iteration items="{!v.includedAttachments}" var="attachment">
+        <span class="attachment_list_item">            
+            <lightning:icon class="icn attachment_list_item_icon" iconName="standard:document" size="xx-small" alternativeText="{!attachment.Name}" />            
+            <span class="attachment_list_item_name">{!attachment.Name}</span>
+        </span>
+        </aura:iteration>
+    </div>       
     <div class="slds-tile__detail">
       <dl class="slds-list_horizontal slds-wrap">
         <dt class="slds-item_label  " title="Status">Status:</dt>

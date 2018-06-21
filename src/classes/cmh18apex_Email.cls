@@ -55,8 +55,11 @@ public with sharing class cmh18apex_Email {
             
         if(attachmentIdList<> null && attachmentIdList.size() > 0) {
             // TODO create new attachment objects from a given id
+            System.debug(Logginglevel.ERROR,'cmh18apex_Email '+attachmentIdList.size()+' attachments ');
             String newId = createAttachment(attachmentIdList[0]);
 	        m.setEntityAttachments(new List<String> {newId});
+        } else {
+            System.debug(Logginglevel.ERROR,'cmh18apex_Email no attachments ');
         }
         m.setHtmlBody(htmlBody);
         messages.add(m);

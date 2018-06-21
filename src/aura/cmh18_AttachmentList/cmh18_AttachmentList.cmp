@@ -6,9 +6,7 @@
 <aura:attribute name="emailId" type="String" />
 <aura:attribute name="showCheckBoxes" type="Boolean" default="false"/>    
     
-<!-- cmh18_AttachmentsLoadedEvent fired by this component when a load is complete -->
 <aura:handler event="c:cmh18_AttachmentsLoadedEvent" action="{!c.cmh18_AttachmentsLoadedEvent}" />
-<!-- when email view event is received run through attachment list and indicated related attachments -->
 <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
 <aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
 
@@ -24,6 +22,12 @@
             <span class="slds-text-heading_small">Attachments ({!v.count})</span>
         </h2>
       </div>
+      <div class="slds-no-flex">
+        <lightning:button variant="base" label="Upload" onclick="{! c.upload }" >
+        <lightning:icon class="icn" iconName="utility:upload" size="small" alternativeText="upload" />                
+        </lightning:button>    
+      </div>
+        
     </header>            
 	</div>
 <div class="slds-scrollable" style="max-height: 20rem;">    
