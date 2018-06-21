@@ -63,29 +63,45 @@
         } else {
             var theEmail = emailData.data;
             var helperData = {originalSubject: theEmail.subject};
-
             component.set("v.originalEmail", theEmail);
             component.set("v.id", theEmail.id);
-            // TODO need configuration to inject standard reply from address
             component.set("v.fromAdress", "cc@example.com");
+            if ("replyAll" === requestedAction) {
+                component.set("v.cc", theEmail.cc);                
+            }            
+            var preData = [];
+            preData.push('<p>&nbsp;</p>\n');            
+            preData.push('<p>&nbsp;</p>\n');            
             if(requestedAction.includes("reply")) {
                 component.set("v.to", theEmail.fromAddress);
                 helperData.re = "Re:";
-            }
-            if ("replyAll" === requestedAction) {
-                component.set("v.cc", theEmail.cc);                
+                preData.push('<p>--------------- Original Message ---------------</p>\n');
             }
             if ("forward" === requestedAction) {
                 helperData.re = "Fwd:";
-                helperData.body = theEmail.text;
-                if(theEmail.html && theEmail.html.length > 0){
-                    helperData.body = theEmail.html;
-                }
+                preData.push('<p>---------- Forwarded message ---------</p>\n');
             }
+            preData.push('<p>From: '+theEmail.fromAddress+'</p>\n');
+            preData.push('<p>Sent: '+theEmail.date+'</p>\n');
+            preData.push('<p>To: '+theEmail.to+'</p>\n');
+            preData.push('<p>Cc: '+theEmail.cc+'</p>\n');
+            preData.push('<p>Subject: '+theEmail.subject+'</p>\n');
+            preData.push('<p></p>\n');
+            helperData.preBody = preData.join('\n');                
+            
+            if(theEmail.html && theEmail.html.length > 0){
+                helperData.body = theEmail.html;
+            } else {
+	            helperData.body = theEmail.text;
+                
+            }
+            
             component.set("v.helperData", helperData);
 			helper.updateContent(component);
             component.set("v.isLoaded", true);
             component.set("v.modified", false);
+            
+component.find("iBody").focus();            
         }     
     },
    
@@ -128,6 +144,7 @@
     sendEmail:function(component, event, helper) {
         var emailData = {};
         emailData.toList = [component.get("v.to")];
+        console.log("TODO handle list of to addresses");
         emailData.subject = component.get("v.subject");
         var html = component.get("v.body");
         var text = html.replace(/(<\/p>)/g, "\n"); 

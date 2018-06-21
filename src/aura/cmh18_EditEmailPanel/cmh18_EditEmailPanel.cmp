@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.93"/>    
+<aura:attribute name="version" type="String" default="eep-v0.104"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
 <aura:attribute name="requestedAction" type="String"/>
@@ -46,11 +46,11 @@
             <dt class="slds-item_label  " title="From">From:</dt>
             <dd class="slds-item_detail " title="From Value">
                 <div class="slds-grid">            
-                    <div class="slds-col slds-p-left_none">  
+                    <div class="slds-col slds-p-left_none slds-size--7-of-8">  
                     <ui:inputText label="FromEmail" aura:id="iFromEmail" 
                       value="{!v.from}" class="slds-input" labelClass="assistiveText"/>
                     </div> 
-                    <div class="slds-col"> 
+                    <div class="slds-col slds-size--1-of-8"> 
                     <c:cmh18_TemplateDialog globals="{!v.globals}"/>                    
                     </div>
                 </div>
@@ -73,8 +73,7 @@
             </dd>
             </dl>
         </div>
-       Id:  {!v.emailId} &nbsp; {!v.requestedAction}
-        
+<br></br>        
         <div class="slds-tile__detail">
             <lightning:inputRichText value="{!v.body}" aura:id="iBody">
             </lightning:inputRichText>
@@ -97,7 +96,7 @@
         </div>
 <div class="slds-button-group eep_action_group" role="group"> 
     <div class="eep_action">
-    <lightning:button label="Send" variant="slds-button--brand" onclick="{! c.sendEmail }" >
+    <lightning:button label="Send" variant="brand" onclick="{! c.sendEmail }" >
     </lightning:button> 
 </div>        
     <div class="eep_action">    

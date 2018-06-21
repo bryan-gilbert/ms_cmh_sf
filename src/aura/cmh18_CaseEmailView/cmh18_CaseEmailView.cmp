@@ -2,34 +2,30 @@
     <!-- uses cmh18_EditEmailPanel, cmh18_EmailDetail, and cmh18_UserInfo -->
     <!-- https://github.com/bryan-gilbert/ms_cmh_sf -->
     <aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="cev-v0.71"/>
+    <aura:attribute name="version" type="String" default="cev-v0.72"/>
     <aura:attribute name="globals" type="Object" default="{UserId:'1'}"/>
 	<aura:attribute name="recordId" type="String" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
    	<aura:attribute name="showInfo" type="Boolean" /> 
     
+<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId}</div>
     
 	<div class="slds-grid slds-gutters">
-		<div class="slds-col slds-size_2-of-4">
-            
+		<div class="slds-col slds-size_2-of-4">            
             <c:cmh18_EmailList globals="{!v.globals}" caseId="{!v.recordId}"/>
+            <c:cmh18_EditEmailPanel globals="{!v.globals}"/>
 
-<c:cmh18_AttachmentList/>   
-<c:cmh18_EmailSender/>
-            
-            
-<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId}</div>
-</div>
+            <c:cmh18_AttachmentList/>              
+        </div>
         <!-- End Left and start Right side panel -->
 		<div class="slds-col slds-size_2-of-4 cmh18_cev_right_panel">
-            <c:cmh18_EditEmailPanel globals="{!v.globals}"/>
 			<c:cmh18_EmailDetail />
 		</div>
 	</div>
-    
-    
-    <!-- include email loader non-UI element -->
+
+    <!-- include non-UI elements -->
+    <c:cmh18_EmailSender/>
     <c:cmh18_EmailLoader />
     <c:cmh18_AttachmentsLoader globals="{!v.globals}" caseId="{!v.recordId}"/>
 

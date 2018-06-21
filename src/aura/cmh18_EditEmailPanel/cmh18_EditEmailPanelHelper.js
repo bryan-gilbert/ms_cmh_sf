@@ -9,11 +9,6 @@
     },
 	updateContent : function(component) {
         var helperData = component.get("v.helperData");
-        /*
-                 helperData.renderedSubject = renderedSubject;
-        helperData.renderedBody = body;
-
-         */
         var subject = helperData.renderedSubject ? helperData.renderedSubject + " - " : "";
             subject += helperData.re + " " + helperData.originalSubject;
 		component.set("v.subject", subject);
@@ -23,6 +18,10 @@
             body += helperData.isHtml ? "<br/>" : "";
             body += "\n";
         }
+        console.log("prebody", helperData.preBody);
+        body += helperData.preBody;
+        body += helperData.isHtml ? "<br/>" : "";
+        body += "\n";
         body += helperData.body; 
         component.set("v.body", body);
 	},

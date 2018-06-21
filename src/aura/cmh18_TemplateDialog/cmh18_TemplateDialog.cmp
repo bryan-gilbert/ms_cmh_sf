@@ -11,9 +11,9 @@
 <aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.cmh18_PickTemplateEvent}"/>
 <div id="view">
   <!--Use "slds-m-around- -xx-large" class to add standard Large padding to the component--> 
-    <button onclick="{!c.openModel}">
+    <lightning:button onclick="{!c.openModel}" variant="brand">
         <lightning:icon class="icn" iconName="utility:insert_template" size="small" alternativeText="{!v.launchButtonText}" />
-    </button>  
+    </lightning:button>  
     <aura:if isTrue="{!v.isOpen}">
   <div class="slds-m-around--xx-large">      
       <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
@@ -41,7 +41,8 @@
   </div>
  </aura:if>
           <!-- END MODAL -->
-    
+<!--    
 <span class="slds-text-body_small slds-text-color_weak">{!v.version}</span>    
+-->
 </div>    
 </aura:component>

@@ -3,3 +3,7 @@
     width: 80%;
     min-width: 40%;
 }
+
+.THIS .slds-button_brand {
+    background-color: white;
+}
