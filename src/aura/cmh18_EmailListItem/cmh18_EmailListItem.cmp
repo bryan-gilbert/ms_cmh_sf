@@ -37,13 +37,9 @@
     </div>
 </td>
 <td class="cev-col-subject" > 
-    <div class="slds-cell-wrap"  title="{!v.email.Subject}">
-        <div>
-        <a href="javascript:void(0);" id="{!v.email.Id}" onclick="{!c.viewEmail}">{!v.email.Subject}</a>  
-            </div>
-        <div>
-        Status: {!v.email.Status} &nbsp; To: {!v.email.ToAddress} &nbsp; From: {!v.email.FromName}
-            </div>
+    <div class="slds-cell-wrap slds-text-link_reset" data-value="{!v.email.Id}" onclick="{!c.viewEmail}">                
+		<div class="slds-text-link"> {!v.email.Subject} </div>
+        <div>    Status: {!v.email.Status} &nbsp; To: {!v.email.ToAddress}</div>
     </div>
 </td>
 </aura:component>

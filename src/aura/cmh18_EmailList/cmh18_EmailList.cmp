@@ -1,6 +1,6 @@
 <aura:component controller="cmh18_CaseEmailListController" >
     <aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="elist-v0.75"/>
+    <aura:attribute name="version" type="String" default="elist-v0.85"/>
     <aura:attribute name="globals" type="Object"/>
 	<aura:attribute name="caseId" type="String" />
 	<aura:attribute name="count" type="Integer" />
@@ -9,13 +9,17 @@
     <aura:attribute name="isOpen" type="Boolean" default="true"/>    
  
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-	<aura:registerEvent name="cmh18evt_EmailView" type="c:cmh18evt_EmailView" />
-	<aura:registerEvent name="cmh18evt_EmailEdit" type="c:cmh18evt_EmailEdit" />    
-    <!-- cmh18_LoadEmailEvent fired by this component when it need an email to be loaded -->
-	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
     <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>
-   	<aura:attribute name="showInfo" type="Boolean" /> 
+    <aura:handler event="c:cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
+    <aura:handler event="c:cmh18evt_RefreshFromServer" action="{!c.cmh18evt_RefreshFromServer}"/>
+
+    <aura:registerEvent name="cmh18evt_EmailView" type="c:cmh18evt_EmailView" />
+	<aura:registerEvent name="cmh18evt_EmailEdit" type="c:cmh18evt_EmailEdit" />    
+	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
+	<aura:registerEvent name="cmh18evt_RefreshFromServer" type="c:cmh18evt_RefreshFromServer" />    
     
+   	<aura:attribute name="showInfo" type="Boolean" /> 
+<aura:if isTrue="{!v.isOpen}">
 <article class="slds-card">
 	<div class="slds-card__header slds-grid">
 		<header class="slds-media slds-media_center slds-has-flexi-truncate">
@@ -37,14 +41,15 @@
 		<table class="slds-table slds-table_fixed-layout slds-table_bordered">
 			<tbody>
 				<aura:iteration items="{!v.emails}" indexVar="key" var="email">                    
-				<tr class="{!email.displayClass}">
+				<tr class="{!email.displayClass}" label="{!key}">
                     <c:cmh18_EmailListItem email="{!email}"/>
 				</tr>
 				</aura:iteration>
 			</tbody>
 		</table>
 	</div>
-<span class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</span>
     </div>
 </article> 	
+</aura:if>    
+<span class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</span>
 </aura:component>

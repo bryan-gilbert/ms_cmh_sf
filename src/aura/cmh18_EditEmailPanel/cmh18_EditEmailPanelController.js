@@ -1,18 +1,52 @@
 ({
+    /*
+     * Events
+     * 1. The edit event arrives with open/close for direction.  
+     * If close then hide the edit panel. Close happens when a user views an email. It also happens
+     * when this panel emits the close (cancel or send success).
+     * 
+     * If open then replay, reply all, forward or new.
+     * 
+     * 2. Attachment List event arrives with list of attachments to be sent with this email (isChecked)
+     * 
+     * 3. Email is loaded event. Fill the form.
+     * 
+     * 4. When attachment list is ready to indicate which attachments are to be sent with this email. 
+     * This event can happen several time.
+     * 
+     * 5. Template rendered event happens if a user selects a template and it is rendered by the server.
+     * 
+     * 6. Emit email send event if user sends email.
+     * Or emit email edit event with close if user cancels.
+     * 
+     * 7. Receive email sent event. If error display it. Otherwise ...
+     * 
+     * 8. Emit edit event with close. (See 1 above)
+     */
+    
+    
 	cmh18evt_EmailEdit : function(component, event, helper) {
-        var requestedAction = event.getParam("action");
-        var emailId = event.getParam("emailId");
-        component.set("v.requestedAction", requestedAction);
-        if ("view" === requestedAction) {
-        component.set("v.isOpen", false);
+        var direction = event.getParam("direction");
+        console.log("TODO implement action new");
+        console.log("TODO implement spinner to be active until email load event")
+        if ("open" === direction) {
+            var requestedAction = event.getParam("action");
+            var emailId = event.getParam("emailId");
+	        console.log("open email edit form : " + requestedAction + " refId: "+ emailId);		
+	        component.set("v.isOpen", true);
+	        component.set("v.emailId", emailId);
+            component.set("v.requestedAction", requestedAction);
         } else {
-        component.set("v.emailId", emailId);
-        console.log("open panel event requestedAction: " + requestedAction + " refId: "+ emailId);		
-        component.set("v.isOpen", true);
+            // about to hide the form but just to be clean erase form content.
+            helper.initForm(component);
+        	component.set("v.isOpen", false);
         }
 	},
     // Handle the event an email record has been retrieved
     cmh18_EmailLoadedEvent : function(component, event, helper) {
+        if(!component.get("v.isOpen")) {
+            return; // do nothing
+        }
         var emailData = event.getParam("emailData");
 		var requestedAction = component.get("v.requestedAction");
         var globals = component.get("v.globals");
@@ -24,7 +58,8 @@
         console.log("In edit email panel cmh18_EmailLoadedEvent ", emailData);
         helper.initForm(component);
         if (emailData.error) {
-            component.set("v.error", msg);
+            console.error("Error in edit panel cmh18_EmailLoadedEvent ", emailData.error);
+            component.set("v.error", emailData.error);
         } else {
             var theEmail = emailData.data;
             var helperData = {originalSubject: theEmail.subject};
@@ -80,11 +115,11 @@
     cancelEdit:function(component, event, helper) {
         var close = true;
         if( component.get("v.modified")) {
-          close = confirm("Are you sure you want lose your edits to this email?")
+            close = confirm("Are you sure you want lose your edits to this email?")
         }
         if (close) {
-            helper.initForm(component);
-            component.set("v.isOpen", false);       
+            helper.sendCloseEvent(component,helper);
+            helper.sendRefreshEvent(component,helper);
         }
     },
     contentChanged : function(component,event, helper){
@@ -113,10 +148,27 @@
         var results = event.getParam("results");
         if(results.errorMessage) {
             alert(results.errorMessage);
+            component.set("v.results", results.errorMessage);
+            return;
         }
-        component.set("v.results", results.errorMessage ? results.errorMessage : results.successMessage);
-        console.log("Email sent event ", results.errorMessage, " ", results.successMessage);
+        console.log("Email sent event ", results.successMessage);
+        helper.sendCloseEvent(component,helper);
+        helper.sendRefreshEvent(component,helper);
     },
-
-
+    cmh18evt_AttachmentList : function(component,event,helper) {
+        var attachments = event.getParam("attachments");
+        var includedAttachments = [];
+        console.log("cmh18evt_AttachmentList in edit panel", attachments);
+        if(!attachments) {
+            console.error("cmh18evt_AttachmentList in edit panel and could not get attachmentlist from event");
+            return;
+        }
+        attachments.forEach(function(a) {
+            if(a.isChecked) {
+                console.log("atachment ", a.Id);
+                includedAttachments.push(a);
+            }
+        })
+        component.set("v.includedAttachments",includedAttachments);        
+    }
 })

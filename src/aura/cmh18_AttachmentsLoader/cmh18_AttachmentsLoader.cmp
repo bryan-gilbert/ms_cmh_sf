@@ -9,5 +9,6 @@ To load all attachments for a case:
     <aura:handler name="init" value="{!this}" action="{!c.load}" />
 	<!-- cmh18_AttachmentsLoadedEvent fired by this component when a load is complete -->
 	<aura:registerEvent name="cmh18_AttachmentsLoadedEvent" type="c:cmh18_AttachmentsLoadedEvent" />
+	<aura:handler event="c.cmh18evt_RefreshFromServer" action="{!c.cmh18evt_RefreshFromServer}"/>
 
 </aura:component>

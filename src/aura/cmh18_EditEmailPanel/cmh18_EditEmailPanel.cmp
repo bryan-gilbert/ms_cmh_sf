@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.79"/>    
+<aura:attribute name="version" type="String" default="eep-v0.93"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
 <aura:attribute name="requestedAction" type="String"/>
@@ -13,6 +13,7 @@
 <aura:attribute name="from" type="String" />    
 <aura:attribute name="body" type="String" />    
 <aura:attribute name="results" type="String" />
+<aura:attribute name="includedAttachments" type="Object[]" default="[]"/>    
 <aura:attribute name="modified" type="Boolean" default="false" />    
 
 <aura:attribute name="templateId" type="String"/>
@@ -25,6 +26,9 @@
     
 <aura:registerEvent name="cmh18evt_EmailSend" type="c:cmh18evt_EmailSend" />
 <aura:handler event="c:cmh18evt_EmailSent" action="{!c.cmh18evt_EmailSent}" />
+ 
+<!-- cmh18evt_AttachmentList fired by this component when there is a change in selection -->
+<aura:handler event="c:cmh18evt_AttachmentList" action="{!c.cmh18evt_AttachmentList}"/>	
     
 <aura:handler name="change" value="{!v.body}" action="{!c.contentChanged}"/>
 <aura:handler name="change" value="{!v.subject}" action="{!c.contentChanged}"/>
@@ -39,7 +43,7 @@
    	<article class="slds-tile">
         <div class="slds-tile__detail eep-panel">
           <dl class="slds-list_horizontal slds-wrap">
-            <dt class="slds-item_label slds-text-title_caps " title="From">From:</dt>
+            <dt class="slds-item_label  " title="From">From:</dt>
             <dd class="slds-item_detail " title="From Value">
                 <div class="slds-grid">            
                     <div class="slds-col slds-p-left_none">  
@@ -52,17 +56,17 @@
                 </div>
                 
             </dd>
-            <dt class="slds-item_label slds-text-title_caps " title="To">To:</dt>
+            <dt class="slds-item_label " title="To">To:</dt>
             <dd class="slds-item_detail " title="To Value">
                 <ui:inputText label="ToEmail" aura:id="iToEmail" 
                       value="{!v.to}" class="slds-input" labelClass="assistiveText"/>
             </dd>
-            <dt class="slds-item_label slds-text-title_caps " title="CC">CC:</dt>
+            <dt class="slds-item_label  " title="CC">CC:</dt>
             <dd class="slds-item_detail " title="CC Value">
                 <ui:inputText label="CcEmail" aura:id="iCcEmail" 
                       value="{!v.cc}" class="slds-input" labelClass="assistiveText"/>
             </dd>
-            <dt class="slds-item_label slds-text-title_caps " title="Subject">Subject:</dt>
+            <dt class="slds-item_label  " title="Subject">Subject:</dt>
             <dd class="slds-item_detail " title="Subject Value">
                 <ui:inputText label="Subject" aura:id="iSubject" 
                       value="{!v.subject}" class="slds-input" labelClass="assistiveText"/>
@@ -83,16 +87,32 @@
             </lightning:inputRichText>        
         -->
     </article>
-    <lightning:button label="Send" onclick="{! c.sendEmail }" >
+        <div class="attachment_list_horizontal">
+        <aura:iteration items="{!v.includedAttachments}" var="attachment">
+        <span class="attachment_list_item">            
+            <lightning:icon class="icn attachment_list_item_icon" iconName="standard:document" size="xx-small" alternativeText="{!attachment.Name}" />            
+            <span class="attachment_list_item_name">{!attachment.Name}</span>
+        </span>
+        </aura:iteration>
+        </div>
+<div class="slds-button-group eep_action_group" role="group"> 
+    <div class="eep_action">
+    <lightning:button label="Send" variant="slds-button--brand" onclick="{! c.sendEmail }" >
     </lightning:button> 
+</div>        
+    <div class="eep_action">    
     <lightning:button label="Cancel" variant="base" onclick="{! c.cancelEdit }" >
     </lightning:button> 
-    <div>Results: {!v.results.error}</div>
+    </div>
+        </div>
+        
+<aura:if isTrue="{!v.results.error}">
+<div>Results: {!v.results.error}</div>
+</aura:if>
         
 	</div> <!-- end edit email panel body -->
 </article>
 <footer class="slds-card__footer">
-    <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.emailId}</div> 
 </footer>        
 <!-- Include template loader non UI component --> 
 <c.cmh18_TemplateLoader globals="{!v.globals}"/>
@@ -100,5 +120,6 @@
 </div>       
 </div>       
 </aura:if> 
+    <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.emailId}</div> 
 
 </aura:component>

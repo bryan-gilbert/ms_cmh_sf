@@ -25,5 +25,15 @@
         }
         body += helperData.body; 
         component.set("v.body", body);
-	}
+	},
+    sendCloseEvent: function(component,helper) {
+        var cmh18evt_EmailSend = $A.get("e.c:cmh18evt_EmailEdit");
+        cmh18evt_EmailSend.setParams({direction: 'close' });
+        cmh18evt_EmailSend.fire(); 
+    },
+    sendRefreshEvent: function(component,helper) {
+        var cmh18evt_EmailSend = $A.get("e.c:cmh18evt_RefreshFromServer");
+        cmh18evt_EmailSend.fire(); 
+    },
+
 })

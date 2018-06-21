@@ -8,3 +8,20 @@
 .THIS .eep-panel .slds-list_horizontal .slds-item_detail{
     width: 90%;
 }
+
+.THIS .attachment_list_item {
+    display:inline-block;
+    margin: 1rem 0.5rem 1rem 0;
+}
+
+.THIS .attachment_list_item_icon {
+	margin-right: 0.25rem;
+}
+
+.THIS .eep_action_group {
+   margin:1rem;
+}
+
+.THIS .eep_action {
+    margin-right: 2rem;
+}

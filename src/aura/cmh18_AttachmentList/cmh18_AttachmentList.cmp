@@ -1,14 +1,19 @@
 <aura:component>
-<aura:attribute name="version" type="String" default="aList-v0.15"/>
+<aura:attribute name="version" type="String" default="aList-v0.16"/>
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="attachments" type="Attachment[]"/>
 <aura:attribute name="count" type="Integer"/>
-<aura:attribute name="emailId" type="String" />    
+<aura:attribute name="emailId" type="String" />
+<aura:attribute name="showCheckBoxes" type="Boolean" default="false"/>    
     
 <!-- cmh18_AttachmentsLoadedEvent fired by this component when a load is complete -->
 <aura:handler event="c:cmh18_AttachmentsLoadedEvent" action="{!c.cmh18_AttachmentsLoadedEvent}" />
 <!-- when email view event is received run through attachment list and indicated related attachments -->
 <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
+<aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
+
+    <!-- cmh18evt_AttachmentList fired by this component when there is a change in selection -->
+<aura:registerEvent name="cmh18evt_AttachmentList" type="c:cmh18evt_AttachmentList" />
 
 
 <article class="slds-card">
@@ -43,9 +48,15 @@
                         </button>
                     </div>
                     </td>
-                    <td class="cev-col-indicators">
+                    <td class="cev-col-indicators">  
                         <aura:if isTrue="{!attachment.isSelected}">
                         <lightning:icon class="icn" iconName="utility:email" size="xx-small" alternativeText="Email" />
+                        </aura:if>
+                        <aura:if isTrue="{!v.showCheckBoxes}">
+                            <label class="slds-checkbox">  
+                          <input class="attachment-checkbox" type="checkbox" id="{!'chk'+attachment.Id}" data-value="{!attachment.Id}" onclick="{!c.onCheckbox}"/>
+                          <span class="slds-checkbox--faux"></span>          
+                        </label>
                         </aura:if>
                     </td>
 

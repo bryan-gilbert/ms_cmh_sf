@@ -38,5 +38,8 @@
 }
 
 .THIS .cev-col-indicators {
-    width: 5%;
+    width: 8%;
+}
+.THIS .slds-checkbox {
+    width: 1.3rem;
 }

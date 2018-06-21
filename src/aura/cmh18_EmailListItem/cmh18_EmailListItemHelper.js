@@ -5,10 +5,10 @@
         myEvent.setParams({"emailId": emailId});
         myEvent.fire();
     },
-	fireCaseEmailEditEvent : function(action, emailId) {
-        console.log("fireCaseEmailEditEvent emailId: " + emailId + " action: " + action);
+	fireCaseEmailEditEvent : function(direction,action, emailId) {
+        console.log("fireCaseEmailEditEvent emailId: " + emailId + " direction/action: " + direction + "/" + action);
         var myEvent = $A.get("e.c:cmh18evt_EmailEdit");
-        myEvent.setParams({"emailId": emailId, "action": action});
+        myEvent.setParams({"emailId": emailId, "action": action, "direction" : direction});
         myEvent.fire();
     },
 	fireLoadEmailDetailEvent : function(emailId) {

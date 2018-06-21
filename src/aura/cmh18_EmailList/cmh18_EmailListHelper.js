@@ -1,23 +1,24 @@
 ({
-	loadList : function(component, event, helper) {
+	loadList : function(component, helper) {
         var caseId = component.get("v.caseId");
         var action = component.get("c.getList");
+        console.log("email list invoke load ...")
 		action.setParams({"caseId": caseId});
         action.setCallback(this, function(response){
             var state = response.getState();
             if (state === "SUCCESS") {
             	var theList = response.getReturnValue();
-            	//console.log("Get emails ", theList);
+            	console.log("email list ... loaded callback ", theList);
 				component.set("v.emails", theList);
 				component.set("v.count", theList.length); 
-                helper.emailSelected(component,event,helper);
+                helper.emailSelected(component,helper);
             }
         });
         $A.enqueueAction(action);		
 	},
-	emailSelected : function(component, event, helper) {
+	emailSelected : function(component, helper) {
         var selectedEmail = component.get("v.selectedEmail");
-        //console.log("selectedEmail", selectedEmail);        
+        console.log("selectedEmail", selectedEmail);        
         var theList = component.get("v.emails");
         theList.forEach(function(email) {
             email.displayClass = selectedEmail === email.Id ? 'selected_row' : 'unselected_row';

@@ -14,7 +14,7 @@
         var emailData = event.getParam("emailData");
         console.log("In email viewer cmh18_EmailLoadedEvent ", emailData);
         if (emailData.error) {
-            component.set("v.error", msg);
+            component.set("v.error", emailData.error);
         } else {
             var theEmail = emailData.data;
             component.set("v.id", theEmail.id);
