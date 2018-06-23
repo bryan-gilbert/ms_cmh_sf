@@ -5,7 +5,7 @@
         if(globals) {
         component.set("v.caseId", globals.caseId);
         var fileInput = component.find("fileUploadInput")
-        fileInput.set("v.recordId", globals.caseId);
+            fileInput.set("v.recordId", globals.caseId);
         }else {
             alert("Error globals did not come along in the global data change event");
         }
@@ -44,7 +44,7 @@
         console.log("In on check box", attachmentId,         ctarget.checked);
         var attachments = component.get("v.attachments");
         var attachment = attachments.find(function(a) {
-            return a.Id === attachmentId;
+            return a.id === attachmentId;
         })
         if(!attachment) {
             console.error("Can't find attachment for checkbox ", attachmentId);

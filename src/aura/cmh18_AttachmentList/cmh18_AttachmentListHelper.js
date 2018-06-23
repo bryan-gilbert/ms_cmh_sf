@@ -10,13 +10,13 @@
         console.log("Attachment list respond to view email event", emailId);
         var attachments = component.get("v.attachments");
         attachments.forEach(function(a) {
-            a.isSelected = emailId && emailId === a.ParentId;
+            a.isSelected = emailId && emailId === a.parentId;
         })   
         attachments.sort(function(a,b) {
             var result = 0;
             if ((a.isSelected && b.isSelected) || (!a.isSelected && !b.isSelected)) {
-                var d1 = new Date(a.LastModifiedDate);
-                var d2 = new Date(b.LastModifiedDate);
+                var d1 = new Date(a.lastModifiedDate);
+                var d2 = new Date(b.lastModifiedDate);
                 //console.log("d1/d2", d1, d2);
                 result = d1.getTime() - d2.getTime();  
                 //console.log("sort", result, a.LastModifiedDate, b.LastModifiedDate);

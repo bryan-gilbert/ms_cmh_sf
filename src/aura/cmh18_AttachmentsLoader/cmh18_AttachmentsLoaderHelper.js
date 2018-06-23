@@ -1,97 +1,129 @@
-({
-    origloadList: function(component,helper) {
+({    
+    loadLists: function(component,helper) {
+    try{
+        var responses = 0;
+        var data = {};
+        console.log("load attachment lists");
         var caseId = component.get("v.caseId");
-        console.log("In attachment loader init id: ", caseId);
-        var action = component.get("c.getAttachmentsForCase");
-		action.setParams({"caseId": caseId});
+        var action1 = component.get("c.getAttachmentsForCase");
+        action1.setParams({"caseId": caseId});
+        helper.callAction(action1,function(attachments){
+            responses++;
+            data.attachments = attachments;
+            console.log("Loaded attachments ", attachments.length)
+            if(responses === 2) {
+                helper.finish(data);
+            }    
+        });        
+        var action2 = component.get("c.getDocumentLinksForCase");
+        action2.setParams({"caseId": caseId});
+        helper.callAction(action2,function(linkList){
+            data.links = linkList;
+            console.log("Loaded links ", linkList.length)
+            var idList = linkList.map(function(cdLink) {
+                return cdLink.ContentDocumentId
+            });
+            var action3 = component.get("c.getDocuments");
+            action3.setParams({"idList": idList});
+            helper.callAction(action3,function(docsList){
+                responses++;
+                data.documents = docsList;
+                console.log("Loaded documents ", docsList.length)
+                
+                if(responses === 2) {
+                    helper.finish(data);
+                }    
+            });      
+        });   
+    } catch(error) {
+        console.err("Attachment loaded had error", error);
+        alert(error);
+    }   
+    }, 
+    callAction: function(action,callback) {
         action.setCallback(this, function(response){
             var state = response.getState();
-            console.log("In attachments loaded callback id/status: " + caseId + "/" + status);
-            var data = {};
             if (state === "SUCCESS") {                
-            	var theList = response.getReturnValue();
-                data.attachments = theList;
-                // Id, ParentId,  Name, Description, BodyLength, OwnerId, LastModifiedDate 
-            } else if (state === "ERROR") {
-                data.error = "Unknown Error";
-                var errors = response.getError();
-                if (errors && errors[0] && errors[0].message) {
-					data.error = errors[0].message;
-                }
-            }
-            var loadedEvent = $A.get("e.c:cmh18_AttachmentsLoadedEvent");
-            loadedEvent.setParams({"attachmentsData": data});
-            loadedEvent.fire();
-        });
-        $A.enqueueAction(action);        
-    },
-    loadList: function(action,caseId,callback) {
-		action.setParams({"caseId": caseId});
-        action.setCallback(this, function(response){
-            var state = response.getState();
-            if (state === "SUCCESS") {                
-                callback(null,response.getReturnValue());
+                callback(response.getReturnValue());
             } else if (state === "ERROR") {
                 var error = "Unknown Error";
                 var errors = response.getError();
                 if (errors && errors[0] && errors[0].message) {
-					error = errors[0].message;
+									error = errors[0].message;
                 }
-                callback(error);
+                throw error;
             }
         });
         $A.enqueueAction(action);        
-    },  
-    loadLists: function(component,helper) {
-        var caseId = component.get("v.caseId");
-        var action1 = component.get("c.getAttachmentsForCase");
-        var action2 = component.get("c.getDocumentsForCase");
-        var responses = 0;
-        var data = {};
-        helper.loadList(action1,caseId,function(err,list){
-            responses++;
-            if(err) {
-                return errHandler(err);
-            }
-            else {
-                data.attachments = list;
-            }
-            if(responses>1) {
-                helper.finish(data);
-            }    
-        });
-        helper.loadList(action2,caseId,function(err,list){
-            responses++;
-            if(err) {
-                return errHandler(err);
-            }
-            else {
-                data.documents = list;
-            }
-            if(responses>1) {
-                helper.finish(data);
-            }    
-        });        
-    },  
-    finish : function(data){
-        // Attachments: Id, ParentId,  Name, Description, BodyLength, OwnerId, LastModifiedDate 
-        // Documents:  Id, ContentDocumentId, Title, PathOnClient, ContentSize
-        //     , Checksum, FileExtension, FileType, LastModifiedDate FROM ContentVersion
+    },      
+    finish : function(data, caseId){
         var merged = [];
+        console.log("attachments merge results");
         data.attachments.forEach(function(a) {
-            merged.push({Id: a.Id, Name: a.Name, LastModifiedData: a.LastModifiedData, Size: a.BodyLength});
+            merged.push({id: a.Id, 
+                         name: a.Name, 
+                         lastModifiedData: a.LastModifiedData, 
+                         size: a.BodyLength, 
+                         parentId: a.ParentId,
+                         type: 'attachment',
+                         parentIsCase: a.ParentId === caseId
+                        });
         })
-        data.documents.forEach(function(d) {
-            merged.push({Id: d.Id, Name: d.PathOnClient, LastModifiedData: d.LastModifiedData, Size: d.ContentSize});
+        data.links.forEach(function(link) {
+            var linkedDoc = data.documents.find(function(doc) {
+                return doc.ContentDocumentId === link.ContentDocumentId;
+            });
+            merged.push({id: linkedDoc.Id,  // the id of the ContentVersion is used to send email
+                         name: linkedDoc.PathOnClient, 
+                         lastModifiedData: linkedDoc.LastModifiedData, 
+                         size: linkedDoc.ContentSize, 
+                         parentId: link.LinkedEntityId,
+                         type: 'document',
+                         parentIsCase: link.LinkedEntityId === caseId
+                        });
         })
         data.allDocs = merged;
+        console.log("attachments fire loaded event");
+
         var loadedEvent = $A.get("e.c:cmh18_AttachmentsLoadedEvent");
         loadedEvent.setParams({"attachmentsData": data});
         loadedEvent.fire();
     },
-    errHandler : function(err){
-        console.err("Attachment loaded had error", err);
-        alert(err);
-    }
+/*
+ * 
+ *This is just a little complicated.  First the simple case is Attachments. These are simple objects that contain the file data
+ and have a parent child relationship with Cases and/or Emails.  The server side controller retrieves all Attachments for the given
+ Case and all EmailMessages that belong to the Case.
 
+Attachment[] attachments = [select Id, ParentId,  Name, Description, BodyLength, OwnerId, LastModifiedDate 
+    from Attachment WHERE ParentId in (select Id from EmailMessage where ParentId = :caseId)
+];
+Attachment[] caseAttachments = [select Id, ParentId,  Name, Description, BodyLength, OwnerId, LastModifiedDate 
+    from Attachment WHERE ParentId = :caseId
+]; 
+
+The second way that SF now stores documents is with the Content Document system.  We start with a search of the ContentDocumentLink
+table for all rows that belong to the Case or EmailMessages that belong to the Case.
+
+List<ContentDocumentLink> caseLinks  = [SELECT Id, ContentDocumentId, LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId = :caseId];
+List<ContentDocumentLink> emailLinks = [SELECT Id, ContentDocumentId, LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId in (select Id from EmailMessage where ParentId = :caseId)];
+
+We then create a list of Ids (ContentDocumentId) and ask the server to search the ContentVersion table for all instances that have
+ContentDocumentId in our list. 
+
+List<ContentVersion> docs = [SELECT Id, ContentDocumentId, Title, PathOnClient, ContentSize
+     , Checksum, FileExtension, FileType, LastModifiedDate FROM ContentVersion WHERE ContentDocumentId in :idList];   
+    
+We want to combine the Attachment and ContentVersion lists into one table for our user to see. We'll let our users select
+any object in the combined table to include in any email they may want to send.  The SendEmail action sends a list of Ids, 
+from our combined table.  Our custom email service needs to know 
+if the Id belongs to an Attachment or a ContentVersion because it'll need to make a new copy or reference to this file 
+and associate the new reference with the Email that is being sent.
+
+In the finishing method we combine the two lists. Placing attachments into the list is easy but to add a 'document' we take
+the data from the ContentVersion and use the LinedEntityId from the ContentDocumentLink as the ParentId. We also need
+to add something to indicate which table provided the file: 'attachment' or 'document'.
+	
+
+*/
 })

@@ -1,5 +1,5 @@
 <aura:component>
-<aura:attribute name="version" type="String" default="aList-v0.21"/>
+<aura:attribute name="version" type="String" default="aList-v0.22"/>
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="attachments" type="Attachment[]"/>
 <aura:attribute name="count" type="Integer"/>
@@ -44,13 +44,13 @@
                     <div class="slds-button-group" role="group" title="Action">
                         <!-- preview-->
                         <button class="slds-button slds-button_neutral cmh18_list_action"> 
-                        <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.Id }" >    
+                        <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" >    
                         <lightning:icon class="icn" iconName="utility:preview" size="xx-small" alternativeText="Preview" />
                         </a>
                         </button>                        
                         <button class="slds-button slds-button_neutral cmh18_list_action">                             
-                        <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.Id }" 
-                        target="_blank"  download="{!attachment.Name}">    
+                        <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" 
+                        target="_blank"  download="{!attachment.name}">    
                         <lightning:icon class="icn" iconName="utility:download" size="xx-small" alternativeText="Download" />
                         </a>
                         </button>
@@ -62,7 +62,7 @@
                         </aura:if>
                         <aura:if isTrue="{!v.showCheckBoxes}">
                             <label class="slds-checkbox">  
-                          <input class="attachment-checkbox" type="checkbox" id="{!'chk'+attachment.Id}" data-value="{!attachment.Id}" onclick="{!c.onCheckbox}"/>
+                          <input class="attachment-checkbox" type="checkbox" id="{!'chk'+attachment.id}" data-value="{!attachment.id}" onclick="{!c.onCheckbox}"/>
                           <span class="slds-checkbox--faux"></span>          
                         </label>
                         </aura:if>
@@ -70,12 +70,12 @@
 
                     <td class="cev-col-date"> 
                     <div >
-                        <div><ui:outputDate format="YYYY-MM-DD" value="{!attachment.LastModifiedDate}" /> </div>
-                        <div><ui:outputDate format="hh:mm a" value="{!attachment.LastModifiedDate}" /> </div>
+                        <div><ui:outputDate format="YYYY-MM-DD" value="{!attachment.lastModifiedDate}" /> </div>
+                        <div><ui:outputDate format="hh:mm a" value="{!attachment.lastModifiedDate}" /> </div>
                     </div>
                     </td>
                     <td class="cev-col-subject" > 
-                        <div class="slds-cell-wrap"  title="{!attachment.Name}">{!attachment.Name}
+                        <div class="slds-cell-wrap"  title="{!attachment.name}">{!attachment.name}
                     </div>
                     </td>
                     </tr>

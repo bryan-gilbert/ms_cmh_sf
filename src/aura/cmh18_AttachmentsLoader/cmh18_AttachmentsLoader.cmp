@@ -3,7 +3,7 @@
 To load all attachments for a case:
 <c:cmh18_AttachmentsController caseId="{!v.caseId}"/>
 -->
-    <aura:attribute name="version" type="String" default="al-v0.15"/>
+    <aura:attribute name="version" type="String" default="al-v0.16"/>
 	<aura:attribute name="globals" type="Object" />    
     <aura:attribute name="caseId" type="String" default=""/>
     <!--aura:handler name="init" value="{!this}" action="{!c.load}" /-->
