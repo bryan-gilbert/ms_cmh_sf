@@ -1,5 +1,6 @@
 ({
-	doInit : function(component, event, helper) {
+	cmh18evt_GlobalDataChange : function(component, event, helper) {
+        console.log("cmh18_UserInfoController cmh18evt_GlobalDataChange " + component.get("v.version"));
         /*
         select Id
         ,Name,TimeZoneSidKey,Username

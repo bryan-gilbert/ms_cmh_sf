@@ -1,9 +1,8 @@
 public with sharing class cmh18_CaseController {
     @AuraEnabled
-    public static Case getCase(Id id) {
+    public static Case getCase(String caseId) {
 Case aCase = [
-select Id
-, ParentId
+select Id, ParentId
 , CaseNumber
 , CreatedDate
 , Description
@@ -20,7 +19,7 @@ select Id
 , AccountId
 , ContactId
  from Case
-WHERE Id = :id
+WHERE Id = :caseId
 ];
         return aCase;
     }

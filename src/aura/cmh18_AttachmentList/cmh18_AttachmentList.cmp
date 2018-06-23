@@ -1,14 +1,16 @@
 <aura:component>
-<aura:attribute name="version" type="String" default="aList-v0.16"/>
+<aura:attribute name="version" type="String" default="aList-v0.21"/>
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="attachments" type="Attachment[]"/>
 <aura:attribute name="count" type="Integer"/>
+<aura:attribute name="caseId" type="String" />
 <aura:attribute name="emailId" type="String" />
 <aura:attribute name="showCheckBoxes" type="Boolean" default="false"/>    
     
 <aura:handler event="c:cmh18_AttachmentsLoadedEvent" action="{!c.cmh18_AttachmentsLoadedEvent}" />
 <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
 <aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
+<aura:handler event="c.cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>
 
     <!-- cmh18evt_AttachmentList fired by this component when there is a change in selection -->
 <aura:registerEvent name="cmh18evt_AttachmentList" type="c:cmh18evt_AttachmentList" />
@@ -23,9 +25,11 @@
         </h2>
       </div>
       <div class="slds-no-flex">
-        <lightning:button variant="base" label="Upload" onclick="{! c.upload }" >
+   <c:cmh18_FileUploadInput aura:id="fileUploadInput" recordId="{!v.caseId}"/>          
+<!--        <lightning:button variant="base" label="Upload" onclick="{! c.upload }" >
         <lightning:icon class="icn" iconName="utility:upload" size="small" alternativeText="upload" />                
         </lightning:button>    
+-->
       </div>
         
     </header>            
@@ -43,7 +47,7 @@
                         <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.Id }" >    
                         <lightning:icon class="icn" iconName="utility:preview" size="xx-small" alternativeText="Preview" />
                         </a>
-                        </button>
+                        </button>                        
                         <button class="slds-button slds-button_neutral cmh18_list_action">                             
                         <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.Id }" 
                         target="_blank"  download="{!attachment.Name}">    

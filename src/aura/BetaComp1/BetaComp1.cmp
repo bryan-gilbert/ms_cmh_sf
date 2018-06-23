@@ -1,3 +1,7 @@
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
-    <c:cmh18_EmailSender />
+<aura:component controller='cmh18apex_DocumentsController' implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <aura:attribute name="recordId" type="Id" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <p>Will associate with record id {!v.recordId}</p>
+    <c:cmh18_FileUploadInput recordId="{!v.recordId}"/>
+    vbc3
 </aura:component>

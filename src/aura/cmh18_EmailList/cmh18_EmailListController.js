@@ -1,5 +1,5 @@
 ({
-	doInit : function(component, event, helper) {
+	cmh18evt_GlobalDataChange : function(component, event, helper) {
         helper.loadList(component,helper);
 	},
     refresh : function(component, event, helper) {

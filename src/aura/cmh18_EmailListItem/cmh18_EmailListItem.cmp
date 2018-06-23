@@ -1,5 +1,6 @@
 <aura:component >
     <aura:attribute name="email" type="EmailMessage" />
+    <aura:attribute name="status" type="String" />
 	<aura:attribute name="action_view" type="String" default="view"/>
 	<aura:attribute name="action_reply" type="String" default="reply"/>
 	<aura:attribute name="action_replyAll" type="String" default="replyAll"/>
@@ -39,7 +40,8 @@
 <td class="cev-col-subject" > 
     <div class="slds-cell-wrap slds-text-link_reset" data-value="{!v.email.Id}" onclick="{!c.viewEmail}">                
 		<div class="slds-text-link"> {!v.email.Subject} </div>
-        <div>    Status: {!v.email.Status} &nbsp; To: {!v.email.ToAddress}</div>
+        <div>    Status: {!v.status} &nbsp; To: {!v.email.ToAddress}</div>
+        <div>    From: {!v.email.FromAddress}</div>        
     </div>
 </td>
 </aura:component>

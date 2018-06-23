@@ -1,5 +1,5 @@
 <aura:component>
-    <aura:attribute name="version" type="String" default="ed-v0.53"/>
+    <aura:attribute name="version" type="String" default="ed-v0.54"/>
     <aura:attribute name="emailId" type="String" default=""/>
     <aura:attribute name="isLoaded" type="Boolean" default="false"/>
  	<aura:attribute name="theEmail" type="EmailMessage" />
@@ -31,7 +31,7 @@
     <h2 class="slds-card__header-title">
     <span class="slds-text-heading_small">{!v.subject}</span>
     </h2>
-    <div class="slds-tile__detail">
+    <div class="slds-tile__detail cmh18_border_top">
       <dl class="slds-list_horizontal slds-wrap">
         <dt class="slds-item_label" title="To">To:</dt>
         <dd class="slds-item_detail " title="To Value">{!v.to}</dd>

@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.105"/>    
+<aura:attribute name="version" type="String" default="eep-v0.107"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
 <aura:attribute name="requestedAction" type="String"/>
@@ -22,6 +22,7 @@
 <aura:handler event="c.cmh18_TemplateRenderedEvent" action="{!c.cmh18_TemplateRenderedEvent}"/>
 <aura:handler event="c:cmh18evt_EmailSent" action="{!c.cmh18evt_EmailSent}" /> 
 <aura:handler event="c:cmh18evt_AttachmentList" action="{!c.cmh18evt_AttachmentList}"/>	
+<aura:handler event="c:cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>	
 
 <aura:registerEvent name="cmh18evt_EmailSend" type="c:cmh18evt_EmailSend" />
     

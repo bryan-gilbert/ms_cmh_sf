@@ -24,6 +24,10 @@
      * 8. Emit edit event with close. (See 1 above)
      */
     
+    cmh18evt_GlobalDataChange : function(component,event,helper) {
+        var globals = event.getParam("globals");
+        component.set("v.globals", globals);
+    },
     
 	cmh18evt_EmailEdit : function(component, event, helper) {
         var direction = event.getParam("direction");
@@ -154,9 +158,10 @@ component.find("iBody").focus();
         emailData.ccList = null;
         emailData.fromAddressOptional = null;
         emailData.fromNameOptional = null;
-        emailData.caseId = "500f4000006AZsRAAW";
-        console.log("TODO get real case id Sending email for case ", emailData.caseId);
-                var includedAttachments = component.get("v.includedAttachments"); 
+        var globals = component.get("v.globals");        
+        emailData.caseId = globals.caseId;
+        console.log("Sending email for case ", emailData.caseId);
+        var includedAttachments = component.get("v.includedAttachments"); 
         emailData.attachmentIdList=[];
         for(var i = 0; i< includedAttachments.length; i++ ){
             var a = includedAttachments[i];

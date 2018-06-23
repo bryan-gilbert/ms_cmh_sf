@@ -1,4 +1,0 @@
-<!-- application event:  caseEmailDetail -->
-<aura:event type="APPLICATION" description="User selected a email to view">
-    <aura:attribute name="emailId" type="String"/>
-</aura:event>

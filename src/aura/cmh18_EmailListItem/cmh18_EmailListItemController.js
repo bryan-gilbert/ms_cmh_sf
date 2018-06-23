@@ -2,8 +2,7 @@
     doInit : function(component, event, helper) {
         var email = component.get("v.email");
         var status = helper.convertStatus(email.Status);
-        email.Status = status;
-        component.set("v.email", email);
+        component.set("v.status", status);
 	}, 
     generateEvent : function(component, event, helper) {
 		var btnClicked = event.getSource();

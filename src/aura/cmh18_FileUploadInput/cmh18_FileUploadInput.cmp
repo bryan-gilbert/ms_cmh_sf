@@ -1,0 +1,9 @@
+<aura:component>
+    <aura:attribute name="recordId" type="String" description="Record to which the files should be attached" />
+    <lightning:fileUpload label="{!'Attach file to ' + v.recordId}" 
+        multiple="true" 
+        accept=".pdf, .png, .*"
+        recordId="{!v.recordId}" 
+        onuploadfinished="{!c.handleUploadFinished}" />
+    <!-- accept=".pdf, .png" -->
+</aura:component>
