@@ -12,7 +12,7 @@
             data.attachments = attachments;
             console.log("Loaded attachments ", attachments.length)
             if(responses === 2) {
-                helper.finish(data);
+                helper.finish(data,caseId);
             }    
         });        
         var action2 = component.get("c.getDocumentLinksForCase");
@@ -31,7 +31,7 @@
                 console.log("Loaded documents ", docsList.length)
                 
                 if(responses === 2) {
-                    helper.finish(data);
+                    helper.finish(data,caseId);
                 }    
             });      
         });   
@@ -66,7 +66,9 @@
                          size: a.BodyLength, 
                          parentId: a.ParentId,
                          type: 'attachment',
-                         parentIsCase: a.ParentId === caseId
+                         parentIsCase: a.ParentId === caseId,
+                         isAttachment: true,
+                         isDocument: false
                         });
         })
         data.links.forEach(function(link) {
@@ -79,7 +81,9 @@
                          size: linkedDoc.ContentSize, 
                          parentId: link.LinkedEntityId,
                          type: 'document',
-                         parentIsCase: link.LinkedEntityId === caseId
+                         parentIsCase: link.LinkedEntityId === caseId,
+                         isAttachment: false,
+                         isDocument: true
                         });
         })
         data.allDocs = merged;

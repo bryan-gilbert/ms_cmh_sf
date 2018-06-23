@@ -51,8 +51,8 @@
     <div class="attachment_list_horizontal">
         <aura:iteration items="{!v.includedAttachments}" var="attachment">
         <span class="attachment_list_item">            
-            <lightning:icon class="icn attachment_list_item_icon" iconName="standard:document" size="xx-small" alternativeText="{!attachment.Name}" />            
-            <span class="attachment_list_item_name">{!attachment.Name}</span>
+            <lightning:icon class="icn attachment_list_item_icon" iconName="standard:document" size="xx-small" alternativeText="{!attachment.name}" />            
+            <span class="attachment_list_item_name">{!attachment.name}</span>
         </span>
         </aura:iteration>
     </div>       

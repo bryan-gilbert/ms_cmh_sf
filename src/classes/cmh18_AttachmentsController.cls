@@ -17,7 +17,7 @@ public with sharing class cmh18_AttachmentsController {
     @AuraEnabled
     public static ContentDocumentLink[] getDocumentLinksForCase(Id caseId) {        
     	System.Debug(LoggingLevel.Info,'>>>>>> inside getDocumentLinksForCase "' + caseId  + '"');
-        List<ContentDocumentLink> caseLinks = [SELECT Id, ContentDocumentId, LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId = :caseId];
+        List<ContentDocumentLink> caseLinks  = [SELECT Id, ContentDocumentId, LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId = :caseId];
         List<ContentDocumentLink> emailLinks = [SELECT Id, ContentDocumentId, LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId in (select Id from EmailMessage where ParentId = :caseId)];
         List<ContentDocumentLink> allLinks = new List<ContentDocumentLink>();
         allLinks.addAll(caseLinks);

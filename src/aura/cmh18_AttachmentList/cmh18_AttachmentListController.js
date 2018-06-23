@@ -12,32 +12,42 @@
     },
 	cmh18_AttachmentsLoadedEvent : function(component, event, helper) {
         var attachmentsData = event.getParam("attachmentsData");        
-        var attachments = attachmentsData.allDocs;
-        attachments.forEach(function(a) {
+        var allDocs = attachmentsData.allDocs;
+        var attachmentRecords = attachmentsData.attachments;
+        var links = attachmentsData.links;
+        allDocs.forEach(function(a) {
             a.isSelected = false;
             a.isChecked = false;
+            console.log("attachment: " + a.name + " parent: " + a.parentIsCase + " link: " + a.isDocument + " attach: " + a.isAttachment + " parent: " + a.parentId);
         })
-        console.log("cmh18_AttachmentList cmh18_AttachmentsLoadedEvent "+ attachments.length + " attachments");
-        component.set("v.attachments", attachments);
-        component.set("v.count", attachments.length);
+        console.log("cmh18_AttachmentList cmh18_AttachmentsLoadedEvent "+ allDocs.length + " attachments");
+        component.set("v.attachments", allDocs);
+        component.set("v.count", allDocs.length);
         component.set("v.emailId", '');
         helper.selectSort(component,event,helper);
-        helper.fireLoadEmailDetailEvent(component);        
+        helper.fireAttachmentListEvent(component);        
 	},
     cmh18evt_EmailView : function(component, event, helper) {
         var emailId = event.getParam("emailId");
         component.set("v.emailId", emailId);
         console.log("Attachment list respond to view email event", emailId);
         helper.selectSort(component,event,helper);
-        helper.fireLoadEmailDetailEvent(component);        
+        helper.fireAttachmentListEvent(component);        
     },
 	cmh18evt_EmailEdit : function(component, event, helper) {
         var direction = event.getParam("direction");
+        console.log("TODO cmh18evt_EmailEdit implement spinner and show until list is loaded.")        
         component.set("v.showCheckBoxes", direction === 'open');
         if(direction === 'close') {
-            console.log("TODO implement spinner and show until list is loaded.")
+            console.log("TODO cmh18evt_EmailEdit do we need anything on the close event?")
+        } else {
+            var requestedAction = event.getParam("action");
+            console.log("cmh18evt_EmailEdit action: ", requestedAction, " showing checkboxes? ", component.get("v.showCheckBoxes"))
+            component.set("v.checkSelected",'forward' === requestedAction); 
+            helper.selectSort(component,event,helper);
+            helper.fireAttachmentListEvent(component);                    
         }
-	},    
+	}, 
     onCheckbox : function(component, event, helper) {
         var ctarget = event.currentTarget;
         var attachmentId = ctarget.dataset.value;        
@@ -53,7 +63,7 @@
             ctarget.checked = attachment.isChecked;
         }
         component.set("v.attachments", attachments);
-        helper.fireLoadEmailDetailEvent(component);
+        helper.fireAttachmentListEvent(component);
     },
     upload : function(component,event,helper) {
         alert("The file upload feature is under development.");

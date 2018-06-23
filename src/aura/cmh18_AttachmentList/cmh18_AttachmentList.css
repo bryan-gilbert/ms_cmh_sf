@@ -1,0 +1,10 @@
+.THIS {
+}
+.THIS .cev_indicator_icon {
+    display:inline-block;
+    padding-right:10px;
+}
+
+.THIS .hide_checks {
+    display:none;
+}

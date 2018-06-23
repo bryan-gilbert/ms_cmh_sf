@@ -18,7 +18,7 @@
             body += helperData.isHtml ? "<br/>" : "";
             body += "\n";
         }
-        console.log("prebody", helperData.preBody);
+        //console.log("prebody", helperData.preBody);
         body += helperData.preBody;
         body += helperData.isHtml ? "<br/>" : "";
         body += "\n";
@@ -26,13 +26,13 @@
         component.set("v.body", body);
 	},
     sendCloseEvent: function(component,helper) {
-        var cmh18evt_EmailSend = $A.get("e.c:cmh18evt_EmailEdit");
-        cmh18evt_EmailSend.setParams({direction: 'close' });
-        cmh18evt_EmailSend.fire(); 
+        var cmh18evt_EmailEdit = $A.get("e.c:cmh18evt_EmailEdit");
+        cmh18evt_EmailEdit.setParams({direction: 'close' });
+        cmh18evt_EmailEdit.fire(); 
     },
     sendRefreshEvent: function(component,helper) {
-        var cmh18evt_EmailSend = $A.get("e.c:cmh18evt_RefreshFromServer");
-        cmh18evt_EmailSend.fire(); 
+        var cmh18evt_RefreshFromServer = $A.get("e.c:cmh18evt_RefreshFromServer");
+        cmh18evt_RefreshFromServer.fire(); 
     },
 
 })

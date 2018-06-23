@@ -2,7 +2,7 @@
     <!-- uses cmh18_EditEmailPanel, cmh18_EmailDetail, and cmh18_UserInfo -->
     <!-- https://github.com/bryan-gilbert/ms_cmh_sf -->
     <aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="cev-v0.86"/>
+    <aura:attribute name="version" type="String" default="cev-v0.90"/>
     <aura:attribute name="globals" type="Object" default="{UserId:'1'}"/>
 	<aura:attribute name="recordId" type="String" />
 	<aura:attribute name="caseNumber" type="String" />

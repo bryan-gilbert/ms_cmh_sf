@@ -1,6 +1,7 @@
 ({
     selectSort : function(component, event, helper) {
         var emailId = component.get("v.emailId");
+        var checkSelected = component.get("v.checkSelected");
         var elements = document.getElementsByClassName("attachment-checkbox");
         for (var i=0; i<elements.length; i++) {
             var ctarget = elements[i];
@@ -11,6 +12,9 @@
         var attachments = component.get("v.attachments");
         attachments.forEach(function(a) {
             a.isSelected = emailId && emailId === a.parentId;
+            if(checkSelected) {
+                a.isChecked = a.isSelected;
+            }
         })   
         attachments.sort(function(a,b) {
             var result = 0;
@@ -27,23 +31,24 @@
             
         })        
         var checkboxes = document.getElementsByClassName("attachment-checkbox");
+        console.log("In attachment list and have how many checkboxes? ", checkboxes.length);
         for (var i=0; i<checkboxes.length; i++) {
             var ctarget = checkboxes[i];
             var attachmentId = ctarget.dataset.value; 
             var attachment = attachments.find(function(a) {
-                return a.Id === attachmentId;
+                return a.id === attachmentId;
             })
+console.log("check box? ",attachmentId, attachment.isChecked);
             if(!attachment) {
                 console.error("Can't find attachment for checkbox ", attachmentId);
             } else {
-				ctarget.checked = attachment.isSelected; 
-                attachment.isChecked = ctarget.checked;
+				ctarget.checked = attachment.isChecked; 
             }
         }  
         // all work is done ... now update the UI by reloading the list into the component
         component.set("v.attachments", attachments);
     },
-    fireLoadEmailDetailEvent : function(component) {
+    fireAttachmentListEvent : function(component) {
         var cmh18evt_AttachmentList = $A.get("e.c:cmh18evt_AttachmentList");
         var attachments = component.get("v.attachments");
         cmh18evt_AttachmentList.setParams({"attachments": attachments});

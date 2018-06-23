@@ -1,12 +1,13 @@
 <aura:component>
-<aura:attribute name="version" type="String" default="aList-v0.22"/>
+<aura:attribute name="version" type="String" default="aList-v0.34"/>
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="attachments" type="Attachment[]"/>
 <aura:attribute name="count" type="Integer"/>
 <aura:attribute name="caseId" type="String" />
 <aura:attribute name="emailId" type="String" />
 <aura:attribute name="showCheckBoxes" type="Boolean" default="false"/>    
-    
+<aura:attribute name="checkSelected" type="Boolean" default="false"/>    
+        
 <aura:handler event="c:cmh18_AttachmentsLoadedEvent" action="{!c.cmh18_AttachmentsLoadedEvent}" />
 <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
 <aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
@@ -56,16 +57,29 @@
                         </button>
                     </div>
                     </td>
-                    <td class="cev-col-indicators">  
-                        <aura:if isTrue="{!attachment.isSelected}">
-                        <lightning:icon class="icn" iconName="utility:email" size="xx-small" alternativeText="Email" />
+                    <td class="cev-col-indicators"> 
+                        <div class="cev_indicator_icon">
+						<aura:if isTrue="{!attachment.isAttachment}">
+    	                    <lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="Attachment" />
+                        <aura:set attribute="else">
+	                        <lightning:icon class="icn" iconName="utility:file" size="xx-small" alternativeText="Document" />
+                        </aura:set>
                         </aura:if>
-                        <aura:if isTrue="{!v.showCheckBoxes}">
-                            <label class="slds-checkbox">  
+                        </div>                            
+                        <div class="cev_indicator_icon">
+						<aura:if isTrue="{!attachment.parentIsCase}">
+	                        <lightning:icon class="icn" iconName="utility:case" size="xx-small" alternativeText="Case" />
+                        <aura:set attribute="else">
+                        	<lightning:icon class="{! 'icn' + attachment.isSelected ? 'selected' : ''}" iconName="utility:email" size="xx-small" alternativeText="Email" />
+                        </aura:set>
+                        </aura:if>
+                        </div>
+                        <div class="{! 'cev_indicator_icon ' + (v.showCheckBoxes ? 'show_checks' :'hide_checks')}">
+                          <label class="slds-checkbox">  
                           <input class="attachment-checkbox" type="checkbox" id="{!'chk'+attachment.id}" data-value="{!attachment.id}" onclick="{!c.onCheckbox}"/>
                           <span class="slds-checkbox--faux"></span>          
                         </label>
-                        </aura:if>
+                        </div>
                     </td>
 
                     <td class="cev-col-date"> 

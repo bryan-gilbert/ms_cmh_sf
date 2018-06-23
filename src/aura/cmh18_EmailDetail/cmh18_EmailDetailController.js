@@ -45,6 +45,7 @@
         attachments.forEach(function(a) {
             // the edit panel filters isChecked. Here we filter isSelected.
             if(a.isSelected) {
+                console.log("Include a ", a);
                 includedAttachments.push(a);
             }
         })

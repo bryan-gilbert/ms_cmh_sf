@@ -103,9 +103,8 @@
             component.set("v.helperData", helperData);
 			helper.updateContent(component);
             component.set("v.isLoaded", true);
-            component.set("v.modified", false);
-            
-component.find("iBody").focus();            
+            component.set("v.modified", false);            
+            component.find("iBody").focus();            
         }     
     },
    
@@ -194,7 +193,7 @@ component.find("iBody").focus();
         }
         attachments.forEach(function(a) {
             if(a.isChecked) {
-                console.log("atachment ", a.Id);
+                console.log("edit include ", a);
                 includedAttachments.push(a);
             }
         })
