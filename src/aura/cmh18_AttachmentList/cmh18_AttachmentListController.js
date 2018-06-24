@@ -19,6 +19,7 @@
             a.isSelected = false;
             a.isChecked = false;
             console.log("attachment: " + a.name + " parent: " + a.parentIsCase + " link: " + a.isDocument + " attach: " + a.isAttachment + " parent: " + a.parentId);
+            console.log("attachment.lastModifiedDate " + a.lastModifiedDate)
         })
         console.log("cmh18_AttachmentList cmh18_AttachmentsLoadedEvent "+ allDocs.length + " attachments");
         component.set("v.attachments", allDocs);

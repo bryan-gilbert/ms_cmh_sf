@@ -11,17 +11,16 @@ public with sharing class cmh18apex_Email {
     @AuraEnabled
     public static String sendEmailMessage(
         String[] toList, String[] ccList, String[] bccList, String fromAddressOptional, String fromNameOptional,
-        String caseId, String subject, String plainTextBody, String htmlBody, String[] attachmentIdList) 
+        String caseId, String subject, String plainTextBody, String htmlBody, String[] attachmentIdList, String[] documentIdList) 
     {   
-        System.debug(Logginglevel.ERROR,'In cmh18apex_Email with ' + caseId + ' ' + subject
-            + 'toList[0] ' + toList[0]
-            + ' plainTextBody ' + plainTextBody);
+        System.debug(Logginglevel.INFO,'In cmh18apex_Email with ' + caseId + ' ' + subject
+            + 'toList[0] ' + toList[0]);
         
         if (caseId == null || caseId.length() < 10) {
-            return 'ERROR: Must provide case ID';
+        	return errorMessage('ERROR: Must provide case ID');
         }
         if (toList == null || toList.size() == 0) {
-            return 'ERROR: Must provide list of to addresses';
+        	return errorMessage('ERROR: Must provide list of to addresses');
         }
         try{
         Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage>();
@@ -40,7 +39,7 @@ public with sharing class cmh18apex_Email {
             // Send from the org wide email address ... later add from address
             List<OrgWideEmailAddress >   owdlist = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress limit 1];
             if (owdlist.size() == 0) {
-            	return 'ERROR: Must provide from address or set up an organization wide address';
+            	return errorMessage('ERROR: Must provide from address or set up an organization wide address');
             } 
             m.setOrgWideEmailAddressId(owdlist[0].id); 
             fromAddress = owdlist[0].Address;
@@ -52,23 +51,15 @@ public with sharing class cmh18apex_Email {
 	    if(plainTextBody != null && !plainTextBody.contains(ref)) {
             plainTextBody += '\n'+ ref + '\n';
         }
-        System.debug(Logginglevel.INFO,'cmh18apex_Email plainTextBody ' + plainTextBody);
+        System.debug(Logginglevel.FINE,'cmh18apex_Email plainTextBody ' + plainTextBody);
         if( htmlBody != null && !htmlBody.contains(ref)) {
             htmlBody += '\n<p>'+ ref + '</p>';
         }
-        System.debug(Logginglevel.ERROR,'cmh18apex_Email htmlBody ' + htmlBody);
+        System.debug(Logginglevel.FINE,'cmh18apex_Email htmlBody ' + htmlBody);
         m.setSubject(subject);
         m.setPlainTextBody(plainTextBody); 
-        Integer attachmentCount = 0;    
-        if(attachmentIdList<> null && attachmentIdList.size() > 0) {
-            // TODO create new attachment objects from a given id
-            attachmentCount = attachmentIdList.size();
-            System.debug(Logginglevel.INFO,'cmh18apex_Email '+attachmentIdList.size()+' attachments ');
-            String newId = createAttachment(attachmentIdList[0]);
-	        m.setEntityAttachments(new List<String> {newId});
-        } else {
-            System.debug(Logginglevel.INFO,'cmh18apex_Email no attachments ');
-        }
+		processAttachmentIds(m, attachmentIdList, documentIdList);
+		
         m.setHtmlBody(htmlBody);
         messages.add(m);
         Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
@@ -97,8 +88,7 @@ public with sharing class cmh18apex_Email {
             Insert emailMsg;
             
         } else {
-            result = 'ERROR: The email failed to send: ' + results[0].errors[0].message;
-            System.debug(Logginglevel.ERROR,result);
+            return errorMessage('ERROR: The email failed to send: ' + results[0].errors[0].message);
         }
         return result;
         } catch( Exception error ) {            
@@ -110,11 +100,41 @@ public with sharing class cmh18apex_Email {
             errorEmail.setSubject('Error from Org : ' + UserInfo.getOrganizationName());
             errorEmail.setPlainTextBody(error.getMessage());
             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { errorEmail });
-            return 'ERROR: ' + error.getMessage();
+            return errorMessage('ERROR: ' + error.getMessage());
         }
     }
-    
-    private static Id createAttachment(String attachmentId) {   
+    private static void processAttachmentIds(Messaging.SingleEmailMessage m, String[] attachmentList, String[] documentList ) {
+        List<String> entityIds = new List<String>();
+        if(attachmentList <> null) {
+            System.debug(Logginglevel.INFO,'cmh18apex_Email atachments: '+attachmentList.size() );
+            for(Integer indx = 0; indx < attachmentList.size(); indx++){
+                String id = attachmentList[indx];
+	            String newId = createAttachment(true, id);
+	            System.debug(Logginglevel.INFO,'cmh18apex_Email attachment original: ' + id + ' new: ' + newId);
+                entityIds.add(newId);
+            }
+        } else {
+            System.debug(Logginglevel.INFO,'cmh18apex_Email no  attachments');
+        }    	
+        if(documentList <> null) {
+            System.debug(Logginglevel.INFO,'cmh18apex_Email documents: '+documentList.size() );
+            for(Integer indx = 0; indx < documentList.size(); indx++){
+                String id = documentList[indx];
+	            String newId = createAttachment(false, id);
+	            System.debug(Logginglevel.INFO,'cmh18apex_Email document original: ' + id + ' new: ' + newId);
+                entityIds.add(newId);
+            }
+        } else {
+            System.debug(Logginglevel.INFO,'cmh18apex_Email no  attachments');
+        }     
+        m.setEntityAttachments(entityIds);
+    }
+    private static Id createAttachment(Boolean isAttachment, String attachmentId) {   
         return attachmentId;
     }  
+    
+    private static String errorMessage(String msg) {
+		System.debug(Logginglevel.ERROR,'cmh18apex_Email ' + msg);  
+	    return msg;
+    }
 }

@@ -76,7 +76,7 @@
                         </div>
                         <div class="{! 'cev_indicator_icon ' + (v.showCheckBoxes ? 'show_checks' :'hide_checks')}">
                           <label class="slds-checkbox">  
-                          <input class="attachment-checkbox" type="checkbox" id="{!'chk'+attachment.id}" data-value="{!attachment.id}" onclick="{!c.onCheckbox}"/>
+                          <input type="checkbox" id="{!'chk'+attachment.id}" data-value="{!attachment.id}" onclick="{!c.onCheckbox}"/>
                           <span class="slds-checkbox--faux"></span>          
                         </label>
                         </div>

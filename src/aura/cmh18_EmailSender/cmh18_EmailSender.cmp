@@ -1,6 +1,6 @@
 <aura:component controller="cmh18apex_Email">
     <aura:attribute name="version" type="String" default="eSndr-v0.54"/>
-    <!--Another component can emil the cmh18evt_EmailSend with this data ...
+    <!--Another component can emit the cmh18evt_EmailSend with this data ...
     emailData.toList : String[]
     emailData.ccList : null || String[]
     emailData.fromAddressOptional : String
@@ -9,8 +9,10 @@
     emailData.subject : String
     emailData.plainTextBody : String
     emailData.htmlBody : String
-    emailData.attachmentIdList : String
+    emailData.attachmentIdList : String[]
+    emailData.documentIdList : String[]
     -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />   
     
     <!-- This component sends the email on behalf of the sender of the cmh18evt_EmailSend event -->
     <aura:handler event="c:cmh18evt_EmailSend" action="{!c.cmh18evt_EmailSend}" />
@@ -18,30 +20,5 @@
 
     <!-- Once the email has been sent this component will emit cmh18evt_EmailSent -->
     <aura:registerEvent name="cmh18evt_EmailSent" type="c:cmh18evt_EmailSent" />
-
-    <!-- All stuff below is for developmnet use only -->
-    <aura:attribute name="inDev" type="Boolean" default="false" />    
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />   
-	<aura:attribute name="results" type="Object" default="{}"/>    
-    <!-- TO DO MOVE THIS REG TO THE EVENTUAL LOCATION FOR THE SEND BUTTON -->
-    <aura:registerEvent name="cmh18evt_EmailSend" type="c:cmh18evt_EmailSend" />
-    <aura:handler event="c:cmh18evt_EmailSent" action="{!c.cmh18evt_EmailSent}" />
-
-    <aura:if isTrue="{!v.inDev}">
-        <lightning:button label="Send" onclick="{! c.sendEmail }" >
-        </lightning:button>                
-        <div>CaseId: {!v.emailData.caseId} </div>
-        <div>To:
-        <aura:iteration items="{!v.emailData.toList}" var="to">
-            <span>{!to}</span>&nbsp;
-        </aura:iteration>
-        </div>        
-        <div>Subject: {!v.emailData.subject} </div>
-        <div>Body: {!v.emailData.plainTextBody} </div>
-        <div>Html: {!v.emailData.htmlBody} </div>
-        <hr></hr>
-        <div>ResultMessage: {!v.results.successMessage}</div>
-        <div>{!v.results.errorMessage}</div>    
-    </aura:if>
-<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</div>                
+                
 </aura:component>

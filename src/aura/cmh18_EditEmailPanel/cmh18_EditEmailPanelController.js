@@ -162,10 +162,15 @@
         console.log("Sending email for case ", emailData.caseId);
         var includedAttachments = component.get("v.includedAttachments"); 
         emailData.attachmentIdList=[];
+        emailData.documentIdList=[];
         for(var i = 0; i< includedAttachments.length; i++ ){
             var a = includedAttachments[i];
-            var id = a.Id;
-            emailData.attachmentIdList.push(id);
+            var id = a.id;
+            if(a.isAttachment) {
+                emailData.attachmentIdList.push(id);
+            } else {
+                emailData.documentIdList.push(id);                
+            }
         }
         var cmh18evt_EmailSend = $A.get("e.c:cmh18evt_EmailSend");
         cmh18evt_EmailSend.setParams({emailData: emailData });

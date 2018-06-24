@@ -62,7 +62,7 @@
         data.attachments.forEach(function(a) {
             merged.push({id: a.Id, 
                          name: a.Name, 
-                         lastModifiedData: a.LastModifiedData, 
+                         lastModifiedDate: a.LastModifiedDate, 
                          size: a.BodyLength, 
                          parentId: a.ParentId,
                          type: 'attachment',
@@ -77,7 +77,7 @@
             });
             merged.push({id: linkedDoc.Id,  // the id of the ContentVersion is used to send email
                          name: linkedDoc.PathOnClient, 
-                         lastModifiedData: linkedDoc.LastModifiedData, 
+                         lastModifiedDate: linkedDoc.LastModifiedDate, 
                          size: linkedDoc.ContentSize, 
                          parentId: link.LinkedEntityId,
                          type: 'document',

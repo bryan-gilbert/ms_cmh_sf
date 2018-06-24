@@ -4,15 +4,18 @@
         var params = event.getParams("emailData");
         var eventData = params.emailData;
 		action.setParams(eventData);
+		// if there is no plain text body and there is an html body then create a plain text body from html
         if(!eventData.plainTextBody && eventData.htmlBody) {
             var text = eventData.htmlBody;
+            // replace all closing paragraph tags with a line feed
             text = text.replace(/(<\/p>)/g, "\n");
+            // replace all closing div tags with a line feed
             text = text.replace(/(<\/div>)/g, "\n");
+            // remove all remaining html tags
             text = text.replace(/(<([^>]+)>)/g, "");
             console.log(text);
             eventData.plainTextBody = text;
         }
-
         console.log("Send email ... ", eventData.caseId, eventData.subject);
         action.setCallback(this, function(response){
             var state = response.getState();
@@ -50,29 +53,8 @@
         var results = event.getParam("results");
         component.set("v.results", results);
         console.log("Handle email sent event error: ", results.errorMessage, " success: ", results.successMessage);
-    },
-    // in dev button press event ...
-    sendEmail:function(component, event, handler) {
-        var emailData = component.get("v.emailData");
-        console.log("Emit email send event caseId: ", emailData.caseId);        
-        console.log("Emit email send event subject: ", emailData.subject);
-        var cmh18evt_EmailSent = $A.get("e.c:cmh18evt_EmailSend");
-        cmh18evt_EmailSent.setParams({emailData: emailData });
-        cmh18evt_EmailSent.fire();            
-    },
-    // SETUP for InDev ...
+    },   
     doInit : function(component, event, helper) {
-        var params = {};
-        params.toList = ['bgil2002@shaw.ca', 'test1@memsharp.com'];
-        params.ccList = null;
-        params.fromAddressOptional = null;
-        params.fromNameOptional = null;
-        params.caseId = "500f4000006AZsRAAW";
-        params.subject = "Sent from testing";
-        //params.plainTextBody = "Plain body will get case ref automatically";
-        // plain text will be created from html
-        params.htmlBody = "<p>Html body </p><p>will also get ref automatically</p>";
-        params.attachmentIdList = ['00Pf40000047VGZEA2'];  
-		component.set("v.emailData", params);
-    },       
+    	console.log("Load cmh18_EmailSender component ", component.get("v.version"));
+    },    
 })
