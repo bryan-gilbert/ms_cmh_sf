@@ -1,0 +1,73 @@
+<!-- b_InputWithAutocomplete.cmp 
+Usage:
+c.b_InputWithAutocomplete listForAutocomplete="{!v.listForThisInput}" autoCompleteId="{!v.someUniqueId}" />
+
+Users of this component may need to use the component several times in the same form.  So,
+we need a unique ID for each declaration so the bevt_AutocompleteSelect event can
+identify which input's autocomplete was just resolved along with the selected value.
+-->
+<aura:component>
+
+	<!--declare input attributes-->
+	<aura:attribute name="autoCompleteId" type="String" />
+	<aura:attribute name="label" type="String" />
+	<aura:attribute name="searchLabel" type="String" />
+	<aura:attribute name="listForAutocomplete" type="Set" />
+	<!--declare working attributes-->
+	<aura:attribute name="listOfSearchRecords" type="String[]" />
+	<aura:attribute name="searchTerm" type="String" />
+	<aura:attribute name="message" type="String" default="Search Result.." />
+	<!--declare output attributes-->
+	<aura:attribute name="selectedPills" type="String[]" default="[]" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:handler name="bevt_AutocompleteSelect"
+		event="c:bevt_AutocompleteSelect"
+		action="{!c.bevt_AutocompleteSelect}" />
+
+	<div aura:id="searchRes"
+		class="slds-form-element slds-lookup slds-is-close"
+		data-select="single">
+		<aura:if isTrue="{!v.label.length &gt; 0}">
+			<label class="slds-form-element__label"> {!v.label} </label>
+		</aura:if>
+		<lightning:layout>
+			<!--This part is for display search bar for lookup-->
+			<aura:iteration items="{!v.selectedPills}" indexVar="inx" var="pill">
+				<lightning:layoutItem padding="around-small">
+					<span class="slds-pill" role="option" tabindex="0"
+						aria-selected="true"> <span class="slds-pill__label"
+						title="{!pill}">{!pill} </span>
+						<button class="slds-button slds-button--icon slds-pill__remove"
+							data-value="{!pill}" onclick="{!c.clear}">
+							<!--c:svg close'}" /-->
+							x <span class="slds-assistive-text">Remove</span>
+						</button>
+					</span>
+				</lightning:layoutItem>
+			</aura:iteration>
+			<lightning:layoutItem padding="around-small">
+				<div>
+					<div aura:id="lookupField" class="slds-show">
+						<ui:inputText updateOn="keyup" keyup="{!c.keyPressController}"
+							class="slds-lookup__search-input slds-input "
+							value="{!v.searchTerm}" placeholder="{!v.searchLabel}" />
+					</div>
+					<!--This part is for Display typehead lookup result List-->
+					<!-- div aura:id="searchRes" class="slds-form-element slds-lookup slds-is-close" data-select="single"-->
+					<div aura:id="searchRes" id="{!'searchRes'+ v.autoCompleteId}"
+						class="slds-lookup__menu slds slds-hide">
+						<div class="slds-lookup__item--label slds-text-body--small">{!v.message}</div>
+						<ul class="slds-lookup__list" role="listbox">
+							<aura:iteration items="{!v.listOfSearchRecords}" var="entry">
+								<c:b_LookupResult entry="{!entry}"
+									autoCompleteId="{!v.autoCompleteId}" />
+							</aura:iteration>
+						</ul>
+					</div>
+				</div>
+			</lightning:layoutItem>
+		</lightning:layout>
+	</div>
+
+</aura:component>

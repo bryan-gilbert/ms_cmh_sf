@@ -1,0 +1,14 @@
+<!-- b_LookupResult.cmp one entry in a auto-complete drop-down-->
+<aura:component >
+<!-- autoCompleteId:  Id of the auto complete component. This is returned with the entry if user clicks on me. -->
+<aura:attribute name="autoCompleteId" type="String"/> 
+<aura:attribute name="entry" type="String" />
+<aura:registerEvent name="bevt_AutocompleteSelect" type="c:bevt_AutocompleteSelect"/>    
+<li role="presentation">
+    <span class="slds-lookup__item-action slds-media slds-media--center" role="option">
+        <div class="slds-media__body">
+            <div class="slds-lookup__result-text"><a onclick="{!c.selectEntry}">{!v.entry}</a></div>
+        </div>    
+    </span>
+</li>
+</aura:component>

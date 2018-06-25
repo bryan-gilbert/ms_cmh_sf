@@ -18,8 +18,8 @@
         allDocs.forEach(function(a) {
             a.isSelected = false;
             a.isChecked = false;
-            console.log("attachment: " + a.name + " parent: " + a.parentIsCase + " link: " + a.isDocument + " attach: " + a.isAttachment + " parent: " + a.parentId);
-            console.log("attachment.lastModifiedDate " + a.lastModifiedDate)
+            //console.log("attachment: " + a.name + " parent: " + a.parentIsCase + " link: " + a.isDocument + " attach: " + a.isAttachment + " parent: " + a.parentId);
+            //console.log("attachment.lastModifiedDate " + a.lastModifiedDate)
         })
         console.log("cmh18_AttachmentList cmh18_AttachmentsLoadedEvent "+ allDocs.length + " attachments");
         component.set("v.attachments", allDocs);
@@ -28,6 +28,9 @@
         helper.selectSort(component,event,helper);
         helper.fireAttachmentListEvent(component);        
 	},
+    onRender : function(component,event,helper){
+        helper.checkboxesDisplay(component,helper);
+    },    
     cmh18evt_EmailView : function(component, event, helper) {
         var emailId = event.getParam("emailId");
         component.set("v.emailId", emailId);
@@ -46,7 +49,8 @@
             console.log("cmh18evt_EmailEdit action: ", requestedAction, " showing checkboxes? ", component.get("v.showCheckBoxes"))
             component.set("v.checkSelected",'forward' === requestedAction); 
             helper.selectSort(component,event,helper);
-            helper.fireAttachmentListEvent(component);                    
+            helper.fireAttachmentListEvent(component);   
+            helper.checkboxesDisplay(component,helper);            
         }
 	}, 
     onCheckbox : function(component, event, helper) {

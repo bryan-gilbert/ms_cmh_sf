@@ -1,5 +1,5 @@
 <aura:component>
-<aura:attribute name="version" type="String" default="aList-v0.34"/>
+<aura:attribute name="version" type="String" default="aList-v0.43"/>
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="attachments" type="Attachment[]"/>
 <aura:attribute name="count" type="Integer"/>
@@ -7,7 +7,8 @@
 <aura:attribute name="emailId" type="String" />
 <aura:attribute name="showCheckBoxes" type="Boolean" default="false"/>    
 <aura:attribute name="checkSelected" type="Boolean" default="false"/>    
-        
+
+<aura:handler name="render" value="{!this}" action="{!c.onRender}"/>        
 <aura:handler event="c:cmh18_AttachmentsLoadedEvent" action="{!c.cmh18_AttachmentsLoadedEvent}" />
 <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
 <aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
@@ -74,9 +75,10 @@
                         </aura:set>
                         </aura:if>
                         </div>
-                        <div class="{! 'cev_indicator_icon ' + (v.showCheckBoxes ? 'show_checks' :'hide_checks')}">
+                        <div class="cev_indicator_icon">
                           <label class="slds-checkbox">  
-                          <input type="checkbox" id="{!'chk'+attachment.id}" data-value="{!attachment.id}" onclick="{!c.onCheckbox}"/>
+                              <!-- add class cev_attachment_checkbox so code can find all checkboxes -->
+                          <input class="cev_attachment_checkbox" type="checkbox" id="{!'chk'+attachment.id}" data-value="{!attachment.id}" onclick="{!c.onCheckbox}"/>
                           <span class="slds-checkbox--faux"></span>          
                         </label>
                         </div>

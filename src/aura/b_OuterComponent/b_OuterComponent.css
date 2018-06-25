@@ -1,0 +1,18 @@
+.THIS .edit_panel {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid t(cmh18_iconFillColor);;
+}
+.THIS .eep-panel .slds-list_horizontal .slds-item_label{
+    width: 10%;
+}
+.THIS .eep-panel .slds-list_horizontal .slds-item_detail{
+    width: 90%;
+}
+
+.THIS .eep_action_group {
+   margin:1rem;
+}
+
+.THIS .eep_action {
+    margin-right: 2rem;
+}

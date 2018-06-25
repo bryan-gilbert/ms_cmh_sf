@@ -30,7 +30,7 @@
             return result;
             
         })        
-        var checkboxes = document.getElementsByClassName("attachment-checkbox");
+        var checkboxes = document.getElementsByClassName("cev_attachment_checkbox");
         console.log("In attachment list and have how many checkboxes? ", checkboxes.length);
         for (var i=0; i<checkboxes.length; i++) {
             var ctarget = checkboxes[i];
@@ -38,7 +38,6 @@
             var attachment = attachments.find(function(a) {
                 return a.id === attachmentId;
             })
-console.log("check box? ",attachmentId, attachment.isChecked);
             if(!attachment) {
                 console.error("Can't find attachment for checkbox ", attachmentId);
             } else {
@@ -47,6 +46,9 @@ console.log("check box? ",attachmentId, attachment.isChecked);
         }  
         // all work is done ... now update the UI by reloading the list into the component
         component.set("v.attachments", attachments);
+        var show = component.get("v.showCheckBoxes");
+        component.set("v.showCheckBoxes", ! show);
+        component.set("v.showCheckBoxes", show);
     },
     fireAttachmentListEvent : function(component) {
         var cmh18evt_AttachmentList = $A.get("e.c:cmh18evt_AttachmentList");
@@ -54,4 +56,17 @@ console.log("check box? ",attachmentId, attachment.isChecked);
         cmh18evt_AttachmentList.setParams({"attachments": attachments});
         cmh18evt_AttachmentList.fire();
 	}, 
+    checkboxesDisplay : function(component,helper){
+        var checkboxes = document.getElementsByClassName("cev_attachment_checkbox");
+        var show = component.get("v.showCheckBoxes");
+        console.log("In checkboxesDisplay" + show + " have how many checkboxes? ", checkboxes.length);
+        for (var i=0; i<checkboxes.length; i++) {
+            var ctarget = checkboxes[i];
+            //console.log("ctarget ", ctarget.getAttribute("data-value"));
+            if(show)
+            ctarget.removeAttribute("disabled");            
+            else 
+            ctarget.setAttribute("disabled", "disabled");            
+        }         
+    }, 
 })
