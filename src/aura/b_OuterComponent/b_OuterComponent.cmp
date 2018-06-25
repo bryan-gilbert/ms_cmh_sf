@@ -3,10 +3,8 @@
     <aura:attribute name="toFieldId" type="String" default="toFieldId" />
     <aura:attribute name="ccFieldId" type="String" default="ccFieldId" />
     <aura:attribute name="bccFieldId" type="String" default="bccFieldId" />
-    <aura:attribute name="emailAddresses" type="Set"  default="['customer1@customer.com'
-                                                               , 'customer2@customer.com'
-                                                               , 'staff@mycompany.com'
-                                                               , 'orders@manufacter.com']"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
+
 <div class="edit_panel">
 <article class="slds-card">
 	<div class="slds-card__body">
@@ -16,7 +14,7 @@
     <dl class="slds-list_horizontal slds-wrap">
 	<dt class="slds-item_label" title="To">To:</dt>
 	<dd class="slds-item_detail" title="To Value">
-        <c.b_InputWithAutocomplete listForAutocomplete="{!v.emailAddresses}" 
+        <c.b_InputWithAutocomplete aura:id="toInput" 
            autoCompleteId="{!v.toFieldId}" 
            label=""
            searchLabel="search for To..."
@@ -24,7 +22,7 @@
 	</dd>
 	<dt class="slds-item_label" title="Cc">Cc:</dt>
 	<dd class="slds-item_detail" title="Cc Value">
-        <c.b_InputWithAutocomplete listForAutocomplete="{!v.emailAddresses}" 
+        <c.b_InputWithAutocomplete aura:id="ccInput" 
            autoCompleteId="{!v.ccFieldId}" 
            label=""
            searchLabel="search for Cc..."
@@ -32,7 +30,7 @@
 	</dd>
 	<dt class="slds-item_label" title="Bcc">Bcc:</dt>
 	<dd class="slds-item_detail" title="Bcc Value">
-        <c.b_InputWithAutocomplete listForAutocomplete="{!v.emailAddresses}" 
+        <c.b_InputWithAutocomplete aura:id="bccInput"
            autoCompleteId="{!v.bccFieldId}" 
            label=""
            searchLabel="search for Bcc..."
@@ -44,5 +42,5 @@
     </div>
     </article>
     </div>
-    b_auto33
+    b_auto49
 </aura:component>

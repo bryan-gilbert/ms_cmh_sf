@@ -12,9 +12,14 @@ identify which input's autocomplete was just resolved along with the selected va
 	<aura:attribute name="autoCompleteId" type="String" />
 	<aura:attribute name="label" type="String" />
 	<aura:attribute name="searchLabel" type="String" />
-	<aura:attribute name="listForAutocomplete" type="Set" />
+	<aura:attribute name="originalList" type="String[]" />
+	<aura:attribute name="activeList" type="String[]" />
+    <aura:method name="setList" action="{!c.setList}" 
+      description="Outer component can use this method to setup or change the originalList"> 
+        <aura:attribute name="newList" type="String[]"/> 
+    </aura:method>    
 	<!--declare working attributes-->
-	<aura:attribute name="listOfSearchRecords" type="String[]" />
+	<aura:attribute name="filteredList" type="String[]" />
 	<aura:attribute name="searchTerm" type="String" />
 	<aura:attribute name="message" type="String" default="Search Result.." />
 	<!--declare output attributes-->
@@ -31,7 +36,7 @@ identify which input's autocomplete was just resolved along with the selected va
 		<aura:if isTrue="{!v.label.length &gt; 0}">
 			<label class="slds-form-element__label"> {!v.label} </label>
 		</aura:if>
-		<lightning:layout>
+        <div class="slds-grid b_wrap_flex">
 			<!--This part is for display search bar for lookup-->
 			<aura:iteration items="{!v.selectedPills}" indexVar="inx" var="pill">
 				<lightning:layoutItem padding="around-small">
@@ -48,10 +53,11 @@ identify which input's autocomplete was just resolved along with the selected va
 			</aura:iteration>
 			<lightning:layoutItem padding="around-small">
 				<div>
-					<div aura:id="lookupField" class="slds-show">
-						<ui:inputText updateOn="keyup" keyup="{!c.keyPressController}"
-							class="slds-lookup__search-input slds-input "
-							value="{!v.searchTerm}" placeholder="{!v.searchLabel}" />
+					<div>
+						<ui:inputText aura:id="searchInput"
+                            updateOn="keyup" keyup="{!c.keyPressController}"
+                            class="slds-lookup__search-input slds-input "
+                            value="{!v.searchTerm}" placeholder="{!v.searchLabel}" />
 					</div>
 					<!--This part is for Display typehead lookup result List-->
 					<!-- div aura:id="searchRes" class="slds-form-element slds-lookup slds-is-close" data-select="single"-->
@@ -59,7 +65,7 @@ identify which input's autocomplete was just resolved along with the selected va
 						class="slds-lookup__menu slds slds-hide">
 						<div class="slds-lookup__item--label slds-text-body--small">{!v.message}</div>
 						<ul class="slds-lookup__list" role="listbox">
-							<aura:iteration items="{!v.listOfSearchRecords}" var="entry">
+							<aura:iteration items="{!v.filteredList}" var="entry">
 								<c:b_LookupResult entry="{!entry}"
 									autoCompleteId="{!v.autoCompleteId}" />
 							</aura:iteration>
@@ -67,7 +73,7 @@ identify which input's autocomplete was just resolved along with the selected va
 					</div>
 				</div>
 			</lightning:layoutItem>
-		</lightning:layout>
+        </div>
 	</div>
 
 </aura:component>
