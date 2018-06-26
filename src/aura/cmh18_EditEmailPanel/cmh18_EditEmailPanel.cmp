@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.107"/>    
+<aura:attribute name="version" type="String" default="eep-v0.109"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
 <aura:attribute name="requestedAction" type="String"/>
@@ -54,13 +54,21 @@
             </dd>
             <dt class="slds-item_label " title="To">To:</dt>
             <dd class="slds-item_detail " title="To Value">
-                <ui:inputText label="ToEmail" aura:id="iToEmail" 
-                      value="{!v.to}" class="slds-input" labelClass="assistiveText"/>
+                 <c.b_InputWithAutocomplete aura:id="toInput" autoCompleteId="toFieldId" />
+                <!--ui:inputText label="ToEmail" aura:id="iToEmail" 
+                      value="{!v.to}" class="slds-input" labelClass="assistiveText"/-->
             </dd>
-            <dt class="slds-item_label  " title="CC">CC:</dt>
-            <dd class="slds-item_detail " title="CC Value">
-                <ui:inputText label="CcEmail" aura:id="iCcEmail" 
-                      value="{!v.cc}" class="slds-input" labelClass="assistiveText"/>
+            <dt class="slds-item_label  " title="Cc">Cc:</dt>
+            <dd class="slds-item_detail " title="Cc Value">
+                 <c.b_InputWithAutocomplete aura:id="ccInput" autoCompleteId="ccFieldId" />
+                <!--ui:inputText label="CcEmail" aura:id="iCcEmail" 
+                      value="{!v.cc}" class="slds-input" labelClass="assistiveText"/-->
+            </dd>
+            <dt class="slds-item_label  " title="Bcc">Bcc:</dt>
+            <dd class="slds-item_detail " title="Bcc Value">
+                 <c.b_InputWithAutocomplete aura:id="bccInput" autoCompleteId="bccFieldId" />
+                <!--ui:inputText label="CcEmail" aura:id="iCcEmail" 
+                      value="{!v.cc}" class="slds-input" labelClass="assistiveText"/-->
             </dd>
             <dt class="slds-item_label  " title="Subject">Subject:</dt>
             <dd class="slds-item_detail " title="Subject Value">

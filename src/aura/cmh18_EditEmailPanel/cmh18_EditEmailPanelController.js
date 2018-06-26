@@ -51,6 +51,8 @@
         if(!component.get("v.isOpen")) {
             return; // do nothing
         }
+        var globals = component.get("v.globals");
+        var addresses = globals.addresses;
         var emailData = event.getParam("emailData");
 		var requestedAction = component.get("v.requestedAction");
         var globals = component.get("v.globals");
@@ -58,6 +60,13 @@
         var userInfo = globals.userInfo;      
         var fromAddress = orgInfo ? orgInfo.Address : userInfo.Email;
         var from = orgInfo ? orgInfo.DisplayName : userInfo.Name;
+        var toInput = component.find("toInput");
+        var ccInput = component.find("ccInput");
+        var bccInput = component.find("bccInput");
+        toInput.setLists(addresses);
+        ccInput.setLists(addresses);
+        bccInput.setLists(addresses);
+        
         console.log("Org wide email " + from + "  " + fromAddress);
         console.log("In edit email panel cmh18_EmailLoadedEvent ", emailData);
         helper.initForm(component);
@@ -71,13 +80,18 @@
             component.set("v.id", theEmail.id);
             component.set("v.fromAdress", "cc@example.com");
             if ("replyAll" === requestedAction) {
-                component.set("v.cc", theEmail.cc);                
+                if(theEmail.cc){
+                    var parts = theEmail.cc.split(";");
+                    ccInput.setLists(addresses,parts);                                    
+                }
             }            
             var preData = [];
             preData.push('<p>&nbsp;</p>\n');            
             preData.push('<p>&nbsp;</p>\n');            
             if(requestedAction.includes("reply")) {
-                component.set("v.to", theEmail.fromAddress);
+                if(theEmail.fromAddress) {
+                toInput.setLists(addresses,[theEmail.fromAddress]);                    
+                }
                 helperData.re = "Re:";
                 preData.push('<p>--------------- Original Message ---------------</p>\n');
             }

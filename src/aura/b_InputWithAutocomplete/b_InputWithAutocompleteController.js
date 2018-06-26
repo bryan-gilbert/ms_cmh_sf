@@ -3,19 +3,41 @@
       var list = component.get("v.originalList");
       console.log("Init has list ", list);
     },
-	keyPressController : function(component, event, helper) {
-		var searchTerm = component.get("v.searchTerm");
+	keyUp : function(component, event, helper) {
+		var searchTerm = component.get("v.searchTerm").trim();
+        var keyCode = event.getParams().keyCode
         var searchBox = helper.findSearchBox(component);
 		if( searchTerm.length > 0 ){
-            console.log("keyPressController open with ", searchTerm);
+            console.log("keyUp open with ", searchTerm);
 			helper.show(searchBox);
 			helper.searchHelper(component,event,searchTerm);
+            if(keyCode === 13) {
+                // user wants to add new entry
+                if(searchTerm.length > 0) {
+                    helper.addEntry(component,helper,searchTerm);            
+                }                
+                // clear the search field and hide the search drop down
+                component.set("v.searchTerm","");            
+                var searchBox = helper.findSearchBox(component);
+                helper.hide(searchBox);
+            }
 		}
 		else{  
-            console.log("keyPressController close");
+            console.log("keyUp close");
 			helper.hide(searchBox);
 		}         
 	},
+    onblur : function(component,event,helper) {
+		var searchTerm = component.get("v.searchTerm").trim();
+        if(searchTerm.length > 0) {
+            helper.addEntry(component,helper,searchTerm);            
+        }
+        // clear the search field and hide the search drop down
+        component.set("v.searchTerm","");            
+        var searchBox = helper.findSearchBox(component);
+        helper.hide(searchBox);
+        
+    },
     setLists : function(component,event,helper) {
         var params = event.getParam('arguments');
         if (params) {

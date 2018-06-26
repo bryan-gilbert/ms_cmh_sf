@@ -12,6 +12,7 @@
 				component.set("v.emails", theList);
 				component.set("v.count", theList.length); 
                 helper.emailSelected(component,helper);
+                helper.collectAddress(component,helper);
             }
         });
         $A.enqueueAction(action);		
@@ -26,5 +27,26 @@
         });
         component.set("v.emails",theList);
 	}, 	
+    collectAddress : function(component,helper){
+        var theList = component.get("v.emails");
+        var all = "";
+        theList.forEach(function(email) {
+            all += email.ToAddress ? email.ToAddress +';': "";
+            all += email.CcAddress ? email.CcAddress +';': "";
+            all += email.FromAddress ? email.FromAddress +';': "";
+        })
+        var parts = all.split(';');
+        parts = parts.map(function(a) {
+            return a.trim();
+        })
+        parts.sort();
+        var addresses = parts.filter(function(item, pos, ary) {
+	        return !pos || item != ary[pos - 1];
+	    });
+        console.log("Add address", addresses);
+        component.set("v.addresses",addresses);
+        var globals = component.get("v.globals");
+		globals.addresses = addresses;
+    },
     
 })

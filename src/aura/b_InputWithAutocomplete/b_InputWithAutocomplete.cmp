@@ -51,7 +51,7 @@ identify which input's autocomplete was just resolved along with the selected va
 				<div>
 					<div>
 						<ui:inputText aura:id="searchInput"
-                            updateOn="keyup" keyup="{!c.keyPressController}"
+                            updateOn="keyup" keyup="{!c.keyUp}" 
                             class="slds-lookup__search-input slds-input b_input"
                             value="{!v.searchTerm}" placeholder="{!v.searchLabel}" />
 					</div>

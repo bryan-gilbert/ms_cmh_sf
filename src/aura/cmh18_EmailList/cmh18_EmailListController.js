@@ -1,5 +1,7 @@
 ({
 	cmh18evt_GlobalDataChange : function(component, event, helper) {
+        var globals = event.getParam("globals");
+        component.set('v.globals', globals);
         helper.loadList(component,helper);
 	},
     refresh : function(component, event, helper) {

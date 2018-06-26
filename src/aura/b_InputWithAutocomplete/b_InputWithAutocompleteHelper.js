@@ -3,7 +3,7 @@
 		// to do search for searchTerm in a list of entries 
         var list = component.get("v.activeList");
         var selectedList = list.filter(function(elem) {
-            console.log("test includes ", elem);
+            //console.log("test includes ", elem);
             return elem.includes(searchTerm);
         });
         console.log("searchHelper has list ", list, " searchTerm", searchTerm, " selectedList", selectedList);
