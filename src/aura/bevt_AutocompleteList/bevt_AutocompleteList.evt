@@ -1,0 +1,5 @@
+<!-- bevt_AutocompleteList -->
+<aura:event type="APPLICATION" description="Autocomplete compenent has a new list of selections">
+    <aura:attribute name="autoCompleteId" type="String"/>
+    <aura:attribute name="list" type="String[]"/>
+</aura:event>

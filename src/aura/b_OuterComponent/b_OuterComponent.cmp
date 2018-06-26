@@ -3,8 +3,12 @@
     <aura:attribute name="toFieldId" type="String" default="toFieldId" />
     <aura:attribute name="ccFieldId" type="String" default="ccFieldId" />
     <aura:attribute name="bccFieldId" type="String" default="bccFieldId" />
+    <aura:attribute name="toList" type="String[]" />
+    <aura:attribute name="ccList" type="String[]" />
+    <aura:attribute name="bccList" type="String[]" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
-
+<aura:handler event="c.bevt_AutocompleteList" action="{!c.bevt_AutocompleteList}"/>
+    
 <div class="edit_panel">
 <article class="slds-card">
 	<div class="slds-card__body">
@@ -42,5 +46,35 @@
     </div>
     </article>
     </div>
-    b_auto49
+    
+<div class="slds-pill_container">
+  <ul class="slds-listbox slds-listbox_horizontal" role="listbox" aria-label="Selected Options:" aria-orientation="horizontal">
+    <aura:iteration items="{!v.toList}" indexVar="inx" var="pill">
+    <li class="slds-listbox-item" role="presentation">
+        <span class="slds-pill__label" title="{!pill}">{!pill} </span>;
+    </li>
+    </aura:iteration>
+  </ul>
+</div>    
+<div class="slds-pill_container">
+  <ul class="slds-listbox slds-listbox_horizontal" role="listbox" aria-label="Selected Options:" aria-orientation="horizontal">
+    <aura:iteration items="{!v.ccList}" indexVar="inx" var="pill">
+    <li class="slds-listbox-item" role="presentation">
+        <span class="slds-pill__label" title="{!pill}">{!pill} </span>;
+    </li>
+    </aura:iteration>
+  </ul>
+</div>    
+
+<div class="slds-pill_container">
+  <ul class="slds-listbox slds-listbox_horizontal" role="listbox" aria-label="Selected Options:" aria-orientation="horizontal">
+    <aura:iteration items="{!v.bccList}" indexVar="inx" var="pill">
+    <li class="slds-listbox-item" role="presentation">
+        <span class="slds-pill__label" title="{!pill}">{!pill} </span>;
+    </li>
+    </aura:iteration>
+  </ul>
+</div>    
+    
+    b_auto54
 </aura:component>

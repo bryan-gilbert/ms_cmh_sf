@@ -21,15 +21,16 @@ identify which input's autocomplete was just resolved along with the selected va
 	<!--declare working attributes-->
 	<aura:attribute name="filteredList" type="String[]" />
 	<aura:attribute name="searchTerm" type="String" />
-	<aura:attribute name="message" type="String" default="Search Result.." />
 	<!--declare output attributes-->
-	<aura:attribute name="selectedPills" type="String[]" default="[]" />
+	<aura:attribute name="selectedList" type="String[]" default="[]" />
 
 	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 	<aura:handler name="bevt_AutocompleteSelect"
 		event="c:bevt_AutocompleteSelect"
 		action="{!c.bevt_AutocompleteSelect}" />
+    <aura:registerEvent name="bevt_AutocompleteList" type="c:bevt_AutocompleteList" />
 
+    
 	<div aura:id="searchRes"
 		class="slds-form-element slds-lookup slds-is-close"
 		data-select="single">
@@ -38,11 +39,10 @@ identify which input's autocomplete was just resolved along with the selected va
 		</aura:if>
         <div class="slds-grid b_wrap_flex">
 			<!--This part is for display search bar for lookup-->
-			<aura:iteration items="{!v.selectedPills}" indexVar="inx" var="pill">
-				<lightning:layoutItem padding="around-small">
-					<span class="slds-pill" role="option" tabindex="0"
-						aria-selected="true"> <span class="slds-pill__label"
-						title="{!pill}">{!pill} </span>
+			<aura:iteration items="{!v.selectedList}" indexVar="inx" var="pill">
+				<lightning:layoutItem padding="around-xxx-small">
+					<span class="slds-pill" role="option" tabindex="0" aria-selected="true"> 
+                        <span class="slds-pill__label" title="{!pill}">{!pill} </span>
 						<button class="slds-button slds-button--icon slds-pill__remove"
 							data-value="{!pill}" onclick="{!c.clear}">
 							<!--c:svg close'}" /-->
@@ -51,7 +51,7 @@ identify which input's autocomplete was just resolved along with the selected va
 					</span>
 				</lightning:layoutItem>
 			</aura:iteration>
-			<lightning:layoutItem padding="around-small">
+			<lightning:layoutItem>
 				<div>
 					<div>
 						<ui:inputText aura:id="searchInput"
@@ -63,7 +63,6 @@ identify which input's autocomplete was just resolved along with the selected va
 					<!-- div aura:id="searchRes" class="slds-form-element slds-lookup slds-is-close" data-select="single"-->
 					<div aura:id="searchRes" id="{!'searchRes'+ v.autoCompleteId}"
 						class="slds-lookup__menu slds slds-hide">
-						<div class="slds-lookup__item--label slds-text-body--small">{!v.message}</div>
 						<ul class="slds-lookup__list" role="listbox">
 							<aura:iteration items="{!v.filteredList}" var="entry">
 								<c:b_LookupResult entry="{!entry}"

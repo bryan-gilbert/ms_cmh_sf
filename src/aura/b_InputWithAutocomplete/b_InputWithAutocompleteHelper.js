@@ -32,6 +32,13 @@
         //var searchBox = component.find(id); // returns more than one 
         var searchBox = document.getElementById (id);
         return searchBox;
+    },
+    fireNewListEvent : function(component,helper){
+        var autoCompleteId = component.get("v.autoCompleteId");
+        var bevt_AutocompleteList = $A.get("e.c:bevt_AutocompleteList");
+        var list = component.get("v.selectedList");        
+        bevt_AutocompleteList.setParams({"autoCompleteId": autoCompleteId, "list": list});
+        bevt_AutocompleteList.fire();        
     }
 	
 })

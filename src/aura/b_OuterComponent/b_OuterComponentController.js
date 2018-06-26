@@ -16,5 +16,19 @@
         toInput.setList(emailAddresses);
         ccInput.setList(emailAddresses);
         bccInput.setList(emailAddresses);
-	}
+	},
+    bevt_AutocompleteList : function(component,event,helper) {
+        var autoCompleteId = event.getParam("autoCompleteId");
+        var list = event.getParam("list");
+        if(component.get("v.toFieldId") === autoCompleteId) {
+            component.set("v.toList",list);            
+        }
+        if(component.get("v.ccFieldId") === autoCompleteId) {
+            component.set("v.ccList",list);            
+        }
+        if(component.get("v.bccFieldId") === autoCompleteId) {
+            component.set("v.bccList",list);            
+        }
+
+    }
 })
