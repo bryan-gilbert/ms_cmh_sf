@@ -1,3 +1,14 @@
 .THIS .b_wrap_flex {
 	flex-wrap: wrap; 
 }
+
+.THIS .b_input_with_pills {
+}
+
+.THIS .b_input {
+    border: none;
+}
+
+.THIS .b_input_pill {
+	color:blue;
+}

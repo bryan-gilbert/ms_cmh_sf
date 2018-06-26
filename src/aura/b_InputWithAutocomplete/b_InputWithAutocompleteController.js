@@ -16,32 +16,27 @@
 			helper.hide(searchBox);
 		}         
 	},
-    setList : function(component,event,helper) {
+    setLists : function(component,event,helper) {
         var params = event.getParam('arguments');
         if (params) {
             var list = params.newList;
-            list.sort();
+            list.sort();            
             component.set("v.originalList", list);
             component.set("v.activeList", list);            
             console.log("setList with new list ", list);
+            var prePopList = params.prePopList;
+            if(prePopList && prePopList.length>0){
+                prePopList.forEach(function(entry){
+                    helper.addEntry(component,helper,entry);
+                })
+            }
         }
     },
   // function for clear the selection 
 	clear :function(component,event,helper){
         var ctarget = event.currentTarget;
-        var pill = ctarget.dataset.value; 
-        console.log("clear pill ", pill);
-        var pills = component.get("v.selectedList");
-        var newPills = pills.filter(function(p) {
-            return p !== pill;
-        })
-        component.set("v.selectedList" , newPills);         
-        // add the entry back to the active list
-        var activeList = component.get("v.activeList");
-		activeList.push(pill);
-        activeList.sort();
-        component.set("v.activeList", activeList);
-        helper.fireNewListEvent(component,helper);
+        var entry = ctarget.dataset.value; 
+        helper.removeEntry(component,helper,entry);
 	},
     
     // Called when the user selects an iter from the list.   
@@ -51,22 +46,12 @@
 		var thisAutoCompleteId = component.get("v.autoCompleteId");
 		var autoCompleteId = event.getParam("autoCompleteId");
 		if( thisAutoCompleteId === autoCompleteId ) {
-            // create a pill with the selected entry
-            var pills = component.get("v.selectedList");
             var entry = event.getParam("entry");
-            pills.push(entry);
-			component.set("v.selectedList" , pills); 
-            // remove the entry from the active list (can only add entry once)
-			var activeList = component.get("v.activeList");
-            var filtered = activeList.filter(function(d) {
-                return d !== entry;
-            })
-            component.set("v.activeList", filtered);
+            helper.addEntry(component, helper, entry);
             // clear the search field and hide the search drop down
             component.set("v.searchTerm","");            
             var searchBox = helper.findSearchBox(component);
 			helper.hide(searchBox);
-            helper.fireNewListEvent(component,helper);            
 		}
 	},
    

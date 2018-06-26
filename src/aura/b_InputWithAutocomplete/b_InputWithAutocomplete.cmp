@@ -14,9 +14,10 @@ identify which input's autocomplete was just resolved along with the selected va
 	<aura:attribute name="searchLabel" type="String" />
 	<aura:attribute name="originalList" type="String[]" />
 	<aura:attribute name="activeList" type="String[]" />
-    <aura:method name="setList" action="{!c.setList}" 
+    <aura:method name="setLists" action="{!c.setLists}" 
       description="Outer component can use this method to setup or change the originalList"> 
         <aura:attribute name="newList" type="String[]"/> 
+        <aura:attribute name="prePopList" type="String[]"/> 
     </aura:method>    
 	<!--declare working attributes-->
 	<aura:attribute name="filteredList" type="String[]" />
@@ -31,17 +32,12 @@ identify which input's autocomplete was just resolved along with the selected va
     <aura:registerEvent name="bevt_AutocompleteList" type="c:bevt_AutocompleteList" />
 
     
-	<div aura:id="searchRes"
-		class="slds-form-element slds-lookup slds-is-close"
-		data-select="single">
-		<aura:if isTrue="{!v.label.length &gt; 0}">
-			<label class="slds-form-element__label"> {!v.label} </label>
-		</aura:if>
-        <div class="slds-grid b_wrap_flex">
+	<div aura:id="searchRes" class="slds-form-element slds-lookup" data-select="single">
+        <div class="slds-grid b_wrap_flex b_input_with_pills uiPillContainer--default">
 			<!--This part is for display search bar for lookup-->
 			<aura:iteration items="{!v.selectedList}" indexVar="inx" var="pill">
-				<lightning:layoutItem padding="around-xxx-small">
-					<span class="slds-pill" role="option" tabindex="0" aria-selected="true"> 
+				<lightning:layoutItem class="slds-p-around_xx-small">
+					<span class="slds-pill b_input_pill pill uiPill--default uiPill" role="option" tabindex="0"> 
                         <span class="slds-pill__label" title="{!pill}">{!pill} </span>
 						<button class="slds-button slds-button--icon slds-pill__remove"
 							data-value="{!pill}" onclick="{!c.clear}">
@@ -56,7 +52,7 @@ identify which input's autocomplete was just resolved along with the selected va
 					<div>
 						<ui:inputText aura:id="searchInput"
                             updateOn="keyup" keyup="{!c.keyPressController}"
-                            class="slds-lookup__search-input slds-input "
+                            class="slds-lookup__search-input slds-input b_input"
                             value="{!v.searchTerm}" placeholder="{!v.searchLabel}" />
 					</div>
 					<!--This part is for Display typehead lookup result List-->

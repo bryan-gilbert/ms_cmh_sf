@@ -10,12 +10,16 @@
         for(var i = 1; i< 5; i++)  {
             emailAddresses.push('staff'+i+'@mycompany.com');
         }
+        var prePopList = [];
+        prePopList.push(emailAddresses[1]);
+        prePopList.push(emailAddresses[7]);
+        
         var toInput = component.find("toInput");
         var ccInput = component.find("ccInput");
         var bccInput = component.find("bccInput");
-        toInput.setList(emailAddresses);
-        ccInput.setList(emailAddresses);
-        bccInput.setList(emailAddresses);
+        toInput.setLists(emailAddresses,prePopList);
+        ccInput.setLists(emailAddresses);
+        bccInput.setLists(emailAddresses);
 	},
     bevt_AutocompleteList : function(component,event,helper) {
         var autoCompleteId = event.getParam("autoCompleteId");

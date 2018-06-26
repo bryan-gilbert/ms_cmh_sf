@@ -39,6 +39,34 @@
         var list = component.get("v.selectedList");        
         bevt_AutocompleteList.setParams({"autoCompleteId": autoCompleteId, "list": list});
         bevt_AutocompleteList.fire();        
+    },
+    addEntry : function (component,helper, entry){
+        console.log("add entry ", entry);
+        // create a pill with the selected entry
+        var pills = component.get("v.selectedList");
+        pills.push(entry);
+        component.set("v.selectedList" , pills); 
+        // remove the entry from the active list (can only add entry once)
+        var activeList = component.get("v.activeList");
+        var filtered = activeList.filter(function(d) {
+            return d !== entry;
+        })
+        component.set("v.activeList", filtered);
+        helper.fireNewListEvent(component,helper); 
+    },
+    removeEntry : function(component,helper,entry){
+        console.log("clear entry ", entry);
+        var pills = component.get("v.selectedList");
+        var newPills = pills.filter(function(p) {
+            return p !== entry;
+        })
+        component.set("v.selectedList" , newPills);         
+        // add the entry back to the active list
+        var activeList = component.get("v.activeList");
+        activeList.push(entry);
+        activeList.sort();
+        component.set("v.activeList", activeList);
+        helper.fireNewListEvent(component,helper);        
     }
 	
 })

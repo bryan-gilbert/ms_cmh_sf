@@ -7,7 +7,7 @@
     <aura:attribute name="ccList" type="String[]" />
     <aura:attribute name="bccList" type="String[]" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
-<aura:handler event="c.bevt_AutocompleteList" action="{!c.bevt_AutocompleteList}"/>
+    <aura:handler event="c.bevt_AutocompleteList" action="{!c.bevt_AutocompleteList}"/>
     
 <div class="edit_panel">
 <article class="slds-card">
@@ -18,27 +18,15 @@
     <dl class="slds-list_horizontal slds-wrap">
 	<dt class="slds-item_label" title="To">To:</dt>
 	<dd class="slds-item_detail" title="To Value">
-        <c.b_InputWithAutocomplete aura:id="toInput" 
-           autoCompleteId="{!v.toFieldId}" 
-           label=""
-           searchLabel="search for To..."
-           />
+        <c.b_InputWithAutocomplete aura:id="toInput" autoCompleteId="{!v.toFieldId}" />
 	</dd>
 	<dt class="slds-item_label" title="Cc">Cc:</dt>
 	<dd class="slds-item_detail" title="Cc Value">
-        <c.b_InputWithAutocomplete aura:id="ccInput" 
-           autoCompleteId="{!v.ccFieldId}" 
-           label=""
-           searchLabel="search for Cc..."
-           />
+        <c.b_InputWithAutocomplete aura:id="ccInput" autoCompleteId="{!v.ccFieldId}" />
 	</dd>
 	<dt class="slds-item_label" title="Bcc">Bcc:</dt>
 	<dd class="slds-item_detail" title="Bcc Value">
-        <c.b_InputWithAutocomplete aura:id="bccInput"
-           autoCompleteId="{!v.bccFieldId}" 
-           label=""
-           searchLabel="search for Bcc..."
-           />
+        <c.b_InputWithAutocomplete aura:id="bccInput"  autoCompleteId="{!v.bccFieldId}" />
 	</dd>
     </dl>    
     </div>
@@ -76,5 +64,5 @@
   </ul>
 </div>    
     
-    b_auto54
+    b_auto61
 </aura:component>
