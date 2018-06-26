@@ -27,6 +27,14 @@
     cmh18evt_GlobalDataChange : function(component,event,helper) {
         var globals = event.getParam("globals");
         component.set("v.globals", globals);
+        var orgInfo = globals.orgInfo;
+        var userInfo = globals.userInfo; 
+        var fromList = [];
+        if(orgInfo && orgInfo.Address)
+            fromList.push(orgInfo.Address);
+        if(userInfo && userInfo.Email)
+            fromList.push(userInfo.Email);
+        component.set("v.fromList", fromList);
     },
     
 	cmh18evt_EmailEdit : function(component, event, helper) {
@@ -80,17 +88,30 @@
             component.set("v.id", theEmail.id);
             component.set("v.fromAdress", "cc@example.com");
             if ("replyAll" === requestedAction) {
-                if(theEmail.cc){
-                    var parts = theEmail.cc.split(";");
-                    ccInput.setLists(addresses,parts);                                    
+                var parts=[];
+                if(theEmail.to){
+                    var toparts = theEmail.to.split(";");
+                    parts.push.apply(parts, toparts);
                 }
-            }            
+                if(theEmail.cc){
+                    var ccparts = theEmail.cc.split(";");
+                    parts.push.apply(parts, ccparts);
+                }
+                if(parts.length > 0){
+                    parts = parts.map(function(a) { return a.trim();});
+                    parts.sort();
+                    var filtered = parts.filter(function(item, pos, ary) {
+                        return !pos || item != ary[pos - 1];
+                    });
+                    ccInput.setLists(addresses,filtered);                                    
+                }
+            }
             var preData = [];
             preData.push('<p>&nbsp;</p>\n');            
             preData.push('<p>&nbsp;</p>\n');            
             if(requestedAction.includes("reply")) {
                 if(theEmail.fromAddress) {
-                toInput.setLists(addresses,[theEmail.fromAddress]);                    
+                    toInput.setLists(addresses,[theEmail.fromAddress]);                    
                 }
                 helperData.re = "Re:";
                 preData.push('<p>--------------- Original Message ---------------</p>\n');
@@ -158,17 +179,32 @@
     contentChanged : function(component,event, helper){
         component.set("v.modified", true);        
     },
+    bevt_AutocompleteList : function(component,event,helper) {
+        var autoCompleteId = event.getParam("autoCompleteId");
+        var list = event.getParam("list");
+        if("toFieldId" === autoCompleteId) {
+            component.set("v.toList",list);            
+        }
+        if("ccFieldId" === autoCompleteId) {
+            component.set("v.ccList",list);            
+        }
+        if("bccFieldId" === autoCompleteId) {
+            component.set("v.bccList",list);            
+        }
+
+    },   
     sendEmail:function(component, event, helper) {
         var emailData = {};
-        emailData.toList = [component.get("v.to")];
-        console.log("TODO handle list of to addresses");
+        emailData.toList = component.get("v.toList");
+        emailData.ccList = component.get("v.ccList");
+        emailData.bccList = component.get("v.bccList");
+        console.log("To/cc/bcc",emailData.toList, " -- ", emailData.ccList," -- ", emailData.bccList);
         emailData.subject = component.get("v.subject");
         var html = component.get("v.body");
         var text = html.replace(/(<\/p>)/g, "\n"); 
         text = text.replace(/(<([^>]+)>)/g, "");           
         emailData.htmlBody = html;
         emailData.plainTextBody = text;
-        emailData.ccList = null;
         emailData.fromAddressOptional = null;
         emailData.fromNameOptional = null;
         var globals = component.get("v.globals");        

@@ -12,3 +12,7 @@
 .THIS .b_input_pill {
 	color:blue;
 }
+
+.THIS .b_input_wrapper {
+    flex-grow:2;
+}

@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.109"/>    
+<aura:attribute name="version" type="String" default="eep-v0.116"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
 <aura:attribute name="requestedAction" type="String"/>
@@ -16,6 +16,11 @@
 <aura:attribute name="includedAttachments" type="Object[]" default="[]"/>    
 <aura:attribute name="modified" type="Boolean" default="false" />    
 <aura:attribute name="templateId" type="String"/>
+<aura:attribute name="fromList" type="String[]" />
+<aura:attribute name="toList" type="String[]" />
+<aura:attribute name="ccList" type="String[]" />
+<aura:attribute name="bccList" type="String[]" />
+    
     
 <aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
 <aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
@@ -23,6 +28,7 @@
 <aura:handler event="c:cmh18evt_EmailSent" action="{!c.cmh18evt_EmailSent}" /> 
 <aura:handler event="c:cmh18evt_AttachmentList" action="{!c.cmh18evt_AttachmentList}"/>	
 <aura:handler event="c:cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>	
+<aura:handler event="c.bevt_AutocompleteList" action="{!c.bevt_AutocompleteList}"/>
 
 <aura:registerEvent name="cmh18evt_EmailSend" type="c:cmh18evt_EmailSend" />
     
@@ -43,8 +49,16 @@
             <dd class="slds-item_detail " title="From Value">
                 <div class="slds-grid">            
                     <div class="slds-col slds-p-left_none slds-size--7-of-8">  
-                    <ui:inputText label="FromEmail" aura:id="iFromEmail" 
-                      value="{!v.from}" class="slds-input" labelClass="assistiveText"/>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select id="fromPicklist" class="slds-select">
+                                    <aura:iteration items="{!v.fromList}" var="from">
+                                        <option value="{!from}">{!from}</option>
+                                    </aura:iteration>
+                                </select>
+                        <!-- component.find("fromPicklist").get("v.value"); -->                                
+                            </div>
+                        </div>
                     </div> 
                     <div class="slds-col slds-size--1-of-8"> 
                     <c:cmh18_TemplateDialog globals="{!v.globals}"/>                    
@@ -55,20 +69,14 @@
             <dt class="slds-item_label " title="To">To:</dt>
             <dd class="slds-item_detail " title="To Value">
                  <c.b_InputWithAutocomplete aura:id="toInput" autoCompleteId="toFieldId" />
-                <!--ui:inputText label="ToEmail" aura:id="iToEmail" 
-                      value="{!v.to}" class="slds-input" labelClass="assistiveText"/-->
             </dd>
             <dt class="slds-item_label  " title="Cc">Cc:</dt>
             <dd class="slds-item_detail " title="Cc Value">
                  <c.b_InputWithAutocomplete aura:id="ccInput" autoCompleteId="ccFieldId" />
-                <!--ui:inputText label="CcEmail" aura:id="iCcEmail" 
-                      value="{!v.cc}" class="slds-input" labelClass="assistiveText"/-->
             </dd>
             <dt class="slds-item_label  " title="Bcc">Bcc:</dt>
             <dd class="slds-item_detail " title="Bcc Value">
                  <c.b_InputWithAutocomplete aura:id="bccInput" autoCompleteId="bccFieldId" />
-                <!--ui:inputText label="CcEmail" aura:id="iCcEmail" 
-                      value="{!v.cc}" class="slds-input" labelClass="assistiveText"/-->
             </dd>
             <dt class="slds-item_label  " title="Subject">Subject:</dt>
             <dd class="slds-item_detail " title="Subject Value">

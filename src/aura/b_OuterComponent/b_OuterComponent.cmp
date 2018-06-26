@@ -8,6 +8,21 @@
     <aura:attribute name="bccList" type="String[]" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
     <aura:handler event="c.bevt_AutocompleteList" action="{!c.bevt_AutocompleteList}"/>
+
+    <aura:attribute name="productCategories" type="String[]" default="['fff','ccc']"/>
+
+
+<div class="slds-form-element__control">
+    <div class="slds-select_container">
+        <select id="categoryPicklist" class="slds-select">
+            <aura:iteration items="{!v.productCategories}" var="category" indexVar="index">
+                <option>{!category}</option>
+            </aura:iteration>
+        </select>
+    </div>
+</div>
+
+<!-- component.find("categoryPicklist").get("v.value"); -->
     
 <div class="edit_panel">
 <article class="slds-card">
@@ -64,5 +79,5 @@
   </ul>
 </div>    
     
-    b_auto64
+    b_auto82
 </aura:component>

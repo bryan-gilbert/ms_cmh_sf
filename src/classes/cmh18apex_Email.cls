@@ -13,8 +13,10 @@ public with sharing class cmh18apex_Email {
         String[] toList, String[] ccList, String[] bccList, String fromAddressOptional, String fromNameOptional,
         String caseId, String subject, String plainTextBody, String htmlBody, String[] attachmentIdList, String[] documentIdList) 
     {   
-        System.debug(Logginglevel.INFO,'In cmh18apex_Email with ' + caseId + ' ' + subject
-            + 'toList[0] ' + toList[0]);
+        System.debug(Logginglevel.INFO,'In cmh18apex_Email with ' + caseId + ' ' + subject );//+ ' toListString '+ toListString);
+        
+// List<String> toList = (List<String>)JSON.deserialize(toListString,List<String>.class);
+    System.debug(toList);
         
         if (caseId == null || caseId.length() < 10) {
         	return errorMessage('ERROR: Must provide case ID');
@@ -25,7 +27,10 @@ public with sharing class cmh18apex_Email {
         try{
         Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage m = new Messaging.SingleEmailMessage();
+System.debug(Logginglevel.INFO,'Before m.setToAddresses ' + toList.size());            
+System.debug(Logginglevel.INFO,'toList[0] ' + toList.get(0));
         m.setToAddresses(toList);
+System.debug(Logginglevel.INFO,'After m.setToAddresses ' + toList.size());            
         if( ccList.size() > 0) {
             m.setCcAddresses(ccList);
         }

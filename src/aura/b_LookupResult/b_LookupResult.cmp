@@ -7,7 +7,7 @@
 <li role="presentation">
     <span class="slds-lookup__item-action slds-media slds-media--center" role="option">
         <div class="slds-media__body">
-            <div class="slds-lookup__result-text"><a onclick="{!c.selectEntry}">{!v.entry}</a></div>
+            <div class="slds-lookup__result-text"><a onfocus="{!c.focusEntry}" onkeyup="{!c.onKeyUp}" onclick="{!c.selectEntry}">{!v.entry}</a></div>
         </div>    
     </span>
 </li>

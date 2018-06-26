@@ -32,7 +32,7 @@ identify which input's autocomplete was just resolved along with the selected va
     <aura:registerEvent name="bevt_AutocompleteList" type="c:bevt_AutocompleteList" />
 
     
-	<div aura:id="searchRes" class="slds-form-element slds-lookup" data-select="single">
+	<div blur="{!c.onblur}" tabindex="0" aura:id="searchRes" class="slds-form-element slds-lookup" data-select="single">
         <div class="slds-grid b_wrap_flex b_input_with_pills uiPillContainer--default">
 			<!--This part is for display search bar for lookup-->
 			<aura:iteration items="{!v.selectedList}" indexVar="inx" var="pill">
@@ -47,7 +47,7 @@ identify which input's autocomplete was just resolved along with the selected va
 					</span>
 				</lightning:layoutItem>
 			</aura:iteration>
-			<lightning:layoutItem>
+			<lightning:layoutItem class="b_input_wrapper">
 				<div>
 					<div>
 						<ui:inputText aura:id="searchInput"

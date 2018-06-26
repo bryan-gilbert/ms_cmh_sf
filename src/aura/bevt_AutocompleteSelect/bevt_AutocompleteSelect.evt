@@ -1,5 +1,6 @@
 <!-- bevt_AutocompleteSelect -->
 <aura:event type="COMPONENT" description="Pass selection from autocomplete dropdown to autocomplete compenent">
     <aura:attribute name="autoCompleteId" type="String"/>
+    <aura:attribute name="eventType" type="String"/> <!--optional: "focus" or "select" or "escape" -->
     <aura:attribute name="entry" type="String"/>
 </aura:event>

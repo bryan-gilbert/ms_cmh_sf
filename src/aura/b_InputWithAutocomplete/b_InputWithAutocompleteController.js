@@ -5,8 +5,16 @@
     },
 	keyUp : function(component, event, helper) {
 		var searchTerm = component.get("v.searchTerm").trim();
-        var keyCode = event.getParams().keyCode
+        var keyCode = event.getParams().keyCode;
+        console.log("kyUp event with keycode", keyCode);
         var searchBox = helper.findSearchBox(component);
+        if(keyCode === 27) {
+            // escape
+            component.set("v.searchTerm","");            
+            var searchBox = helper.findSearchBox(component);
+            helper.hide(searchBox);
+			return;
+        }
 		if( searchTerm.length > 0 ){
             console.log("keyUp open with ", searchTerm);
 			helper.show(searchBox);
@@ -28,12 +36,11 @@
 		}         
 	},
     onblur : function(component,event,helper) {
-		var searchTerm = component.get("v.searchTerm").trim();
-        if(searchTerm.length > 0) {
-            helper.addEntry(component,helper,searchTerm);            
+        console.log("clear the search field and hide the search drop down");
+        var entry = component.get("v.searchTerm");
+        if(entry.length > 0){
+            helper.addEntry(component,helper,entry);
         }
-        // clear the search field and hide the search drop down
-        component.set("v.searchTerm","");            
         var searchBox = helper.findSearchBox(component);
         helper.hide(searchBox);
         
@@ -69,11 +76,21 @@
 		var autoCompleteId = event.getParam("autoCompleteId");
 		if( thisAutoCompleteId === autoCompleteId ) {
             var entry = event.getParam("entry");
-            helper.addEntry(component, helper, entry);
-            // clear the search field and hide the search drop down
-            component.set("v.searchTerm","");            
-            var searchBox = helper.findSearchBox(component);
-			helper.hide(searchBox);
+            var eventType = event.getParam("eventType");
+            if("focus" === eventType) {
+                component.set("v.searchTerm",entry);  
+            } else if ("escape" === eventType){
+                console.log("lookup item says to exit");
+                component.set("v.searchTerm","");            
+                var searchBox = helper.findSearchBox(component);
+                helper.hide(searchBox);
+            } else {
+                helper.addEntry(component, helper, entry);
+                // clear the search field and hide the search drop down
+                component.set("v.searchTerm","");            
+                var searchBox = helper.findSearchBox(component);
+                helper.hide(searchBox);
+            }
 		}
 	},
    
