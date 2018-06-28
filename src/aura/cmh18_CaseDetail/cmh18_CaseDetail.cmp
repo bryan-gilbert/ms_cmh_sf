@@ -1,4 +1,4 @@
-<aura:component controller="cmh18_CaseController"  implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+<aura:component controller="cmh18apex_Server"  implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
 	<aura:attribute name="recordId" type="String" />
 	<aura:attribute name="theCase" type="Case" />
 	<aura:attribute name="properties" type="list" />

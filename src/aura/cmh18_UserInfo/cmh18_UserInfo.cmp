@@ -1,11 +1,15 @@
-<aura:component controller="cmh18_UserInfoServer">
+<aura:component>
     <!-- init handler event call "doInit" function on component load and fetch current user information -->
     <aura:attribute name="version" type="String" default="uinfo-v0.5"/>    
     <aura:attribute name="globals" type="Object" />    
     <aura:attribute name="userInfo" type="User"/>  
     <aura:attribute name="orgInfo" type="OrgWideEmailAddress"/>
     <aura:attribute name="showInfo" type="Boolean" default="true"/>
-    <aura:handler event="c.cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>
+    <aura:method name="setInfo" action="{!c.setInfo}">
+	    <aura:attribute name="userInfo" type="User"/>  
+	    <aura:attribute name="orgInfo" type="OrgWideEmailAddress"/>
+    
+    </aura:method>
     
    <!-- can show information by exposing this.  --> 
     <aura:if isTrue="{!v.showInfo}">

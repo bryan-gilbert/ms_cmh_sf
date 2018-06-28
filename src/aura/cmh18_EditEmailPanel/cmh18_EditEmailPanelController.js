@@ -113,11 +113,13 @@
                 if(theEmail.fromAddress) {
                     toInput.setLists(addresses,[theEmail.fromAddress]);                    
                 }
-                helperData.re = "Re:";
+                if (! theEmail.subject.trim().startsWith("Re:"))
+                	helperData.re = "Re:";
                 preData.push('<p>--------------- Original Message ---------------</p>\n');
             }
             if ("forward" === requestedAction) {
-                helperData.re = "Fwd:";
+                if (! theEmail.subject.trim().startsWith("Fwd:"))
+                	helperData.re = "Fwd:";
                 preData.push('<p>---------- Forwarded message ---------</p>\n');
             }
             preData.push('<p>From: '+theEmail.fromAddress+'</p>\n');
@@ -200,6 +202,10 @@
         emailData.bccList = component.get("v.bccList");
         console.log("To/cc/bcc",emailData.toList, " -- ", emailData.ccList," -- ", emailData.bccList);
         emailData.subject = component.get("v.subject");
+        if(emailData.toList.length === 0 && emailData.ccList.length === 0 ){
+            alert("Must provide at least on TO or one CC address");
+            return;
+        }
         var html = component.get("v.body");
         var text = html.replace(/(<\/p>)/g, "\n"); 
         text = text.replace(/(<([^>]+)>)/g, "");           

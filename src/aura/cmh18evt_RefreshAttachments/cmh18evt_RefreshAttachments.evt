@@ -1,0 +1,2 @@
+<!--  cmh18evt_RefreshAttachments -->
+<aura:event type="APPLICATION" description="Event template" />

@@ -1,7 +1,7 @@
 ({
 	loadList : function(component, helper) {
         var caseId = component.get("v.caseId");
-        var action = component.get("c.getList");
+        var action = component.get("c.getEmailMessageList");
         console.log("email list invoke load ...")
 		action.setParams({"caseId": caseId});
         action.setCallback(this, function(response){

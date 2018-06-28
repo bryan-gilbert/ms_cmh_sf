@@ -1,8 +1,8 @@
-<aura:component controller="cmh18_CaseController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+<aura:component controller="cmh18apex_Server" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
     <!-- uses cmh18_EditEmailPanel, cmh18_EmailDetail, and cmh18_UserInfo -->
     <!-- https://github.com/bryan-gilbert/ms_cmh_sf -->
     <aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="cev-v0.98"/>
+    <aura:attribute name="version" type="String" default="cev-v0.102"/>
     <aura:attribute name="globals" type="Object" default="{UserId:'1'}"/>
 	<aura:attribute name="recordId" type="String" />
 	<aura:attribute name="caseNumber" type="String" />
@@ -10,15 +10,12 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
    	<aura:attribute name="showInfo" type="Boolean" /> 
 
-<aura:registerEvent name="cmh18evt_GlobalDataChange" type="c:cmh18evt_GlobalDataChange"/>
-    
-<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId}</div>
-    caseN: {!v.caseNumber}
+	<aura:registerEvent name="cmh18evt_GlobalDataChange" type="c:cmh18evt_GlobalDataChange"/>
+      
 	<div class="slds-grid slds-gutters">
 		<div class="slds-col slds-size_2-of-4">            
             <c:cmh18_EmailList caseId="{!v.recordId}"/>
             <c:cmh18_EditEmailPanel/>
-
             <c:cmh18_AttachmentList/>              
         </div>
         <!-- End Left and start Right side panel -->
@@ -32,7 +29,7 @@
     <c:cmh18_EmailLoader />
     <c:cmh18_AttachmentsLoader caseId="{!v.recordId}"/>
 
-    <!-- include user infor loader with optional UI -->
+    <!-- include user info with optional UI -->
     <aura:if isTrue="{!v.showInfo}">
         <button onclick="{!c.closeUserInfo}">
         <lightning:icon class="icn" iconName="utility:close" size="xx-small" alternativeText="hide user info" />
@@ -45,6 +42,8 @@
         </button>
         </aura:set>
     </aura:if>            
-    <c:cmh18_UserInfo showInfo="{!v.showInfo}" globals="{!v.globals}"/>   
+    <c:cmh18_UserInfo aura:id="userInfo" showInfo="{!v.showInfo}" globals="{!v.globals}"/>   
+
+<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId} &nbsp; caseN: {!v.caseNumber}</div>
     
 </aura:component>

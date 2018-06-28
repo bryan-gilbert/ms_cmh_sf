@@ -1,4 +1,4 @@
-<aura:component controller="cmh18_EmailController">
+<aura:component controller="cmh18apex_Server">
 	<aura:attribute name="globals" type="Object" />    
     <aura:attribute name="version" type="String" default="eLoader-v0.4"/>
     <aura:attribute name="emailId" type="String" default=""/>

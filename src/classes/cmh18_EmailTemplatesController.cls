@@ -42,8 +42,8 @@ public with sharing class cmh18_EmailTemplatesController {
             results.add(result.getMergedBody());
         } else {
             String errMsg = '';
-            List<Messaging.RenderEmailTemplateError> errs = result.getErrors();
-            for (Messaging.RenderEmailTemplateError err : errs) {
+            //List<Messaging.RenderEmailTemplateError> errs = result.getErrors();
+            for (Messaging.RenderEmailTemplateError err : result.getErrors()) {
                 errMsg += err.getMessage() + '. ';
             }
             system.debug(LoggingLevel.Error,'getTemplate- errors ' + errMsg);

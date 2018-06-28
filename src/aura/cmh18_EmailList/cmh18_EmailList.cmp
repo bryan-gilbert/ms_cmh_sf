@@ -1,7 +1,7 @@
-<aura:component controller="cmh18_CaseEmailListController" >
+<aura:component controller="cmh18apex_Server" >
     <aura:attribute name="emails" type="EmailMessage[]" />
     <aura:attribute name="addresses" type="String[]" />
-    <aura:attribute name="version" type="String" default="elist-v0.91"/>
+    <aura:attribute name="version" type="String" default="elist-v0.92"/>
     <aura:attribute name="globals" type="Object"/>
 	<aura:attribute name="caseId" type="String" />
 	<aura:attribute name="count" type="Integer" />
@@ -31,7 +31,7 @@
 				</h2>
 			</div>
       <div class="slds-no-flex">
-        <lightning:button variant="base" label="Refresh" onclick="{! c.refresh }" >
+        <lightning:button variant="base" label="Refresh" title="Refresh"  onclick="{!c.refresh }" >
         <lightning:icon class="icn" iconName="utility:refresh" size="small" alternativeText="refresh" />                
         </lightning:button>    
       </div>

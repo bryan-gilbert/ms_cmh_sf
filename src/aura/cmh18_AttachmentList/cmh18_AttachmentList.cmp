@@ -1,9 +1,10 @@
 <aura:component>
-<aura:attribute name="version" type="String" default="aList-v0.43"/>
+<aura:attribute name="version" type="String" default="aList-v0.45"/>
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="attachments" type="Attachment[]"/>
 <aura:attribute name="count" type="Integer"/>
 <aura:attribute name="caseId" type="String" />
+<aura:attribute name="caseNumber" type="String" />
 <aura:attribute name="emailId" type="String" />
 <aura:attribute name="showCheckBoxes" type="Boolean" default="false"/>    
 <aura:attribute name="checkSelected" type="Boolean" default="false"/>    

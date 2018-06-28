@@ -4,6 +4,7 @@
         var globals = event.getParam("globals");
         if(globals) {
         component.set("v.caseId", globals.caseId);
+        component.set("v.caseNumber", globals.caseNumber);
         var fileInput = component.find("fileUploadInput")
             fileInput.set("v.recordId", globals.caseId);
         }else {
