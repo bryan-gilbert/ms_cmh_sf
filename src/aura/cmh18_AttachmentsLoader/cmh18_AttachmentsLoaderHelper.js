@@ -89,7 +89,7 @@
         data.allDocs = merged;
         console.log("attachments fire loaded event");
 
-        var loadedEvent = $A.get("e.c:cmh18_AttachmentsLoadedEvent");
+        var loadedEvent = $A.get("e.c:cmh18evt_AttachmentsLoaded");
         loadedEvent.setParams({"attachmentsData": data});
         loadedEvent.fire();
     },

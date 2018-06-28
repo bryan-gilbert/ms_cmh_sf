@@ -55,7 +55,7 @@
         }
 	},
     // Handle the event an email record has been retrieved
-    cmh18_EmailLoadedEvent : function(component, event, helper) {
+    cmh18evt_EmailLoaded : function(component, event, helper) {
         if(!component.get("v.isOpen")) {
             return; // do nothing
         }
@@ -65,7 +65,8 @@
 		var requestedAction = component.get("v.requestedAction");
         var globals = component.get("v.globals");
         var orgInfo = globals.orgInfo;
-        var userInfo = globals.userInfo;      
+        var userInfo = globals.userInfo;   
+        var caseNumber = globals.caseNumber;
         var fromAddress = orgInfo ? orgInfo.Address : userInfo.Email;
         var from = orgInfo ? orgInfo.DisplayName : userInfo.Name;
         var toInput = component.find("toInput");
@@ -76,14 +77,14 @@
         bccInput.setLists(addresses);
         
         console.log("Org wide email " + from + "  " + fromAddress);
-        console.log("In edit email panel cmh18_EmailLoadedEvent ", emailData);
+        console.log("In edit email panel cmh18evt_EmailLoaded ", emailData);
         helper.initForm(component);
         if (emailData.error) {
-            console.error("Error in edit panel cmh18_EmailLoadedEvent ", emailData.error);
+            console.error("Error in edit panel cmh18evt_EmailLoaded ", emailData.error);
             component.set("v.error", emailData.error);
         } else {
             var theEmail = emailData.data;
-            var helperData = {originalSubject: theEmail.subject};
+            var helperData = {originalSubject: theEmail.subject, caseNumber: caseNumber};
             component.set("v.originalEmail", theEmail);
             component.set("v.id", theEmail.id);
             component.set("v.fromAdress", "cc@example.com");
@@ -108,7 +109,8 @@
             }
             var preData = [];
             preData.push('<p>&nbsp;</p>\n');            
-            preData.push('<p>&nbsp;</p>\n');            
+            preData.push('<p>&nbsp;</p>\n');   
+            helperData.re = undefined;
             if(requestedAction.includes("reply")) {
                 if(theEmail.fromAddress) {
                     toInput.setLists(addresses,[theEmail.fromAddress]);                    
@@ -203,9 +205,23 @@
         console.log("To/cc/bcc",emailData.toList, " -- ", emailData.ccList," -- ", emailData.bccList);
         emailData.subject = component.get("v.subject");
         if(emailData.toList.length === 0 && emailData.ccList.length === 0 ){
-            alert("Must provide at least on TO or one CC address");
+            alert("Must provide at least one TO or one CC address");
             return;
         }
+        if(!helper.validateEmailAddressList(emailData.toList,"To List")){
+            console.log("User says to not send email")
+            return;
+        }
+        if(!helper.validateEmailAddressList(emailData.ccList,"Cc List")){
+            console.log("User says to not send email")
+            return;
+        }
+        if(!helper.validateEmailAddressList(emailData.bccList,"Bcc List")){
+            console.log("User says to not send email")
+            return;
+        }
+           console.log("bailing for dev "); 
+return;        
         var html = component.get("v.body");
         var text = html.replace(/(<\/p>)/g, "\n"); 
         text = text.replace(/(<([^>]+)>)/g, "");           

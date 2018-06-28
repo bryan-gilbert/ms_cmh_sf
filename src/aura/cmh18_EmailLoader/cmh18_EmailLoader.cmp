@@ -4,7 +4,7 @@
     <aura:attribute name="emailId" type="String" default=""/>
     <!-- cmh18_LoadEmailEvent fired by a component that wants an email record -->
     <aura:handler event="c:cmh18_LoadEmailEvent" action="{!c.cmh18_LoadEmailEvent}"/>	
-	<!-- cmh18_EmailLoadedEvent fired by this component when an email record has been retrieved. -->
-	<aura:registerEvent name="cmh18_EmailLoadedEvent" type="c:cmh18_EmailLoadedEvent" />
+	<!-- cmh18evt_EmailLoaded fired by this component when an email record has been retrieved. -->
+	<aura:registerEvent name="cmh18evt_EmailLoaded" type="c:cmh18evt_EmailLoaded" />
     <span class="slds-text-body_small slds-text-color_weak">{!v.version}&nbsp;</span>	
 </aura:component>

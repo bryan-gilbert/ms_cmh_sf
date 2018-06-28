@@ -10,7 +10,7 @@
 <aura:attribute name="checkSelected" type="Boolean" default="false"/>    
 
 <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>        
-<aura:handler event="c:cmh18_AttachmentsLoadedEvent" action="{!c.cmh18_AttachmentsLoadedEvent}" />
+<aura:handler event="c:cmh18evt_AttachmentsLoaded" action="{!c.cmh18evt_AttachmentsLoaded}" />
 <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
 <aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
 <aura:handler event="c.cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>

@@ -1,7 +1,7 @@
 <aura:component controller="cmh18apex_Server" >
     <aura:attribute name="emails" type="EmailMessage[]" />
     <aura:attribute name="addresses" type="String[]" />
-    <aura:attribute name="version" type="String" default="elist-v0.92"/>
+    <aura:attribute name="version" type="String" default="elist-v0.93"/>
     <aura:attribute name="globals" type="Object"/>
 	<aura:attribute name="caseId" type="String" />
 	<aura:attribute name="count" type="Integer" />
@@ -38,7 +38,7 @@
             
 		</header>
 	</div>
-<div class="slds-scrollable" style="max-height: 16rem;">    
+<div class="slds-scrollable" style="max-height: 32rem;">    
 	<div class="slds-card__body">
 		<table class="slds-table slds-table_fixed-layout slds-table_bordered">
 			<tbody>

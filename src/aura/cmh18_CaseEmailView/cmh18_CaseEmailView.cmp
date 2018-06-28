@@ -2,7 +2,7 @@
     <!-- uses cmh18_EditEmailPanel, cmh18_EmailDetail, and cmh18_UserInfo -->
     <!-- https://github.com/bryan-gilbert/ms_cmh_sf -->
     <aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="cev-v0.102"/>
+    <aura:attribute name="version" type="String" default="cev-v0.110"/>
     <aura:attribute name="globals" type="Object" default="{UserId:'1'}"/>
 	<aura:attribute name="recordId" type="String" />
 	<aura:attribute name="caseNumber" type="String" />
@@ -11,6 +11,7 @@
    	<aura:attribute name="showInfo" type="Boolean" /> 
 
 	<aura:registerEvent name="cmh18evt_GlobalDataChange" type="c:cmh18evt_GlobalDataChange"/>
+<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId} &nbsp; caseN: {!v.caseNumber}</div>
       
 	<div class="slds-grid slds-gutters">
 		<div class="slds-col slds-size_2-of-4">            

@@ -41,7 +41,7 @@
         })
         parts.sort();
         var addresses = parts.filter(function(item, pos, ary) {
-	        return !pos || item != ary[pos - 1];
+	        return item.length > 0 && (!pos || item != ary[pos - 1]);
 	    });
         console.log("Add address", addresses);
         component.set("v.addresses",addresses);

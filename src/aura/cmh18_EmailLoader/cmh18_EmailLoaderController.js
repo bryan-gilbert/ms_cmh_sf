@@ -1,5 +1,5 @@
 ({
-    // handles a email load request event. Fire cmh18_EmailLoadedEvent when done.
+    // handles a email load request event. Fire cmh18evt_EmailLoaded when done.
 	cmh18_LoadEmailEvent : function(component, event, helper) {
         var emailId = event.getParam("emailId");
         console.log("In email loader event handler id: ", emailId);
@@ -33,7 +33,7 @@
                     emailData.error += errors[0].message;
                 }
             }
-            var loadedEvent = $A.get("e.c:cmh18_EmailLoadedEvent");
+            var loadedEvent = $A.get("e.c:cmh18evt_EmailLoaded");
             loadedEvent.setParams({"emailData": emailData});
             loadedEvent.fire();
         });

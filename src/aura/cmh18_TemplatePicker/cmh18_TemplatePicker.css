@@ -27,7 +27,7 @@
 
 .THIS .tableBodyScroll tbody {
 display:block;
-max-height:200px;
+max-height:40rem;
 overflow-y:scroll;
 }
 

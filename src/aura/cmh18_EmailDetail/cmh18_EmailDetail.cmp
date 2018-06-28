@@ -20,7 +20,7 @@
     <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
 	<aura:handler event="c:cmh18evt_AttachmentList" action="{!c.cmh18evt_AttachmentList}"/>	
 
-    <aura:handler event="c:cmh18_EmailLoadedEvent" action="{!c.cmh18_EmailLoadedEvent}"/>	
+    <aura:handler event="c:cmh18evt_EmailLoaded" action="{!c.cmh18evt_EmailLoaded}"/>	
 
 <!-- BEING UI -->
    <div id="view">

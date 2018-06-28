@@ -11,7 +11,7 @@
             alert("Error globals did not come along in the global data change event");
         }
     },
-	cmh18_AttachmentsLoadedEvent : function(component, event, helper) {
+	cmh18evt_AttachmentsLoaded : function(component, event, helper) {
         var attachmentsData = event.getParam("attachmentsData");        
         var allDocs = attachmentsData.allDocs;
         var attachmentRecords = attachmentsData.attachments;
@@ -22,7 +22,7 @@
             //console.log("attachment: " + a.name + " parent: " + a.parentIsCase + " link: " + a.isDocument + " attach: " + a.isAttachment + " parent: " + a.parentId);
             //console.log("attachment.lastModifiedDate " + a.lastModifiedDate)
         })
-        console.log("cmh18_AttachmentList cmh18_AttachmentsLoadedEvent "+ allDocs.length + " attachments");
+        console.log("cmh18_AttachmentList cmh18evt_AttachmentsLoaded "+ allDocs.length + " attachments");
         component.set("v.attachments", allDocs);
         component.set("v.count", allDocs.length);
         component.set("v.emailId", '');

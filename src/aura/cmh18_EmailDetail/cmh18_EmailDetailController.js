@@ -10,9 +10,9 @@
 //        cmh18_LoadEmailEvent.fire();
 	},
     // Handle the event an email record has been retrieved
-    cmh18_EmailLoadedEvent : function(component, event, helper) {
+    cmh18evt_EmailLoaded : function(component, event, helper) {
         var emailData = event.getParam("emailData");
-        console.log("In email viewer cmh18_EmailLoadedEvent ", emailData);
+        console.log("In email viewer cmh18evt_EmailLoaded ", emailData);
         if (emailData.error) {
             component.set("v.error", emailData.error);
         } else {
