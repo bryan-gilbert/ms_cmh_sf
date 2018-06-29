@@ -1,4 +1,2 @@
 <!-- application event: caseEmailDetailEvent -->
-<aura:event type="APPLICATION" description="User selected a email record to view">
-    <aura:attribute name="emailId" type="String"/>
-</aura:event>
+<aura:event type="APPLICATION" description="Obsolete"/>

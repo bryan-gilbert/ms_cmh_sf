@@ -92,8 +92,8 @@
                     </div>
                     </td>
                     <td class="cev-col-subject" > 
-                        <div class="slds-cell-wrap"  title="{!attachment.name}">{!attachment.name}
-                    </div>
+                        <div class="slds-cell-wrap"  title="{!attachment.name}">{!attachment.name}</div>
+                        <div>{!attachment.size}</div>
                     </td>
                     </tr>
                 </aura:iteration>

@@ -1,10 +1,2 @@
 <!-- cmh18_OpenEditEmailPanelEvent -->
-<aura:event type="APPLICATION" 
-description="Open the edit email panel. User may want to compose a new email, reply, reply to all or forward an existing email.">
-<!-- 
-Expect action to be "New", "Reply", "ReplyAll", "Forward".  
-If action is New the emailRefId is ignored. Otherwise emailRefId is required.
--->
-    <aura:attribute name="action" type="String"/>
-    <aura:attribute name="emailId" type="String"/>
-</aura:event>
+<aura:event type="APPLICATION" description="Obsolete."/>

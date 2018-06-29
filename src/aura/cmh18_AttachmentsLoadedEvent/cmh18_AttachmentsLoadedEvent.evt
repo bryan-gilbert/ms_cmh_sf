@@ -1,7 +1,1 @@
-<aura:event type="APPLICATION" description="Attachments have been loaded." >
-<!--
-attachments : Attachment[]
-error : String
--->
-    <aura:attribute name="attachmentsData" type="Object"/>
-</aura:event>
+<aura:event type="APPLICATION" description="Obsolete" />
