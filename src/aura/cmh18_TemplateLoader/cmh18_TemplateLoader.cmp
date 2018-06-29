@@ -4,11 +4,11 @@
     <aura:attribute name="version" type="String" default="etl-v0.10"/>
     <aura:attribute name="templateId" type="String" default=""/>
 
-    <!-- cmh18_PickTemplateEvent fired by email template picker when user selects template-->
-    <aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.cmh18_PickTemplateEvent}"/>
+    <!-- cmh18evt_PickTemplate fired by email template picker when user selects template-->
+    <aura:handler event="c.cmh18evt_PickTemplate" action="{!c.cmh18evt_PickTemplate}"/>
 
-	<!-- cmh18_TemplateRenderedEvent fired here when email template has been rendered -->
-	<aura:registerEvent name="cmh18_TemplateRenderedEvent" type="c:cmh18_TemplateRenderedEvent" />
+	<!-- cmh18evt_TemplateRendered fired here when email template has been rendered -->
+	<aura:registerEvent name="cmh18evt_TemplateRendered" type="c:cmh18evt_TemplateRendered" />
 <!-- hide version on this non ui component unless we need to develop further -->
 <aura:if isTrue="false">
     <div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>

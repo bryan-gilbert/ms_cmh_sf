@@ -1,15 +1,15 @@
 ({
      /**  
-     * Handle cmh18_PickTemplateEvent
+     * Handle cmh18evt_PickTemplate
      * get the rendered email template subject, text and optional html body.
-     * fire cmh18_TemplateRenderedEvent when these are ready.
+     * fire cmh18evt_TemplateRendered when these are ready.
      */
-    cmh18_PickTemplateEvent: function(component, event) {
+    cmh18evt_PickTemplate: function(component, event) {
         var templateId = event.getParam("templateId");
         var globals = component.get("v.globals");
         var whoId = globals.userId;
         var whatId = globals.caseId;
-        console.log("In template loader cmh18_PickTemplateEvent " + templateId + " user: " + whoId + " case: " + whatId);
+        console.log("In template loader cmh18evt_PickTemplate " + templateId + " user: " + whoId + " case: " + whatId);
         // public class cmh18_EmailTemplatesController  ...
         //  public static List<String> getTemplate(Id templateId, Id whoId, Id whatId)
         //  returns one or two strings. if present the second is the html body
@@ -25,14 +25,14 @@
                     var renderedHtml = list.length > 2 ? list[2] : /* html is optional */ undefined;
                     var renderedText = list[1];
                     var renderedSubject = list[0];
-                    var cmh18_TemplateRenderedEvent = $A.get("e.c:cmh18_TemplateRenderedEvent");
+                    var cmh18evt_TemplateRendered = $A.get("e.c:cmh18evt_TemplateRendered");
                     var params = {
                         "renderedSubject": renderedSubject
                         ,"renderedText": renderedText
                         ,"renderedHtml": renderedHtml
                     };
-                    cmh18_TemplateRenderedEvent.setParams(params);
-                    cmh18_TemplateRenderedEvent.fire();
+                    cmh18evt_TemplateRendered.setParams(params);
+                    cmh18evt_TemplateRendered.fire();
                 } else {
                     console.error("Error. No rendered data received.")
                     console.error("Template Id: " + templateId + " User id: " + whoId + " Case id: " + whatId);                    

@@ -1,8 +1,2 @@
-<!-- cmh18_TemplateRenderedEvent -->
-<aura:event type="APPLICATION" description="A rendered email template has been loaded" >
-    <!--  required -->
-    <aura:attribute name="renderedText" type="String"/> 
-    <aura:attribute name="renderedSubject" type="String"/>
-    <!--  optional -->
-    <aura:attribute name="renderedHtml" type="String"/> 
-</aura:event>
+<!-- cmh18evt_TemplateRendered -->
+<aura:event type="APPLICATION" description="replaced by cmh18evt_TemplateRendered" />

@@ -8,7 +8,7 @@
 <aura:attribute name="cancelButtonText" type="String" default="Cancel" />    
 <aura:attribute name="isOpen" type="boolean" default="false"/>
 <aura:attribute name="templateId" type="String"/>    
-<aura:handler event="c.cmh18_PickTemplateEvent" action="{!c.cmh18_PickTemplateEvent}"/>
+<aura:handler event="c.cmh18evt_PickTemplate" action="{!c.cmh18evt_PickTemplate}"/>
 <div id="view">
   <!--Use "slds-m-around- -xx-large" class to add standard Large padding to the component--> 
     <lightning:button onclick="{!c.openModel}" variant="brand">

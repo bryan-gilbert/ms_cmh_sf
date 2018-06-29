@@ -155,8 +155,8 @@
      * TODO add spinner to this area once the template picker has been opened. Close when 
      * the rendered text is ready.
      */
-    cmh18_TemplateRenderedEvent: function(component, event, helper) {
-        // cmh18_TemplateRenderedEvent sends renderedSubject, renderedText and optionally renderedHtml
+    cmh18evt_TemplateRendered: function(component, event, helper) {
+        // cmh18evt_TemplateRendered sends renderedSubject, renderedText and optionally renderedHtml
         var renderedSubject = event.getParam("renderedSubject");
         var renderedText = event.getParam("renderedText");
         var renderedHtml = event.getParam("renderedHtml");        

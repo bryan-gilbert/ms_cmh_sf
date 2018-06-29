@@ -24,7 +24,7 @@
     
 <aura:handler event="c.cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
 <aura:handler event="c:cmh18evt_EmailLoaded" action="{!c.cmh18evt_EmailLoaded}"/>	
-<aura:handler event="c.cmh18_TemplateRenderedEvent" action="{!c.cmh18_TemplateRenderedEvent}"/>
+<aura:handler event="c.cmh18evt_TemplateRendered" action="{!c.cmh18evt_TemplateRendered}"/>
 <aura:handler event="c:cmh18evt_EmailSent" action="{!c.cmh18evt_EmailSent}" /> 
 <aura:handler event="c:cmh18evt_AttachmentList" action="{!c.cmh18evt_AttachmentList}"/>	
 <aura:handler event="c:cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>	

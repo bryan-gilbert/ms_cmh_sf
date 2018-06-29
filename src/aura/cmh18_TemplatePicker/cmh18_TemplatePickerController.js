@@ -50,7 +50,7 @@
         var target = event.target;
         var rowId = target.getAttribute("id");
         console.log("In tr click handler with ", rowId);
-        var event = $A.get("e.c:cmh18_PickTemplateEvent");
+        var event = $A.get("e.c:cmh18evt_PickTemplate");
         event.setParams({"templateId": rowId});
         event.setParams({"templates": component.get('v.templates')});
         event.fire();        
