@@ -26,11 +26,19 @@
     <div class="cev_indicator_icon">
     <lightning:icon class="icn" iconName="utility:email" size="xx-small" alternativeText="Email" />
     </div>
+    <div class="cev_indicator_icon">
+    <aura:if isTrue="{!v.email.Incoming}">
+    <lightning:icon class="icn" iconName="utility:arrowdown" size="xx-small" alternativeText="incoming" />
+    <aura:set attribute="else">
+    <lightning:icon class="icn" iconName="utility:arrowup" size="xx-small" alternativeText="outgoing" />
+    </aura:set>
+    </aura:if>    
+    </div>
     <aura:if isTrue="{!v.email.HasAttachment}">
     <div class="cev_indicator_icon">
     <lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="attach" />
     </div>
-    </aura:if>    
+    </aura:if>        
 </td>	
     
 <td class="cev-col-date"> 
@@ -43,10 +51,10 @@
     </div>
 </td>
 <td class="cev-col-subject" > 
-    <div class="slds-cell-wrap slds-text-link_reset" data-value="{!v.email.Id}" onclick="{!c.viewEmail}">                
+    <div class="slds-cell-wrap slds-text-link_reset cmh18_list_item_body" data-value="{!v.email.Id}" onclick="{!c.viewEmail}">                
 		<div class="slds-text-link"> {!v.email.Subject} </div>
-        <div>    Status: {!v.status} &nbsp; To: {!v.email.ToAddress}</div>
-        <div>    From: {!v.email.FromAddress}</div>        
+        <div>    To:&nbsp;&nbsp; {!v.email.ToAddress}</div>
+        <div>    From: {!v.email.FromAddress} &nbsp;|&nbsp; Status: {!v.status}</div>        
     </div>
 </td>
 </aura:component>

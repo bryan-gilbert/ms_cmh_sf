@@ -34,10 +34,13 @@
     },    
     cmh18evt_EmailView : function(component, event, helper) {
         var emailId = event.getParam("emailId");
+        // no need to get the event's caseCommentId
         component.set("v.emailId", emailId);
         console.log("Attachment list respond to view email event", emailId);
         helper.selectSort(component,event,helper);
-        helper.fireAttachmentListEvent(component);        
+        if(emailId) {
+        	helper.fireAttachmentListEvent(component);
+        }        
     },
 	cmh18evt_EmailEdit : function(component, event, helper) {
         var direction = event.getParam("direction");

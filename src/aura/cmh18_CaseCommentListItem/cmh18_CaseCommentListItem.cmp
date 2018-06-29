@@ -22,7 +22,8 @@
     </div>
 </td>
 <td class="cev-col-subject" > 
-    <div class="slds-cell-wrap slds-text-link_reset" data-value="{!v.comment.Id}" onclick="{!c.viewEmail}"> 
+    <div class="slds-cell-wrap slds-text-link_reset cmh18_list_item_body" onclick="{!c.viewComment}"> 
+		<div class="slds-text-link"> {!v.comment.firstLine} </div>        
 		<div>     
 			<aura:unescapedHtml value="{!v.comment.shortBody}"/>
 	    </div>         

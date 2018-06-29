@@ -1,4 +1,9 @@
-<!-- application event: cmh18evt_EmailView -->
-<aura:event type="APPLICATION" description="User selected a email record to view">
+<!-- application event: cmh18evt_EmailView 
+Originally this event was for a list of emails but in time it now is used for a 
+combined list of emails and case comments. 
+-->
+<aura:event type="APPLICATION" description="User selected a record to view">
     <aura:attribute name="emailId" type="String"/>
+    <aura:attribute name="caseCommentId" type="String"/>    
+    <aura:attribute name="caseComment" type="Object"/>    
 </aura:event>

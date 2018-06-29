@@ -15,7 +15,20 @@
 					<span class="slds-text-heading_small">Next Action</span>
 				</h2>
 			</div>
-		</header>
+            <div class="slds-no-flex">
+                <div class="cev_indicator_icon">                    
+                <lightning:button variant="base"  title="Edit Next Action"  onclick="{!c.editNextAction}" >
+                <lightning:icon class="icn" iconName="standard:case_change_status" size="small" alternativeText="edit next action" />                
+                </lightning:button>    
+                </div>
+                <div class="cev_indicator_icon">                    
+                <lightning:button variant="base"  title="Add Case Comment"  onclick="{!c.addComment}" >
+                <lightning:icon class="icn" iconName="standard:case_comment" size="small" alternativeText="add case comment" />                
+                </lightning:button>    
+                </div>
+                
+            </div>
+		</header>        
 	</div>
     <div class="slds-tile cmh18_ed_body" >
 		<div class="slds-scrollable" style="max-height: 10rem;">     

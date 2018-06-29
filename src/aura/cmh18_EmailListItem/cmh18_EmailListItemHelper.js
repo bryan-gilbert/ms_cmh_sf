@@ -3,6 +3,7 @@
 		console.log("fireCaseEmailDetailEvent emailId", emailId);
         var myEvent = $A.get("e.c:cmh18evt_EmailView");
         myEvent.setParams({"emailId": emailId});
+        myEvent.setParams({"caseCommentId": undefined});        
         myEvent.fire();
     },
 	fireCaseEmailEditEvent : function(direction,action, emailId) {

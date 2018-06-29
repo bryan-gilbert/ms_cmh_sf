@@ -50,15 +50,15 @@
         });
         component.set("v.items", merged);
         component.set("v.count", merged.length); 
-        helper.emailSelected(component,helper);
+        helper.itemSelected(component,helper);
  
     },
-	emailSelected : function(component, helper) {
-        var selectedEmail = component.get("v.selectedEmail");
-        console.log("selectedEmail", selectedEmail);        
+	itemSelected : function(component, helper) {
+        var selectedItemId = component.get("v.selectedItemId");
+        console.log("selectedItemId", selectedItemId);        
         var theList = component.get("v.items");
         theList.forEach(function(item) {
-            item.displayClass = selectedEmail === item.Id ? 'selected_row' : 'unselected_row';
+            item.displayClass = selectedItemId === item.Id ? 'selected_row' : 'unselected_row';
             //console.log("email id", email.Id , "vs", selectedEmail, " ", email.displayClass);
         });
         component.set("v.items",theList);
@@ -88,16 +88,13 @@
         var re = /(.*)\n/g;
         var shortLineLimit= 4;
         theList.forEach(function(comment){
-            console.log("stop here", comment);        
             var parts = comment.CommentBody.split('\n');
             var short = parts.slice(0,shortLineLimit);
             if(parts.length>shortLineLimit){
                 short.push("...");
             }
-            var joined = short.join('\n');
-            var shortBody = joined.replace(re, '<p>$1</p>');            
-            //var shortBody = comment.CommentBody.split('\n').slice(0,5).join('\n').replace(re, '<p>$1</p>');
-            comment.shortBody = shortBody;
+            comment.firstLine = short.shift();
+            comment.shortBody = short.join('\n').replace(re, '<p>$1</p>');;
             var htmlBody = comment.CommentBody.replace(re, '<p>$1</p>'); 
             comment.htmlBody = htmlBody;            
         })

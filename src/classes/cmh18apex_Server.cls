@@ -12,8 +12,10 @@ public with sharing class cmh18apex_Server {
     
     @AuraEnabled
     public static CaseComment[] getCaseCommentList(Id caseId) {
-        CaseComment[] comments = [select Id, CommentBody, LastModifiedDate, ParentId from CaseComment WHERE ParentId = :caseId ORDER BY LastModifiedDate DESC
+        CaseComment[] comments = [select Id, CommentBody, LastModifiedDate, LastModifiedBy.Name, ParentId from CaseComment WHERE ParentId = :caseId ORDER BY LastModifiedDate DESC
     	];
+        if(comments.size() > 0)
+        System.debug('Case comments' + comments[0]);
         return comments;    
     }
     

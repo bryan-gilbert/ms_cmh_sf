@@ -4,10 +4,9 @@
         component.set("v.isLoaded", false);
         console.log("In CMH 18 Email Detail event handler");
         var emailId = event.getParam("emailId");        
+        // var caseCommentId = event.getParam("caseCommentId");
+        // no need here for case comment id. if email id is undefined or define it will be fine
         component.set('v.emailId', emailId);
-//        var cmh18_LoadEmailEvent = $A.get("e.c:cmh18_LoadEmailEvent");
-//        cmh18_LoadEmailEvent.setParams({"emailId": emailId});
-//        cmh18_LoadEmailEvent.fire();
 	},
     // Handle the event an email record has been retrieved
     cmh18evt_EmailLoaded : function(component, event, helper) {

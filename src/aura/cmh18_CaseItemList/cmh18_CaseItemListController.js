@@ -10,9 +10,14 @@
 	}, 	
     cmh18evt_EmailView : function(component, event, helper) {
         var emailId = event.getParam("emailId");
-        component.set("v.selectedEmail", emailId);
-        //console.log("Set selectedEmail", emailId);
-        helper.emailSelected(component,event,helper);
+        var caseCommentId = event.getParam("caseCommentId");
+        if(emailId) {
+	        component.set("v.selectedItemId", emailId);
+        }
+        if(caseCommentId) {
+	        component.set("v.selectedItemId", caseCommentId);
+        }
+        helper.itemSelected(component,event,helper);
 	}, 	
     cmh18evt_RefreshFromServer : function(component,event,helper) {
 	  helper.loadList(component,helper);       

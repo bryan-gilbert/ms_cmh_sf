@@ -1,0 +1,47 @@
+<aura:component>
+    <aura:attribute name="version" type="String" default="ed-v0.1"/>
+    <aura:attribute name="caseCommentId" type="String"/>
+    <aura:attribute name="caseComment" type="Object"/>    
+    <aura:attribute name="isLoaded" type="Boolean" default="false"/>
+    <aura:attribute name="fromAdress" type="String" />
+    <aura:attribute name="date" type="Date" />
+    <aura:attribute name="body" type="String" />    
+    
+    <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
+
+<!-- BEING UI -->
+   <div id="view">
+       <div class="email_details">
+<aura:if  isTrue="{!v.isLoaded}">    
+    <article class="slds-card">
+	<div class="slds-card__header slds-grid">      
+		<header class="slds-media slds-media_center slds-has-flexi-truncate">
+			<div class="slds-media__body">
+				<h2 class="slds-card__header-title">
+					<span class="slds-text-heading_small">Comment</span>
+				</h2>
+			</div>
+		</header>
+        </div>
+	<div class="slds-card__body slds-table_bordered">
+      <dl class="slds-list_horizontal slds-wrap">
+        <dt class="slds-item_label  " title="Date">Date:</dt>
+        <dd class="slds-item_detail " title="Date Value">
+            <ui:outputDate format="YYYY-MM-DD, hh:mm a" value="{!v.caseComment.LastModifiedDate}" />                                    
+        </dd>
+        <dt class="slds-item_label  " title="Who">Who:</dt>
+        <dd class="slds-item_detail " title="Who Value">
+            <div>{!v.caseComment.LastModifiedBy.Name}</div>                                   
+        </dd>
+          
+    </dl>
+    </div>
+    <div class="slds-tile cmh18_ed_body" >
+        <aura:unescapedHtml value="{!v.caseComment.htmlBody}"/>
+    </div>       
+    </article>
+</aura:if>  
+</div>           
+</div>
+	<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>          
+</aura:component>

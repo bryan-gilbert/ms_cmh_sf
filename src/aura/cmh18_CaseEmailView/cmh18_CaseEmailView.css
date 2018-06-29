@@ -66,3 +66,11 @@
 .THIS .attachment_list_item_icon {
 	margin-right: 0.25rem;
 }
+
+.THIS .cmh18_list_item_body {
+	font-size:1rem;  
+}
+
+.THIS .cmh18_list_item_body .slds-text-link {
+	color: rgb(0,0,255);  
+}
