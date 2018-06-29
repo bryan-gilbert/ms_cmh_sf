@@ -9,6 +9,14 @@ public with sharing class cmh18apex_Server {
     	];
         return messages;    
     }
+    
+    @AuraEnabled
+    public static CaseComment[] getCaseCommentList(Id caseId) {
+        CaseComment[] comments = [select Id, CommentBody, LastModifiedDate, ParentId from CaseComment WHERE ParentId = :caseId ORDER BY LastModifiedDate DESC
+    	];
+        return comments;    
+    }
+    
         @AuraEnabled
     public static Case getCase(String caseId) {
 		Case aCase = [

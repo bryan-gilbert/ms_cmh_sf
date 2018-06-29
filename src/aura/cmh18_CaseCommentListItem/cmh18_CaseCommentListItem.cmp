@@ -1,0 +1,28 @@
+<aura:component >
+    <aura:attribute name="comment" type="CaseComment" />
+    <aura:attribute name="status" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+<td class="cev-col-action" >                        
+<div class="slds-button-group" role="group" title="Action">  
+</div>
+</td>
+<td scope="col" class="cev-col-indicators"> 
+</td>	
+    
+<td class="cev-col-date"> 
+    <div  title="{!v.comment.LastModifiedDate}">
+        <div>
+        <ui:outputDate format="YYYY-MM-DD" value="{!v.comment.LastModifiedDate}" />                        
+            </div><div>
+        <ui:outputDate format="hh:mm a" value="{!v.comment.LastModifiedDate}" />                        
+        </div>
+    </div>
+</td>
+<td class="cev-col-subject" > 
+    <div class="slds-cell-wrap slds-text-link_reset" data-value="{!v.comment.Id}" onclick="{!c.viewEmail}"> 
+		<div>     
+			<aura:unescapedHtml value="{!v.comment.shortBody}"/>
+	    </div>         
+    </div>
+</td>
+</aura:component>

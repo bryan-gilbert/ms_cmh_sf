@@ -33,7 +33,9 @@ public class cmh18apex_Tests {
 	cmh18_AttachmentsController.getDocumentLinksForCase(aCase.Id);
 	
 	cmh18apex_Server.getEmailMessageList(aCase.Id);
-	  	  
+
+    cmh18apex_Server.getCaseCommentList(aCase.Id);
+
 	cmh18apex_Email.getRef(aCase.Id);
       
 

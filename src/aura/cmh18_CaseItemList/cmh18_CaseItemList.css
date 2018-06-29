@@ -1,0 +1,60 @@
+/*
+ * Define styles for all nested components
+ */
+.THIS .icn .slds-icon-text-default {
+	fill: t(cmh18_iconFillColor);
+}
+
+.THIS .cmh18_list_action {
+    width: 2rem;
+    padding-right: 23px;
+    padding-left: 11px;
+}
+
+.THIS .selected_row{
+    background-color: blanchedalmond
+}
+
+.THIS .cmh18_ed_body {
+    border: 1px solid #0070D2;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/*
+ * Define styles for this main component
+ */
+
+.THIS .cmh18_cev_right_panel {
+    border-left: 1px solid #cccccc;
+}
+
+.THIS .cev-col-date {
+    width:15%
+}
+
+.THIS .cev-col-action {
+    padding-left: 0 !important;
+    width: 18%;
+}
+
+.THIS .cev-col-subject {
+/*    width:60%;
+ */
+}
+
+.THIS .cev-col-indicators {
+    width: 12%;
+}
+.THIS .slds-checkbox {
+    width: 1.3rem;
+}
+
+.THIS .attachment_list_item {
+    display:inline-block;
+    margin: 1rem 0.5rem 1rem 0;
+}
+
+.THIS .attachment_list_item_icon {
+	margin-right: 0.25rem;
+}

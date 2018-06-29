@@ -1,0 +1,64 @@
+<aura:component controller="cmh18apex_Server" >
+    <aura:attribute name="items" type="Object[]" />
+    <aura:attribute name="emails" type="EmailMessage[]" />
+    <aura:attribute name="comments" type="CaseComment[]" />
+    <aura:attribute name="addresses" type="String[]" />
+    <aura:attribute name="version" type="String" default="elist-v0.03"/>
+    <aura:attribute name="globals" type="Object"/>
+	<aura:attribute name="caseId" type="String" />
+	<aura:attribute name="count" type="Integer" />
+    <aura:attribute name="selectedEmail" type="String" default="02sf4000002QegeAAC"/>
+	<aura:attribute name="message" type="String" default="empty" />
+    <aura:attribute name="isOpen" type="Boolean" default="true"/>    
+ 
+    <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>
+    <aura:handler event="c:cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
+    <aura:handler event="c:cmh18evt_RefreshFromServer" action="{!c.cmh18evt_RefreshFromServer}"/>
+    <aura:handler event="c:cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>
+
+    
+    <aura:registerEvent name="cmh18evt_EmailView" type="c:cmh18evt_EmailView" />
+	<aura:registerEvent name="cmh18evt_EmailEdit" type="c:cmh18evt_EmailEdit" />    
+	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
+	<aura:registerEvent name="cmh18evt_RefreshFromServer" type="c:cmh18evt_RefreshFromServer" />    
+    
+   	<aura:attribute name="showInfo" type="Boolean" /> 
+<aura:if isTrue="{!v.isOpen}">
+<article class="slds-card">
+	<div class="slds-card__header slds-grid">
+		<header class="slds-media slds-media_center slds-has-flexi-truncate">
+			<div class="slds-media__body">
+				<h2 class="slds-card__header-title">
+					<span class="slds-text-heading_small">Items ({!v.count})</span>
+				</h2>
+			</div>
+      <div class="slds-no-flex">
+        <lightning:button variant="base" label="Refresh" title="Refresh"  onclick="{!c.refresh }" >
+        <lightning:icon class="icn" iconName="utility:refresh" size="small" alternativeText="refresh" />                
+        </lightning:button>    
+      </div>
+            
+		</header>
+	</div>
+<div class="slds-scrollable" style="max-height: 32rem;">    
+	<div class="slds-card__body">
+		<table class="slds-table slds-table_fixed-layout slds-table_bordered">
+			<tbody>
+				<aura:iteration items="{!v.items}" indexVar="key" var="item">                    
+				<tr class="{!item.displayClass}" label="{!key}">
+                    <aura:if isTrue="{!item.isEmail}">
+                        <c:cmh18_EmailListItem email="{!item}"/>
+                        <aura:set attribute="else">
+                        <c:cmh18_CaseCommentListItem comment="{!item}"/>
+                        </aura:set>
+                    </aura:if>                        
+				</tr>
+				</aura:iteration>
+			</tbody>
+		</table>
+	</div>
+    </div>
+</article> 	
+</aura:if>    
+<span class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</span>
+</aura:component>
