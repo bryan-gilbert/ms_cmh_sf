@@ -12,7 +12,7 @@ public with sharing class cmh18apex_Server {
         @AuraEnabled
     public static Case getCase(String caseId) {
 		Case aCase = [
-			select Id, ParentId, CaseNumber, CreatedDate, Description, IsClosed, IsDeleted, Origin, OwnerId, Priority
+			select Id, Next_Action__c, ParentId, CaseNumber, CreatedDate, Description, IsClosed, IsDeleted, Origin, OwnerId, Priority
 			, Reason, Status, Subject, Type, ClosedDate, AccountId, ContactId from Case WHERE Id = :caseId
 		];
         return aCase;

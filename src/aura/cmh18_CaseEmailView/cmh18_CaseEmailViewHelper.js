@@ -60,6 +60,10 @@
                 console.log("In getCase callback with userId and caseId", userId, caseId);
                 globals.theCase = theCase;
                 globals.caseNumber = theCase.CaseNumber;
+                if(theCase.Next_Action__c){
+                 globals.nextAction = theCase.Next_Action__c;
+                 component.set("v.nextAction", theCase.Next_Action__c);
+                }
                 if(resultCount===3) 
                     helper.updateGlobals(component,helper,globals);
                 
@@ -72,9 +76,7 @@
                 console.error(error);
                 alert(error);
             }
-        });
-        
-        
+        });                
         $A.enqueueAction(actionCase);        
         $A.enqueueAction(actionUser);        
         $A.enqueueAction(actionOrg);

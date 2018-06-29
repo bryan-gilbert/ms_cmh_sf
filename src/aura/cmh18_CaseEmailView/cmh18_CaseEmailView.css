@@ -15,6 +15,12 @@
     background-color: blanchedalmond
 }
 
+.THIS .cmh18_ed_body {
+    border: 1px solid #0070D2;
+    border-radius: 5px;
+    padding: 10px;
+}
+
 /*
  * Define styles for this main component
  */
