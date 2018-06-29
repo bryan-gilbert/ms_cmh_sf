@@ -19,7 +19,7 @@
     
     <aura:registerEvent name="cmh18evt_EmailView" type="c:cmh18evt_EmailView" />
 	<aura:registerEvent name="cmh18evt_EmailEdit" type="c:cmh18evt_EmailEdit" />    
-	<aura:registerEvent name="cmh18_LoadEmailEvent" type="c:cmh18_LoadEmailEvent" />
+	<aura:registerEvent name="cmh18evt_LoadEmail" type="c:cmh18evt_LoadEmail" />
 	<aura:registerEvent name="cmh18evt_RefreshFromServer" type="c:cmh18evt_RefreshFromServer" />    
     
    	<aura:attribute name="showInfo" type="Boolean" /> 

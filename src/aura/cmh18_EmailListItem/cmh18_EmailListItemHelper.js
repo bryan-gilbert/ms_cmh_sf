@@ -14,9 +14,9 @@
     },
 	fireLoadEmailDetailEvent : function(emailId) {
         console.log("fireLoadEmailDetailEvent emailId: " + emailId);
-        var cmh18_LoadEmailEvent = $A.get("e.c:cmh18_LoadEmailEvent");
-        cmh18_LoadEmailEvent.setParams({"emailId": emailId});
-        cmh18_LoadEmailEvent.fire();
+        var cmh18evt_LoadEmail = $A.get("e.c:cmh18evt_LoadEmail");
+        cmh18evt_LoadEmail.setParams({"emailId": emailId});
+        cmh18evt_LoadEmail.fire();
 	}, 
 	convertStatus : function(status) {
         var inx = status * 1;

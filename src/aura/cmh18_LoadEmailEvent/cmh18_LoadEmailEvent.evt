@@ -1,4 +1,2 @@
 <!-- cmh18_LoadEmailEvent -->
-<aura:event type="APPLICATION" description="request to load an email" >
-    <aura:attribute name="emailId" type="String"/>    
-</aura:event>
+<aura:event type="APPLICATION" description="Obsolete" />

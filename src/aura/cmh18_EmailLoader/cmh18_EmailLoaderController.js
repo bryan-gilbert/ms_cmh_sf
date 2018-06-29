@@ -1,6 +1,6 @@
 ({
     // handles a email load request event. Fire cmh18evt_EmailLoaded when done.
-	cmh18_LoadEmailEvent : function(component, event, helper) {
+	cmh18evt_LoadEmail : function(component, event, helper) {
         var emailId = event.getParam("emailId");
         console.log("In email loader event handler id: ", emailId);
         var action = component.get("c.getEmail");
