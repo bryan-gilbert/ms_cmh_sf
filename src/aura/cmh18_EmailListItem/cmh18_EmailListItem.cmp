@@ -23,8 +23,13 @@
     </div>
 </td>
 <td scope="col" class="cev-col-indicators"> 
+    <div class="cev_indicator_icon">
+    <lightning:icon class="icn" iconName="utility:email" size="xx-small" alternativeText="Email" />
+    </div>
     <aura:if isTrue="{!v.email.HasAttachment}">
+    <div class="cev_indicator_icon">
     <lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="attach" />
+    </div>
     </aura:if>    
 </td>	
     

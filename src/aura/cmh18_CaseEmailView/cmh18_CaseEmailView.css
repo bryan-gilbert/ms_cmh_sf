@@ -46,8 +46,15 @@
 .THIS .cev-col-indicators {
     width: 12%;
 }
+.THIS .cev_indicator_icon {
+    display:inline-block;
+    padding-right:10px;
+}
 .THIS .slds-checkbox {
     width: 1.3rem;
+}
+.THIS .hide_checks {
+    display:none;
 }
 
 .THIS .attachment_list_item {
@@ -55,6 +62,7 @@
     margin: 1rem 0.5rem 1rem 0;
 }
 
+/* for attachment icon display in the email detail and email edit panels */
 .THIS .attachment_list_item_icon {
 	margin-right: 0.25rem;
 }

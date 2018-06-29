@@ -7,6 +7,9 @@
 </div>
 </td>
 <td scope="col" class="cev-col-indicators"> 
+    <div class="cev_indicator_icon">    
+    <lightning:icon class="icn" iconName="utility:case" size="xx-small" alternativeText="Case" />
+    </div>
 </td>	
     
 <td class="cev-col-date"> 
