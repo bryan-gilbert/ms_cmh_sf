@@ -10,7 +10,7 @@
     </types>
     <types>
         <members>*</members>
-        <name>CustomApplication</name>
+        <name>ApexTrigger</name>
     </types>
     <version>38.0</version>
 </Package>

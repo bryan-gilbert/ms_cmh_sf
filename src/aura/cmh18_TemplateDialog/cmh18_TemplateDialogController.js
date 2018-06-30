@@ -1,8 +1,8 @@
 ({
-   openModel: function(component, event, helper) {
+   openModal: function(component, event, helper) {
       component.set("v.isOpen", true);
    }, 
-   cancelModel: function(component, event, helper) {
+   cancelModal: function(component, event, helper) {
       component.set("v.isOpen", false);
    }, 
    doneModal: function(component, event, helper) {

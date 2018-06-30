@@ -2,7 +2,11 @@
 public class cmh18apex_Tests {
     static testmethod void generalTests()
   {
-	cmh18apex_Server.fetchUser();
+	User user = cmh18apex_Server.fetchUser();
+	
+	user = cmh18apex_Server.updateUserData('Some data');
+     System.assert(user.cmh18_data__c == 'Some data');
+	
 	cmh18apex_Server.fetchOrgEmail();
 	
 	Case aCase = new Case();

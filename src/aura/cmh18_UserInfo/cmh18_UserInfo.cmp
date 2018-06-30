@@ -1,8 +1,9 @@
-<aura:component>
+<aura:component controller="cmh18apex_Server" >
     <!-- init handler event call "doInit" function on component load and fetch current user information -->
-    <aura:attribute name="version" type="String" default="uinfo-v0.5"/>    
+    <aura:attribute name="version" type="String" default="uinfo-v0.23"/>    
     <aura:attribute name="globals" type="Object" />    
     <aura:attribute name="userInfo" type="User"/>  
+    <aura:attribute name="userData" type="String" default="foo"/>  
     <aura:attribute name="orgInfo" type="OrgWideEmailAddress"/>
     <aura:attribute name="showInfo" type="Boolean" default="true"/>
     <aura:method name="setInfo" action="{!c.setInfo}">
@@ -28,6 +29,7 @@
     <p>Name : {!v.userInfo.Name}</p>
     <p>FirstName : {!v.userInfo.FirstName}</p>
     <p>LastName : {!v.userInfo.LastName}</p>
+    <p>Data : {!v.userInfo.cmh18_data__c}</p>
     <p>Email : {!v.userInfo.Email}</p>
     <p>Username : {!v.userInfo.Username}</p>
     <p>TimeZoneSidKey : {!v.userInfo.TimeZoneSidKey}</p>
@@ -37,7 +39,13 @@
     <p>UserType : {!v.userInfo.UserType}</p>
     <p>Avatar : {!v.SmallPhotoUrl}</p>
     </div>
-
+<div> UD: {!v.userData} </div>
+<lightning:input aura:id="userDataInput" label="User Data"
+ name="userData"
+ value="{!v.userData}"/> 
+<lightning:button variant="base" label="Save User Data" onclick="{! c.saveUserData }" >
+</lightning:button>   
+        
     </aura:if>
     <span class="slds-text-body_small slds-text-color_weak">{!v.version}&nbsp;</span>	
         

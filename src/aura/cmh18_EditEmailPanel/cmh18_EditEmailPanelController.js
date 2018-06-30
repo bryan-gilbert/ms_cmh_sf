@@ -220,8 +220,6 @@
             console.log("User says to not send email")
             return;
         }
-           console.log("bailing for dev "); 
-return;        
         var html = component.get("v.body");
         var text = html.replace(/(<\/p>)/g, "\n"); 
         text = text.replace(/(<([^>]+)>)/g, "");           
@@ -275,5 +273,14 @@ return;
             }
         })
         component.set("v.includedAttachments",includedAttachments);        
-    }
+    },
+    openTemplatePicker : function(component,event,helper){
+        var proceed = true;
+        if( component.get("v.modified")) {
+            proceed = confirm("Are you sure you want select a new template and lose your edits to this email?")
+        }
+        if (proceed) {
+            component.find("templatePicker").openDialog();       
+        }
+    },
 })

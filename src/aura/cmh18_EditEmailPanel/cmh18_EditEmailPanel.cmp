@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.116"/>    
+<aura:attribute name="version" type="String" default="eep-v0.120"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
 <aura:attribute name="requestedAction" type="String"/>
@@ -61,7 +61,11 @@
                         </div>
                     </div> 
                     <div class="slds-col slds-size--1-of-8"> 
-                    <c:cmh18_TemplateDialog globals="{!v.globals}"/>                    
+    <lightning:button onclick="{!c.openTemplatePicker}" variant="brand" class="eep_template_button">
+        <lightning:icon class="icn" iconName="utility:insert_template" size="small" alternativeText="Open Template Picker" />
+    </lightning:button>  
+                        
+                    <c:cmh18_TemplateDialog aura:id="templatePicker" globals="{!v.globals}"/>                    
                     </div>
                 </div>
                 

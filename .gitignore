@@ -1,3 +1,15 @@
 .settings/**
 .project/**
 .project
+
+src/classes/EmailUtilities\.cls
+
+src/classes/EmailUtilities\.cls-meta\.xml
+
+src/classes/StringUtils\.cls
+
+src/classes/StringUtils\.cls-meta\.xml
+
+src/classes/CaseUtilitiesTest\.cls
+
+src/classes/CaseUtilitiesTest\.cls-meta\.xml
