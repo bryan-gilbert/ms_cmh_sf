@@ -108,8 +108,8 @@
                 }
             }
             var preData = [];
-            preData.push('<p>&nbsp;</p>\n');            
-            preData.push('<p>&nbsp;</p>\n');   
+            var brkLf = '<br clear="none" />';
+            preData.push(brkLf);            
             helperData.re = undefined;
             if(requestedAction.includes("reply")) {
                 if(theEmail.fromAddress) {
@@ -117,19 +117,22 @@
                 }
                 if (! theEmail.subject.trim().startsWith("Re:"))
                 	helperData.re = "Re:";
-                preData.push('<p>--------------- Original Message ---------------</p>\n');
+                preData.push('--------------- Original Message ---------------'+brkLf);
             }
             if ("forward" === requestedAction) {
                 if (! theEmail.subject.trim().startsWith("Fwd:"))
                 	helperData.re = "Fwd:";
-                preData.push('<p>---------- Forwarded message ---------</p>\n');
+                preData.push('---------- Forwarded message ---------'+brkLf);
             }
-            preData.push('<p>From: '+theEmail.fromAddress+'</p>\n');
-            preData.push('<p>Sent: '+theEmail.date+'</p>\n');
-            preData.push('<p>To: '+theEmail.to+'</p>\n');
-            preData.push('<p>Cc: '+theEmail.cc+'</p>\n');
-            preData.push('<p>Subject: '+theEmail.subject+'</p>\n');
-            preData.push('<p></p>\n');
+            var dateFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: 'numeric', minute: 'numeric', timeZoneName: 'short'};
+            var theDate = new Date(theEmail.date);
+            var formatedDate = theDate.toLocaleDateString('en-US', dateFormatOptions);
+            preData.push('<b>From:</b> '+theEmail.fromAddress + brkLf);
+            preData.push('<b>Sent:</b> '+ formatedDate + brkLf);
+            preData.push('<b>To:</b> '+theEmail.to+brkLf);
+            preData.push('<b>Cc:</b> '+theEmail.cc+brkLf);
+            preData.push('<b>Subject:</b> '+theEmail.subject+brkLf);
+            preData.push(brkLf);
             helperData.preBody = preData.join('\n');                
             
             if(theEmail.html && theEmail.html.length > 0){

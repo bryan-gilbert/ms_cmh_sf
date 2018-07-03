@@ -1,11 +1,29 @@
 public with sharing class cmh18apex_Email {
+    
+    // ref composition from http://blog.deadlypenguin.com/blog/2015/10/12/email-reference-id-winter-16-changes/
+    @testVisible
+    private static String shortenOrgId() {
+     String part = UserInfo.getOrganizationId().substring(0,15);
+     Pattern p = Pattern.compile('^([A-Za-z0-9]{5})([A-Za-z0-9]*)$');
+     Matcher m = p.matcher(part);
+     if (m.matches()) {
+          return  m.group(1) + m.group(2).replace('0', '');
+     }
+     return '';
+    }
+    @testVisible
+    private static String shortenCaseId(String id) {
+         String part = id.substring(0,15);
+         Pattern p = Pattern.compile('^([A-Za-z0-9]{5})([A-Za-z0-9]*)([A-Za-z0-9]{5})$');
+         Matcher m = p.matcher(part);    
+         if (m.matches()) {
+              return m.group(1) + m.group(2).replace('0', '') + m.group(3);
+         }    
+         return '';
+    }    
     @AuraEnabled
     public static String getRef(String caseId) {   
-        return '[ ref:_'
-     + UserInfo.getOrganizationId().left(5)
-     + UserInfo.getOrganizationId().mid(11,4) + '._'
-     + caseId.left(5)
-     + caseId.mid(10,5) + ':ref ]';
+        return 'ref:_' + shortenOrgId() + '._' + shortenCaseId(caseId)+ ':ref';
     }  
     
     @AuraEnabled
@@ -27,10 +45,10 @@ public with sharing class cmh18apex_Email {
         try{
         Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage m = new Messaging.SingleEmailMessage();
-System.debug(Logginglevel.INFO,'Before m.setToAddresses ' + toList.size());            
-System.debug(Logginglevel.INFO,'toList[0] ' + toList.get(0));
+//System.debug(Logginglevel.INFO,'Before m.setToAddresses ' + toList.size());            
+//System.debug(Logginglevel.INFO,'toList[0] ' + toList.get(0));
         m.setToAddresses(toList);
-System.debug(Logginglevel.INFO,'After m.setToAddresses ' + toList.size());            
+//System.debug(Logginglevel.INFO,'After m.setToAddresses ' + toList.size());            
         if( ccList.size() > 0) {
             m.setCcAddresses(ccList);
         }
@@ -56,11 +74,11 @@ System.debug(Logginglevel.INFO,'After m.setToAddresses ' + toList.size());
 	    if(plainTextBody != null && !plainTextBody.contains(ref)) {
             plainTextBody += '\n'+ ref + '\n';
         }
-        System.debug(Logginglevel.FINE,'cmh18apex_Email plainTextBody ' + plainTextBody);
+        //System.debug(Logginglevel.FINE,'cmh18apex_Email plainTextBody ' + plainTextBody);
         if( htmlBody != null && !htmlBody.contains(ref)) {
             htmlBody += '\n<p>'+ ref + '</p>';
         }
-        System.debug(Logginglevel.FINE,'cmh18apex_Email htmlBody ' + htmlBody);
+        //System.debug(Logginglevel.FINE,'cmh18apex_Email htmlBody ' + htmlBody);
         m.setSubject(subject);
         m.setPlainTextBody(plainTextBody); 
 		processAttachmentIds(m, attachmentIdList, documentIdList);

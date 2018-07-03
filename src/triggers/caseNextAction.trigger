@@ -1,4 +1,4 @@
-trigger caseNextAction on Case (after insert) {
+trigger caseNextAction on Case (after update) {
   Set<Id> caseIds = new Set<Id>(); 
   
   for(Case aCase: trigger.new){

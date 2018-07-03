@@ -46,17 +46,27 @@
                     <td class="cev-col-action" > 
                     <div class="slds-button-group" role="group" title="Action">
                         <!-- preview-->
-                        <button class="slds-button slds-button_neutral cmh18_list_action"> 
-                        <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" >    
-                        <lightning:icon class="icn" iconName="utility:preview" size="xx-small" alternativeText="Preview" />
-                        </a>
-                        </button>                        
-                        <button class="slds-button slds-button_neutral cmh18_list_action">                             
-                        <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" 
-                        target="_blank"  download="{!attachment.name}">    
-                        <lightning:icon class="icn" iconName="utility:download" size="xx-small" alternativeText="Download" />
-                        </a>
+						<aura:if isTrue="{!attachment.isAttachment}">
+                            <button class="slds-button slds-button_neutral cmh18_list_action"> 
+                            <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" > 
+                            <lightning:icon class="icn" iconName="utility:preview" size="xx-small" alternativeText="Preview" />
+                            </a>
+                            </button>                        
+                            <button class="slds-button slds-button_neutral cmh18_list_action">                             
+                            <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" 
+                            target="_blank"  download="{!attachment.name}">    
+                            <lightning:icon class="icn" iconName="utility:download" size="xx-small" alternativeText="Download" />
+                            </a>
                         </button>
+                        <aura:set attribute="else">
+                            <button class="slds-button slds-button_neutral cmh18_list_action"> 
+                                <a target="_blank"  href="{! '/lightning/r/ContentDocument/'  + attachment.contentDocId + '/view'}" > 
+                            <lightning:icon class="icn" iconName="utility:preview" size="xx-small" alternativeText="Preview" />
+                            </a>
+                            </button>                        
+                        </aura:set>
+                        </aura:if>
+                        
                     </div>
                     </td>
                     <td class="cev-col-indicators"> 

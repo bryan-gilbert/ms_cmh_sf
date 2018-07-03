@@ -41,7 +41,11 @@ public class cmh18apex_Tests {
     cmh18apex_Server.getCaseCommentList(aCase.Id);
 
 	cmh18apex_Email.getRef(aCase.Id);
-      
+    String testId = '500f4000006BPKWAA4';
+    String expected = 'ref:_00Df43jNqi._500f46BPKW:ref';
+    String aRef = cmh18apex_Email.getRef(testId);
+    System.debug('What ref did we get' + aRef + ' from test id ' + testId); 
+    System.assertEquals(expected, aRef, 'Expected ref ' + expected + ' to match generated ' + aRef);
 
     String[] toList = new String[]{'foo'};
     String[] ccList = new String[]{'foo'};

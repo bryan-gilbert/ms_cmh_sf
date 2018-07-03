@@ -83,7 +83,9 @@
                          type: 'document',
                          parentIsCase: link.LinkedEntityId === caseId,
                          isAttachment: false,
-                         isDocument: true
+                         isDocument: true,
+                         // need ContentDocumentId to view the file in attachment list
+                         contentDocId: linkedDoc.ContentDocumentId
                         });
         })
         data.allDocs = merged;
