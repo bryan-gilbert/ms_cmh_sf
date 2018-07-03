@@ -23,9 +23,15 @@
             var state = response.getState();
             resultCount++;
             if (state === "SUCCESS") {
-                var storeResponse = response.getReturnValue();
-                console.log("Got current user information", storeResponse);
-            	globals.userInfo = storeResponse;
+                var userInfo = response.getReturnValue();
+                console.log("Got current user information", userInfo);
+            	globals.userInfo = userInfo;
+                var data = userInfo.cmh18_data__c;
+				globals.userInfo.userData = data && data.length>0 ?  JSON.parse(data) : {};
+        console.log("loading user data. Have cmh18_data__c", data);
+                
+                // create the user data object.
+                globals.userInfo.userData = {};                
                 if(resultCount===3) 
                 	helper.updateGlobals(component,helper,globals);
 

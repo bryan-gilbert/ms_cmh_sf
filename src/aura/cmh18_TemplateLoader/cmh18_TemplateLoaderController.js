@@ -17,11 +17,11 @@
 		action.setParams({"templateId": templateId, "whoId": whoId, "whatId": whatId});
         action.setCallback(this, function(response){
             var state = response.getState();
-            console.log("In rendered template callback id/status: " + templateId + "/" + status);
+            //console.log("In rendered template callback id/status: " + templateId + "/" + status);
             if (state === "SUCCESS") {                
             	var list = response.getReturnValue();
                 if (list && list.length >= 2) {
-                    console.log("In callback with response to get rendered template", list[0], list[1]);
+                    //console.log("In callback with response to get rendered template", list[0], list[1]);
                     var renderedHtml = list.length > 2 ? list[2] : /* html is optional */ undefined;
                     var renderedText = list[1];
                     var renderedSubject = list[0];

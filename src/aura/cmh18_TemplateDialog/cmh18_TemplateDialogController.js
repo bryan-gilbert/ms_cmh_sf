@@ -13,6 +13,7 @@
      */
     cmh18evt_PickTemplate: function(component, event) {
         var templateId = event.getParam("templateId");
+        console.log("Template dialog has template choosen and will now close", templateId);
         component.set("v.templateId", templateId);
         component.set("v.isOpen", false);
     },    

@@ -1,4 +1,53 @@
 ({
+MRU_MAX : 7,
+    mergeFavorites: function(component,helper,templates) {
+        var mruIds = helper.getMruTemplateIds(component,helper);
+        console.log("merge most recently used  ", mruIds);
+        var mruTemplates = [];
+        var others = templates.slice(0,templates.length);
+        others.forEach(function(t) {
+            t.isMru=false;
+        })
+        mruIds.forEach(function(t10) {
+            var closureIndex;
+            var closureTemplate;
+            var found = others.find(function(t,indx){
+                var r = false;
+                if( t.Id === t10 ) {
+                    closureIndex = indx;
+                    closureTemplate = t;
+                    r = true
+                }
+                return r;
+            });
+            if(found) {
+                closureTemplate.isMru = true;
+                mruTemplates.push(closureTemplate);
+                others.splice(closureIndex,1);
+            } 
+        });
+        var merged = mruTemplates.concat(others);
+        component.set("v.templates", merged);  
+    },
+    getMruTemplateIds : function(component,helper) {
+        var globals = component.get("v.globals");
+        var data = globals.userInfo.cmh18_data__c
+        console.log("TPH userData. based on ", data);
+        var userData = data && data.length>0 ?  JSON.parse(data) : {};
+        console.log("TPH userData.mruTemplates", userData.mruTemplates);
+        return userData.mruTemplates;        
+    },
+    addMruTemplateIds : function(component,helper, id) {
+        var mruIds = helper.getMruTemplateIds(component,helper);
+        console.log("Before unshift", mruIds);
+        mruIds.unshift(id); // add to the beginning
+        console.log("After unshift", mruIds);
+        while(mruIds.length > this.MRU_MAX) mruIds.pop();
+        var cmh18evt_UserDataSaveAction = $A.get("e.c:cmh18evt_UserDataSave");
+        cmh18evt_UserDataSaveAction.setParams({"key": "mruTemplates", "value" : mruIds});
+        cmh18evt_UserDataSaveAction.fire();        
+        return mruIds;        
+    },   
     combineData : function(component, templates, folders) {
         // This is O(N x M) but N = 138 and M = 20 so ....
         var combined = templates.map(function(template) {

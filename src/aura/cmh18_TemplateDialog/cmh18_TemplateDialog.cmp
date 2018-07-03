@@ -4,6 +4,7 @@
 <aura:attribute name="globals" type="Object" /> 
 <aura:attribute name="title" type="String" default="Select Email Template" />    
 
+   
 <aura:method name="openDialog" action="{!c.openModal}"/>
     
 <aura:attribute name="doneButtonText" type="String" default="Done" />    

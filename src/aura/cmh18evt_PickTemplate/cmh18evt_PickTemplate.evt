@@ -1,5 +1,4 @@
 <!-- application event: cmh18evt_PickTemplate -->
 <aura:event type="APPLICATION" description="Event to fire to launch email template dialog">
     <aura:attribute name="templateId" type="String"/>
-    <aura:attribute name="templates" type="EmailTemplate[]"/>   
 </aura:event>

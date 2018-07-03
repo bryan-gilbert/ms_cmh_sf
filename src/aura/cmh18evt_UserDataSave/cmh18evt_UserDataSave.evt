@@ -1,0 +1,6 @@
+<!-- cmh18evt_UserDataSave -->
+<aura:event type="APPLICATION" 
+description="Request to save data into the custom User.cmh18_data__c string field">
+    <aura:attribute name="key" type="String"/>
+    <aura:attribute name="value" type="String"/>
+</aura:event>

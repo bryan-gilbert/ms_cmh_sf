@@ -1,6 +1,6 @@
 <aura:component controller="cmh18_EmailTemplatesController">
 <aura:attribute name="globals" type="Object" />     
-<aura:attribute name="version" type="String" default="etp-v0.67"/>
+<aura:attribute name="version" type="String" default="etp-v0.68"/>
 <aura:attribute name="templates" type="EmailTemplate[]"/>
 <aura:attribute name="folders" type="Folder[]"/>
 <aura:attribute name="listOfSearchRecords" type="EmailTemplate[]"/>    
@@ -11,6 +11,9 @@
 <aura:attribute name="searchSubject" type="String"/>
 <aura:attribute name="message" type="String" />
 <aura:attribute name="selectedCount" type="Integer" />
+    
+<aura:registerEvent name="cmh18evt_PickTemplate" type="c.cmh18evt_PickTemplate"/>
+<aura:registerEvent name="cmh18evt_UserDataSave" type="c.cmh18evt_UserDataSave"/>
     
 <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -90,7 +93,7 @@
 			</thead>
 			<tbody>
 <aura:iteration items="{!v.listOfSearchRecords}" var="template">                    
-				<tr class="slds-hint-parent" >
+    <tr class="{! 'slds-hint-parent' + (template.isMru ? ' selected_row' : '')}">
 					<td> 
 					<div class="slds-cell-wrap">
                         <a href="javascript:void(0);" id="{!template.Id}" onclick="{!c.trClickHandler}">{!template.Name}</a>

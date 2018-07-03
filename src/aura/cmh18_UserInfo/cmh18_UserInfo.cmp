@@ -1,16 +1,21 @@
 <aura:component controller="cmh18apex_Server" >
     <!-- init handler event call "doInit" function on component load and fetch current user information -->
-    <aura:attribute name="version" type="String" default="uinfo-v0.23"/>    
+    <aura:attribute name="version" type="String" default="uinfo-v0.26"/>    
     <aura:attribute name="globals" type="Object" />    
     <aura:attribute name="userInfo" type="User"/>  
-    <aura:attribute name="userData" type="String" default="foo"/>  
+    <aura:attribute name="key" type="String" default="foo"/>  
+    <aura:attribute name="value" type="String" default="bar"/>  
     <aura:attribute name="orgInfo" type="OrgWideEmailAddress"/>
     <aura:attribute name="showInfo" type="Boolean" default="true"/>
     <aura:method name="setInfo" action="{!c.setInfo}">
 	    <aura:attribute name="userInfo" type="User"/>  
-	    <aura:attribute name="orgInfo" type="OrgWideEmailAddress"/>
-    
+	    <aura:attribute name="orgInfo" type="OrgWideEmailAddress"/>    
     </aura:method>
+    
+    <aura:handler event="c.cmh18evt_UserDataSave" action="{!c.cmh18evt_UserDataSave}"/>
+    <aura:handler event="c.cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>    
+
+    <aura:registerEvent name="cmh18evt_UserDataSave" type="c.cmh18evt_UserDataSave"/>
     
    <!-- can show information by exposing this.  --> 
     <aura:if isTrue="{!v.showInfo}">
@@ -40,9 +45,8 @@
     <p>Avatar : {!v.SmallPhotoUrl}</p>
     </div>
 <div> UD: {!v.userData} </div>
-<lightning:input aura:id="userDataInput" label="User Data"
- name="userData"
- value="{!v.userData}"/> 
+<lightning:input  name="key" value="{!v.key}"/> 
+<lightning:input  name="value" value="{!v.value}"/> 
 <lightning:button variant="base" label="Save User Data" onclick="{! c.saveUserData }" >
 </lightning:button>   
         
