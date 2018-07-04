@@ -105,7 +105,7 @@
         console.log("re data ", helperData.re);
         var subject = helperData.renderedSubject ? helperData.renderedSubject + " - " : "";
             subject += helperData.re ? helperData.re + " " : "";
-            subject += helperData.originalSubject;
+            subject += helperData.originalSubject ? helperData.originalSubject + " " : "";
         var cNumSubject = " Case: " + helperData.caseNumber;
         if(!subject.includes(cNumSubject)) {
             subject += cNumSubject;
