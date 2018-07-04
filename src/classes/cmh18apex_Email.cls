@@ -113,7 +113,8 @@ public with sharing class cmh18apex_Email {
             //emailMsg.ReplyToEmailMessageId = 
             emailMsg.Status = '3';// sent
             Insert emailMsg;
-            createAttachmentLinks(emailMsg, attachmentIdList, documentIdList);            
+            createContentDocumentLinks(emailMsg, documentIdList);            
+            createContentFromAttachments(emailMsg, attachmentIdList);            
         } 
         String result = 'Sent message successfully';
         return result;
@@ -145,14 +146,8 @@ public with sharing class cmh18apex_Email {
         }     
         msg.setEntityAttachments(entityIds);
     }
-    private static void createAttachmentLinks(EmailMessage newOwner, String[] attachmentList, String[] contentVersionIdList ) {
-        List<ContentDocumentLink> newLinks = new List<ContentDocumentLink>();
-        if(attachmentList <> null) {
-            System.debug(Logginglevel.DEBUG,'cmh18apex_Email create links for attachments: '+attachmentList.size() );
-            for(Integer indx = 0; indx < attachmentList.size(); indx++){
-                String id = attachmentList[indx];
-            }
-        }  	
+    private static void createContentDocumentLinks(EmailMessage newOwner, String[] contentVersionIdList ) {
+        List<ContentDocumentLink> newLinks = new List<ContentDocumentLink>();	
         if(contentVersionIdList <> null) {
             System.debug(Logginglevel.DEBUG,'cmh18apex_Email create links for contentVersionIdList: '+contentVersionIdList.size() );
             for(Integer indx = 0; indx < contentVersionIdList.size(); indx++){
@@ -169,24 +164,49 @@ public with sharing class cmh18apex_Email {
         }     
         insert newLinks;
        // msg.setEntityAttachments(entityIds);
-    }    
-        // attachment ids start with 00P, ContentVersion starts with 068
-        // Need the emailmessage id to make the link onto.
-        /*
- List<ContentDocumentLink>  theContentDocumentLinkList = new List<ContentDocumentLink>([SELECT Id, LinkedEntityId
-, ContentDocumentId, ShareType, Visibility FROM ContentDocumentLink WHERE LinkedEntityId = :aCase.Id and IsDeleted = false]);
-        str +=   'Plus ' + theContentDocumentLinkList.size() + ' files have been linked to this case: \n';
-        for(ContentDocumentLink a : theContentDocumentLinkList){
+    }
+    private static void createContentFromAttachments(EmailMessage newOwner, String[] attachmentList) {
+        List<ContentDocumentLink> newLinks = new List<ContentDocumentLink>();        
+        if(attachmentList == null) {
+            return;
+        }
+        System.debug(Logginglevel.DEBUG,'cmh18apex_Email createContentFromAttachments: '+attachmentList.size() );
+        List<String> ids = new List<String>();
+        for(Integer indx = 0; indx < attachmentList.size(); indx++){
+            String id = attachmentList[indx];
+            ids.add(id);
+        }
+        List<ContentVersion> newCVs = new List<ContentVersion>();
+        List<Attachment> attachments = [Select Id, ParentId, Name, Body
+                from Attachment where Id in :ids];       
+        for(Attachment tAttachment : attachments){            
+            ContentVersion cv = new ContentVersion();
+            cv.ContentLocation = 'S';
+            cv.VersionData = tAttachment.Body;
+            cv.Title = tAttachment.Name;
+            cv.PathOnClient = tAttachment.Name;
+            newCVs.add(cv);
+        }
+		insert(newCVs);
+        ids = new List<String>();
+        for(Integer indx = 0; indx < newCVs.size(); indx++){
+            String id = newCVs[indx].Id;
+            ids.add(id);
+        }
+        newCVs = [select Id, ContentDocumentId from ContentVersion where Id in :ids];
+        List<ContentDocumentLink> newCDLs = new List<ContentDocumentLink>();        
+        for(ContentVersion cv : newCVs){
           ContentDocumentLink a2 = new ContentDocumentLink(
-          LinkedEntityId = newParentId, 
-          ContentDocumentId = a.ContentDocumentId, 
-          ShareType = a.ShareType, 
-          Visibility  = a.Visibility
+          LinkedEntityId = newOwner.Id, 
+          ContentDocumentId = cv.ContentDocumentId, 
+          ShareType = 'V', 
+          Visibility  = 'AllUsers'
           );
-          theContentDocumentLinkList2Insert.add(a2); 
-        }         
-*/
-    
+          newCDLs.add(a2); 
+        }    
+        insert(newCDLs);
+       }
+ 
     private static String errorMessage(String msg) {
 		System.debug(Logginglevel.ERROR,'cmh18apex_Email ' + msg);  
 	    return msg;
