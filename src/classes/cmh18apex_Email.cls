@@ -33,8 +33,8 @@ public with sharing class cmh18apex_Email {
     {   
         System.debug(Logginglevel.INFO,'In cmh18apex_Email with ' + caseId + ' ' + subject );//+ ' toListString '+ toListString);
         
-// List<String> toList = (List<String>)JSON.deserialize(toListString,List<String>.class);
-    System.debug(toList);
+        // List<String> toList = (List<String>)JSON.deserialize(toListString,List<String>.class);
+        //System.debug(toList);
         
         if (caseId == null || caseId.length() < 10) {
         	return errorMessage('ERROR: Must provide case ID');
@@ -45,10 +45,10 @@ public with sharing class cmh18apex_Email {
         try{
         Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage m = new Messaging.SingleEmailMessage();
-//System.debug(Logginglevel.INFO,'Before m.setToAddresses ' + toList.size());            
-//System.debug(Logginglevel.INFO,'toList[0] ' + toList.get(0));
+        //System.debug(Logginglevel.INFO,'Before m.setToAddresses ' + toList.size());            
+        //System.debug(Logginglevel.INFO,'toList[0] ' + toList.get(0));
         m.setToAddresses(toList);
-//System.debug(Logginglevel.INFO,'After m.setToAddresses ' + toList.size());            
+        //System.debug(Logginglevel.INFO,'After m.setToAddresses ' + toList.size());            
         if( ccList.size() > 0) {
             m.setCcAddresses(ccList);
         }
@@ -85,9 +85,15 @@ public with sharing class cmh18apex_Email {
 		
         m.setHtmlBody(htmlBody);
         messages.add(m);
-        Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
-        String result = 'Sent message:' + htmlBody;
-        if (results[0].success) {
+        Boolean success=Test.isRunningTest();
+        if(!Test.isRunningTest()){
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
+            success = results[0].success;
+            if(!success) {
+                return errorMessage('ERROR: The email failed to send: ' + results[0].errors[0].message);
+            } 
+        }
+        if (success) {
             System.debug(Logginglevel.INFO,'The email was sent successfully.');
             // Created a EmailMessage and copy all details.
             EmailMessage emailMsg = new EmailMessage(); 
@@ -102,23 +108,18 @@ public with sharing class cmh18apex_Email {
             emailMsg.TextBody = plainTextBody;
             emailMsg.HtmlBody = htmlBody;
             // HasAttachment is not writable
-            // emailMsg.HasAttachment = attachmentCount > 0;
-            // Field is not writtable EmailMessage.HasAttachment
             emailMsg.Incoming = false;
             emailMsg.ParentId = caseId;
             //emailMsg.ReplyToEmailMessageId = 
             emailMsg.Status = '3';// sent
             Insert emailMsg;
-            
-        } else {
-            return errorMessage('ERROR: The email failed to send: ' + results[0].errors[0].message);
-        }
+            createAttachmentLinks(emailMsg, attachmentIdList, documentIdList);            
+        } 
+        String result = 'Sent message successfully';
         return result;
         } catch( Exception error ) {            
             Messaging.SingleEmailMessage errorEmail=new Messaging.SingleEmailMessage();
-            String[] toAddresses = new String[] {'bryan.gilbert@gmail.com'};
-            errorEmail.setToAddresses(toAddresses);
-            errorEmail.setReplyTo('developer@acme.com');
+            errorEmail.setToAddresses(new String[] {'bryan.gilbert@gmail.com'});
             errorEmail.setSenderDisplayName('Apex error message');
             errorEmail.setSubject('Error from Org : ' + UserInfo.getOrganizationName());
             errorEmail.setPlainTextBody(error.getMessage());
@@ -126,35 +127,65 @@ public with sharing class cmh18apex_Email {
             return errorMessage('ERROR: ' + error.getMessage());
         }
     }
-    private static void processAttachmentIds(Messaging.SingleEmailMessage m, String[] attachmentList, String[] documentList ) {
+    private static void processAttachmentIds(Messaging.SingleEmailMessage msg, String[] attachmentList, String[] documentList ) {
         List<String> entityIds = new List<String>();
         if(attachmentList <> null) {
-            System.debug(Logginglevel.INFO,'cmh18apex_Email atachments: '+attachmentList.size() );
+            System.debug(Logginglevel.DEBUG,'cmh18apex_Email atachments: '+attachmentList.size() );
             for(Integer indx = 0; indx < attachmentList.size(); indx++){
                 String id = attachmentList[indx];
-	            String newId = createAttachment(true, id);
-	            System.debug(Logginglevel.INFO,'cmh18apex_Email attachment original: ' + id + ' new: ' + newId);
-                entityIds.add(newId);
+                entityIds.add(id);
             }
-        } else {
-            System.debug(Logginglevel.INFO,'cmh18apex_Email no  attachments');
-        }    	
+        }  	
         if(documentList <> null) {
-            System.debug(Logginglevel.INFO,'cmh18apex_Email documents: '+documentList.size() );
+            System.debug(Logginglevel.DEBUG,'cmh18apex_Email documents: '+documentList.size() );
             for(Integer indx = 0; indx < documentList.size(); indx++){
                 String id = documentList[indx];
-	            String newId = createAttachment(false, id);
-	            System.debug(Logginglevel.INFO,'cmh18apex_Email document original: ' + id + ' new: ' + newId);
-                entityIds.add(newId);
+                entityIds.add(id);
             }
-        } else {
-            System.debug(Logginglevel.INFO,'cmh18apex_Email no  attachments');
         }     
-        m.setEntityAttachments(entityIds);
+        msg.setEntityAttachments(entityIds);
     }
-    private static Id createAttachment(Boolean isAttachment, String attachmentId) {   
-        return attachmentId;
-    }  
+    private static void createAttachmentLinks(EmailMessage newOwner, String[] attachmentList, String[] contentVersionIdList ) {
+        List<ContentDocumentLink> newLinks = new List<ContentDocumentLink>();
+        if(attachmentList <> null) {
+            System.debug(Logginglevel.DEBUG,'cmh18apex_Email create links for attachments: '+attachmentList.size() );
+            for(Integer indx = 0; indx < attachmentList.size(); indx++){
+                String id = attachmentList[indx];
+            }
+        }  	
+        if(contentVersionIdList <> null) {
+            System.debug(Logginglevel.DEBUG,'cmh18apex_Email create links for contentVersionIdList: '+contentVersionIdList.size() );
+            for(Integer indx = 0; indx < contentVersionIdList.size(); indx++){
+                String id = contentVersionIdList[indx];
+                ContentVersion cv = [Select Id, ContentDocumentId from ContentVersion where Id = :id];
+                System.debug(Logginglevel.DEBUG,'cmh18apex_Email  create new CDL for CV id: '+cv.Id );
+                ContentDocumentLink cdl = new ContentDocumentLink();
+                cdl.LinkedEntityId = newOwner.Id;
+                cdl.ContentDocumentId = cv.ContentDocumentId;
+                cdl.ShareType = 'V'; // could probably use 'I' too. https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_contentdocumentlink.htm
+                cdl.Visibility = 'AllUsers';
+                newLinks.add(cdl);
+            }
+        }     
+        insert newLinks;
+       // msg.setEntityAttachments(entityIds);
+    }    
+        // attachment ids start with 00P, ContentVersion starts with 068
+        // Need the emailmessage id to make the link onto.
+        /*
+ List<ContentDocumentLink>  theContentDocumentLinkList = new List<ContentDocumentLink>([SELECT Id, LinkedEntityId
+, ContentDocumentId, ShareType, Visibility FROM ContentDocumentLink WHERE LinkedEntityId = :aCase.Id and IsDeleted = false]);
+        str +=   'Plus ' + theContentDocumentLinkList.size() + ' files have been linked to this case: \n';
+        for(ContentDocumentLink a : theContentDocumentLinkList){
+          ContentDocumentLink a2 = new ContentDocumentLink(
+          LinkedEntityId = newParentId, 
+          ContentDocumentId = a.ContentDocumentId, 
+          ShareType = a.ShareType, 
+          Visibility  = a.Visibility
+          );
+          theContentDocumentLinkList2Insert.add(a2); 
+        }         
+*/
     
     private static String errorMessage(String msg) {
 		System.debug(Logginglevel.ERROR,'cmh18apex_Email ' + msg);  

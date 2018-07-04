@@ -23,7 +23,7 @@
             var idList = linkList.map(function(cdLink) {
                 return cdLink.ContentDocumentId
             });
-            var action3 = component.get("c.getDocuments");
+            var action3 = component.get("c.getContentVersionList");
             action3.setParams({"idList": idList});
             helper.callAction(action3,function(docsList){
                 responses++;
@@ -72,6 +72,7 @@
                         });
         })
         data.links.forEach(function(link) {
+            // linkedDoc is a ContentVersion record
             var linkedDoc = data.documents.find(function(doc) {
                 return doc.ContentDocumentId === link.ContentDocumentId;
             });

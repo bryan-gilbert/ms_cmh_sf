@@ -166,8 +166,10 @@
             var id = a.id;
             if(a.isAttachment) {
                 emailData.attachmentIdList.push(id);
+                console.log("EditEmailPanel send Attachment id ", id);
             } else {
-                emailData.documentIdList.push(id);                
+                emailData.documentIdList.push(id);  
+                console.log("EditEmailPanel send CDL id ", id);
             }
         }
         var cmh18evt_EmailSend = $A.get("e.c:cmh18evt_EmailSend");

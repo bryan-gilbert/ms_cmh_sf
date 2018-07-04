@@ -34,7 +34,12 @@ public class cmh18apex_Tests {
 	cmh18apex_Server.getCase(aCase.Id);
 	cmh18_AttachmentsController.getAttachmentsForCase(aCase.Id);
 	cmh18_AttachmentsController.getDocumentsForCase(aCase.Id);
-	cmh18_AttachmentsController.getDocumentLinksForCase(aCase.Id);
+	List<ContentDocumentLink> linksForCase = cmh18_AttachmentsController.getDocumentLinksForCase(aCase.Id);
+    List<Id> ids = new List<Id>();
+    for (ContentDocumentLink aLink : linksForCase) {
+        ids.add(aLink.ContentDocumentId);
+    }        
+    cmh18_AttachmentsController.getContentVersionList(ids);
 	
 	cmh18apex_Server.getEmailMessageList(aCase.Id);
 

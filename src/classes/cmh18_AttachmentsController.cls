@@ -26,7 +26,7 @@ public with sharing class cmh18_AttachmentsController {
     }
         
     @AuraEnabled
-    public static ContentVersion[] getDocuments(List<String> idList) {        
+    public static ContentVersion[] getContentVersionList(List<String> idList) {        
     	System.Debug(LoggingLevel.Info,'>>>>>> inside getDocuments "' + idList.size()  + '"');
         List<ContentVersion> docs = [SELECT Id, ContentDocumentId, Title, PathOnClient, ContentSize
              , Checksum, FileExtension, FileType, LastModifiedDate FROM ContentVersion WHERE ContentDocumentId in :idList];   
