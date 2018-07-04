@@ -33,6 +33,9 @@
 				</h2>
 			</div>
       <div class="slds-no-flex">
+        <lightning:button variant="base" label="New" title="New"  onclick="{!c.fireNewEmailEditEvent }" >
+        <lightning:icon class="icn" iconName="utility:email" size="small" alternativeText="refresh" />                
+        </lightning:button>    
         <lightning:button variant="base" label="Refresh" title="Refresh"  onclick="{!c.refresh }" >
         <lightning:icon class="icn" iconName="utility:refresh" size="small" alternativeText="refresh" />                
         </lightning:button>    

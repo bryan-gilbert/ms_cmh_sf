@@ -1,6 +1,6 @@
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
-<aura:attribute name="version" type="String" default="eep-v0.120"/>    
+<aura:attribute name="version" type="String" default="eep-v0.121"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
 <aura:attribute name="requestedAction" type="String"/>

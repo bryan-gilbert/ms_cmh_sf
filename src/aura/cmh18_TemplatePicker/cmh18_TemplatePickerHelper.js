@@ -1,5 +1,46 @@
 ({
 MRU_MAX : 7,
+    loadTemplates : function(component, helper) {
+        var existingTemplates = helper.getStashedTemplates(component);
+        if (existingTemplates && existingTemplates.length > 1) {
+            console.log("use templates loaded before");
+            helper.mergeFavorites(component,helper,existingTemplates);
+            helper.searchController(component,helper);                  
+            component.set("v.spinner", false);            
+            return;
+        }
+        component.set("v.spinner", true);
+        var responseCnt = 0;
+        console.log("Loading templates calling server ....");
+        var getTemplatesAction = component.get("c.getTemplates");
+        var getFoldersAction = component.get("c.getFolders");
+        var doneWait = function(response, propName) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+				component.set(propName, response.getReturnValue());
+                responseCnt++;
+                if(responseCnt === 2) {
+                    var folders = component.get("v.folders");
+                    var templates = component.get("v.templates");                  
+                    templates = helper.combineData(component, templates, folders);
+                    helper.stashTemplates(component, templates);
+                    helper.mergeFavorites(component,helper,templates);                    
+                    helper.searchController(component,helper);                  
+                    component.set("v.spinner", false);
+                    console.log("... templates loaded from server");
+                }            
+            }
+        }
+        getTemplatesAction.setCallback(this, function(response){
+            return doneWait(response,"v.templates");
+        });
+        getFoldersAction.setCallback(this, function(response){
+            return doneWait(response,"v.folders");
+        });
+        $A.enqueueAction(getFoldersAction);		
+        $A.enqueueAction(getTemplatesAction);		
+	},
+    
     mergeFavorites: function(component,helper,templates) {
         var mruIds = helper.getMruTemplateIds(component,helper);
         console.log("merge most recently used  ", mruIds);
@@ -123,5 +164,10 @@ MRU_MAX : 7,
         var globals = component.get("v.globals");
 		globals.templates = templates;
         //console.log("stashing templates", templates);
-    },    
+    },  
+    clearStash : function(component){
+        var globals = component.get("v.globals");
+		globals.templates = undefined;        
+        console.log("clearing the templates stash");
+    },
 })

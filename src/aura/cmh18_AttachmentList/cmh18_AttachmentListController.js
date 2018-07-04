@@ -1,11 +1,22 @@
 ({
+    doInit: function(component,event,helper) {
+        var thisId = component.getGlobalId();
+        console.log("INITIALIZE attachment list with THISID " + thisId);
+    },
+    locationChange : function(component,event,helper) {
+        var thisId = component.getGlobalId();
+        console.log("LOCATIONCHANGE attachment list with THISID " + thisId );        
+    },    
     cmh18evt_GlobalDataChange : function(component, event, helper) {
-        console.log("cmh18_AttachmentList cmh18evt_GlobalDataChange " + component.get("v.version"));
+        var thisId = component.getGlobalId();
         var globals = event.getParam("globals");
         if(globals) {
-        component.set("v.caseId", globals.caseId);
-        component.set("v.caseNumber", globals.caseNumber);
-        var fileInput = component.find("fileUploadInput")
+            console.log("cmh18_AttachmentList GLOBALS changed THISID: " + thisId
+                        + " mainId: " 
+                        + globals.mainId + " V: " + component.get("v.version") + " caseId: " + globals.caseId);
+            component.set("v.caseId", globals.caseId);
+            component.set("v.caseNumber", globals.caseNumber);
+            var fileInput = component.find("fileUploadInput")
             fileInput.set("v.recordId", globals.caseId);
         }else {
             alert("Error globals did not come along in the global data change event");
@@ -66,7 +77,7 @@
             return a.id === attachmentId;
         })
         if(!attachment) {
-            console.error("Can't find attachment for checkbox ", attachmentId);
+            console.log("Can't find attachment for checkbox ", attachmentId);
         } else {
             attachment.isChecked = !attachment.isChecked;
             ctarget.checked = attachment.isChecked;

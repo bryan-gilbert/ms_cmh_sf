@@ -2,6 +2,7 @@
 	cmh18evt_GlobalDataChange : function(component, event, helper) {
         var globals = event.getParam("globals");
         component.set('v.globals', globals);
+        console.log("CaseItemList GLOBALS changed mainId: " + globals.mainId + " ... now loadList");
         helper.loadList(component,helper);
 	},
     refresh : function(component, event, helper) {
@@ -27,5 +28,10 @@
         // open when editor is closed. close when editor is not closed.
         component.set("v.isOpen", direction === 'close')        
     },
- 
+ 	fireNewEmailEditEvent : function(component,event,helper) {
+        console.log("fireNewEmailEditEvent ");
+        var myEvent = $A.get("e.c:cmh18evt_EmailEdit");
+        myEvent.setParams({"action": "new", "direction" : "open"});
+        myEvent.fire();
+    },
 })

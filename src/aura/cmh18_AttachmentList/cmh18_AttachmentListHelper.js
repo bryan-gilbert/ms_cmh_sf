@@ -39,7 +39,7 @@
                 return a.id === attachmentId;
             })
             if(!attachment) {
-                console.error("Can't find attachment for checkbox ", attachmentId);
+                console.log("Can't find attachment for checkbox ", attachmentId);
             } else {
 				ctarget.checked = attachment.isChecked; 
             }

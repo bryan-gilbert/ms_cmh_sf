@@ -43,11 +43,16 @@
         console.log("TODO implement spinner to be active until email load event")
         if ("open" === direction) {
             var requestedAction = event.getParam("action");
-            var emailId = event.getParam("emailId");
-	        console.log("open email edit form : " + requestedAction + " refId: "+ emailId);		
 	        component.set("v.isOpen", true);
-	        component.set("v.emailId", emailId);
             component.set("v.requestedAction", requestedAction);
+            if(requestedAction === 'new') {
+		        console.log("open new email edit form ");
+		       helper.setupContent(component,helper,null); 		
+            } else {
+	            var emailId = event.getParam("emailId");
+		        console.log("open email edit form : " + requestedAction + " refId: "+ emailId);		
+		        component.set("v.emailId", emailId);
+            }
         } else {
             // about to hide the form but just to be clean erase form content.
             helper.initForm(component);
@@ -59,95 +64,15 @@
         if(!component.get("v.isOpen")) {
             return; // do nothing
         }
-        var globals = component.get("v.globals");
-        var addresses = globals.addresses;
         var emailData = event.getParam("emailData");
-		var requestedAction = component.get("v.requestedAction");
-        var globals = component.get("v.globals");
-        var orgInfo = globals.orgInfo;
-        var userInfo = globals.userInfo;   
-        var caseNumber = globals.caseNumber;
-        var fromAddress = orgInfo ? orgInfo.Address : userInfo.Email;
-        var from = orgInfo ? orgInfo.DisplayName : userInfo.Name;
-        var toInput = component.find("toInput");
-        var ccInput = component.find("ccInput");
-        var bccInput = component.find("bccInput");
-        toInput.setLists(addresses);
-        ccInput.setLists(addresses);
-        bccInput.setLists(addresses);
-        
-        console.log("Org wide email " + from + "  " + fromAddress);
-        console.log("In edit email panel cmh18evt_EmailLoaded ", emailData);
-        helper.initForm(component);
         if (emailData.error) {
             console.error("Error in edit panel cmh18evt_EmailLoaded ", emailData.error);
             component.set("v.error", emailData.error);
-        } else {
-            var theEmail = emailData.data;
-            var helperData = {originalSubject: theEmail.subject, caseNumber: caseNumber};
-            component.set("v.originalEmail", theEmail);
-            component.set("v.id", theEmail.id);
-            component.set("v.fromAdress", "cc@example.com");
-            if ("replyAll" === requestedAction) {
-                var parts=[];
-                if(theEmail.to){
-                    var toparts = theEmail.to.split(";");
-                    parts.push.apply(parts, toparts);
-                }
-                if(theEmail.cc){
-                    var ccparts = theEmail.cc.split(";");
-                    parts.push.apply(parts, ccparts);
-                }
-                if(parts.length > 0){
-                    parts = parts.map(function(a) { return a.trim();});
-                    parts.sort();
-                    var filtered = parts.filter(function(item, pos, ary) {
-                        return !pos || item != ary[pos - 1];
-                    });
-                    ccInput.setLists(addresses,filtered);                                    
-                }
-            }
-            var preData = [];
-            var brkLf = '<br clear="none" />';
-            preData.push(brkLf);            
-            helperData.re = undefined;
-            if(requestedAction.includes("reply")) {
-                if(theEmail.fromAddress) {
-                    toInput.setLists(addresses,[theEmail.fromAddress]);                    
-                }
-                if (! theEmail.subject.trim().startsWith("Re:"))
-                	helperData.re = "Re:";
-                preData.push('--------------- Original Message ---------------'+brkLf);
-            }
-            if ("forward" === requestedAction) {
-                if (! theEmail.subject.trim().startsWith("Fwd:"))
-                	helperData.re = "Fwd:";
-                preData.push('---------- Forwarded message ---------'+brkLf);
-            }
-            var dateFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: 'numeric', minute: 'numeric', timeZoneName: 'short'};
-            var theDate = new Date(theEmail.date);
-            var formatedDate = theDate.toLocaleDateString('en-US', dateFormatOptions);
-            preData.push('<b>From:</b> '+theEmail.fromAddress + brkLf);
-            preData.push('<b>Sent:</b> '+ formatedDate + brkLf);
-            preData.push('<b>To:</b> '+theEmail.to+brkLf);
-            preData.push('<b>Cc:</b> '+theEmail.cc+brkLf);
-            preData.push('<b>Subject:</b> '+theEmail.subject+brkLf);
-            preData.push(brkLf);
-            helperData.preBody = preData.join('\n');                
-            
-            if(theEmail.html && theEmail.html.length > 0){
-                helperData.body = theEmail.html;
-            } else {
-	            helperData.body = theEmail.text;
-                
-            }
-            
-            component.set("v.helperData", helperData);
-			helper.updateContent(component);
-            component.set("v.isLoaded", true);
-            component.set("v.modified", false);            
-            component.find("iBody").focus();            
-        }     
+            return;
+        }
+        var theEmail = emailData.data;
+        console.log("Edit email ... setup content ...");
+        helper.setupContent(component,helper,theEmail);         
     },
    
     /**  

@@ -13,9 +13,12 @@
 	loadGlobalData : function(component, helper) {	
         var caseId = component.get("v.recordId");
         var version = component.get("v.version");
+        var globalId = component.getGlobalId();
+        console.log("INITIALIZE AllInOne with global id " + globalId);           
+ 
         console.log("Main Case Email View loadGlobalData " + version);
         var userId = $A.get("$SObjectType.CurrentUser.Id");
-        var globals = {'userId': userId, 'caseId' : caseId};
+        var globals = {'userId': userId, 'caseId' : caseId, 'mainId' : globalId};
 	
         var resultCount = 0;
         var actionUser = component.get("c.fetchUser");

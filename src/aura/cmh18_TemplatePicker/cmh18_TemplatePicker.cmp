@@ -15,6 +15,11 @@
 <aura:registerEvent name="cmh18evt_PickTemplate" type="c.cmh18evt_PickTemplate"/>
 <aura:registerEvent name="cmh18evt_UserDataSave" type="c.cmh18evt_UserDataSave"/>
     
+<!-- note that this component is not getting this event. Perhaps because this component is not
+visible when the even is fired.  Leaving the code that could handle a refresh event for the 
+time we really need to refresh this list.  For now, just reload the page to get the list again-->    
+<aura:handler event="c:cmh18evt_RefreshFromServer" action="{!c.cmh18evt_RefreshFromServer}"/>
+    
 <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
 <!--loading spinner start... style=Brand Medium (blue dots)-->

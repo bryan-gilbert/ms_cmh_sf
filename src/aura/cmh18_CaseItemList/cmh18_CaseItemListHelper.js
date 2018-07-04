@@ -1,7 +1,7 @@
 ({
 	loadList : function(component, helper) {
-        console.log("Email and CaseComment list invoke load ...")
         var caseId = component.get("v.caseId");
+        console.log("Email and CaseComment list invoke load ...", caseId)
         var actionEmails = component.get("c.getEmailMessageList");
         var actionComments = component.get("c.getCaseCommentList");
 		actionEmails.setParams({"caseId": caseId});
