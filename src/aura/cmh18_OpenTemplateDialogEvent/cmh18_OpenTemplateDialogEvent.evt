@@ -1,2 +1,0 @@
-<!-- application event: cmh18_OpenTemplateDialogEvent -->
-<aura:event type="APPLICATION" description="Obsolete"/>
