@@ -1,5 +1,9 @@
+<!-- cmh18_EditEmailPanel -->
 <aura:component >
 <!-- uses cmh18_TemplateDialog, cmh18_TemplateLoader -->
+<aura:attribute name="caseId" type="String" />        
+<aura:attribute name="myCaseId" type="String" />    
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 <aura:attribute name="version" type="String" default="eep-v0.121"/>    
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="originalEmail" type="Object" />    
@@ -65,22 +69,22 @@
         <lightning:icon class="icn" iconName="utility:insert_template" size="small" alternativeText="Open Template Picker" />
     </lightning:button>  
                         
-                    <c:cmh18_TemplateDialog aura:id="templatePicker" globals="{!v.globals}"/>                    
+                    <c:cmh18_TemplateDialog aura:id="templatePicker" globals="{!v.globals}"  caseId="{!v.caseId}"/>                    
                     </div>
                 </div>
                 
             </dd>
             <dt class="slds-item_label " title="To">To:</dt>
             <dd class="slds-item_detail " title="To Value">
-                 <c.b_InputWithAutocomplete aura:id="toInput" autoCompleteId="toFieldId" />
+                 <c.b_InputWithAutocomplete aura:id="toInput" autoCompleteId="toFieldId" caseId="{!v.caseId}" />
             </dd>
             <dt class="slds-item_label  " title="Cc">Cc:</dt>
             <dd class="slds-item_detail " title="Cc Value">
-                 <c.b_InputWithAutocomplete aura:id="ccInput" autoCompleteId="ccFieldId" />
+                 <c.b_InputWithAutocomplete aura:id="ccInput" autoCompleteId="ccFieldId" caseId="{!v.caseId}" />
             </dd>
             <dt class="slds-item_label  " title="Bcc">Bcc:</dt>
             <dd class="slds-item_detail " title="Bcc Value">
-                 <c.b_InputWithAutocomplete aura:id="bccInput" autoCompleteId="bccFieldId" />
+                 <c.b_InputWithAutocomplete aura:id="bccInput" autoCompleteId="bccFieldId" caseId="{!v.caseId}" />
             </dd>
             <dt class="slds-item_label  " title="Subject">Subject:</dt>
             <dd class="slds-item_detail " title="Subject Value">
@@ -130,11 +134,11 @@
 <footer class="slds-card__footer">
 </footer>        
 <!-- Include template loader non UI component --> 
-<c.cmh18_TemplateLoader globals="{!v.globals}"/>
+<c.cmh18_TemplateLoader caseId="{!v.caseId}" globals="{!v.globals}"/>
 
 </div>       
 </div>       
 </aura:if> 
-    <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.emailId}</div> 
+<!-- div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.emailId}</div -->
 
 </aura:component>

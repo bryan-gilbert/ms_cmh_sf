@@ -7,8 +7,13 @@
 
 .THIS .cmh18_list_action {
     width: 2rem;
-    padding-right: 23px;
-    padding-left: 11px;
+/* 
+ * for when the new panel is full page width   
+padding-right: 23px;
+padding-left: 11px;
+    */
+    padding-right: 17px;
+    padding-left: 6px;    
 }
 
 
@@ -17,9 +22,21 @@
 }
 
 .THIS .cmh18_ed_body {
-    border: 1px solid #0070D2;
+    border: 1px solid t(cmh18_iconFillColor);
     border-radius: 5px;
     padding: 10px;
+    overflow-x: auto;
+}
+
+/* email_details wraps both the email display and case comment display. Add a border line and space above both.
+ */
+.THIS .email_details {
+    border-top: 1px solid #ccc;
+    margin-top: 1rem;
+}
+.THIS .email_details dt {
+    width: 17%;
+    font-weight: bold;
 }
 
 /*
@@ -31,17 +48,19 @@
 }
 
 .THIS .cev-col-date {
-    width:15%
+    width:20%
 }
 
 .THIS .cev-col-action {
     padding-left: 0 !important;
-    width: 18%;
+    width: 22%;
 }
 
+.THIS .cev-action-group {
+
+}
 .THIS .cev-col-subject {
-/*    width:60%;
- */
+   width:60%;
 }
 
 .THIS .cev-col-indicators {
@@ -49,7 +68,8 @@
 }
 .THIS .cev_indicator_icon {
     display:inline-block;
-    padding-right:10px;
+    padding: 6px;
+    padding-right: 12px;    
 }
 .THIS .slds-checkbox {
     width: 1.3rem;
@@ -69,7 +89,10 @@
 }
 
 .THIS .cmh18_list_item_body {
+/* 
+ * for when the new panel is full page width      
 	font-size:1rem;  
+*/    
 }
 
 .THIS .cmh18_list_item_body .slds-text-link {

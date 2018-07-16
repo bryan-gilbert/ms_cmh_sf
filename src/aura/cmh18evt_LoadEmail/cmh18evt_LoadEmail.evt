@@ -1,4 +1,5 @@
 <!-- cmh18evt_LoadEmail -->
 <aura:event type="APPLICATION" description="request to load an email" >
-    <aura:attribute name="emailId" type="String"/>    
+    <aura:attribute name="emailId" type="String"/>
+    <aura:attribute name="caseId" type="String"/>        
 </aura:event>

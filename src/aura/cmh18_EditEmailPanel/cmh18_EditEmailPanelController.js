@@ -1,4 +1,8 @@
 ({
+    doInit: function(component,event,helper) {
+        component.set("v.myCaseId", component.get("v.caseId"));
+        console.log("Init cmh18_EmailEditPanel ", component.get("v.myCaseId"));    
+    },   
     /*
      * Events
      * 1. The edit event arrives with open/close for direction.  
@@ -25,6 +29,9 @@
      */
     
     cmh18evt_GlobalDataChange : function(component,event,helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var globals = event.getParam("globals");
         component.set("v.globals", globals);
         var orgInfo = globals.orgInfo;
@@ -38,9 +45,10 @@
     },
     
 	cmh18evt_EmailEdit : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var direction = event.getParam("direction");
-        console.log("TODO implement action new");
-        console.log("TODO implement spinner to be active until email load event")
         if ("open" === direction) {
             var requestedAction = event.getParam("action");
 	        component.set("v.isOpen", true);
@@ -61,6 +69,9 @@
 	},
     // Handle the event an email record has been retrieved
     cmh18evt_EmailLoaded : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         if(!component.get("v.isOpen")) {
             return; // do nothing
         }
@@ -84,6 +95,9 @@
      * the rendered text is ready.
      */
     cmh18evt_TemplateRendered: function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         // cmh18evt_TemplateRendered sends renderedSubject, renderedText and optionally renderedHtml
         var renderedSubject = event.getParam("renderedSubject");
         var renderedText = event.getParam("renderedText");
@@ -112,6 +126,9 @@
         component.set("v.modified", true);        
     },
     bevt_AutocompleteList : function(component,event,helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var autoCompleteId = event.getParam("autoCompleteId");
         var list = event.getParam("list");
         if("toFieldId" === autoCompleteId) {
@@ -172,12 +189,16 @@
                 console.log("EditEmailPanel send CDL id ", id);
             }
         }
+    	console.log("Fire cmh18evt_EmailSend ", component.get("v.myCaseId"));
         var cmh18evt_EmailSend = $A.get("e.c:cmh18evt_EmailSend");
-        cmh18evt_EmailSend.setParams({emailData: emailData });
+        cmh18evt_EmailSend.setParams({emailData: emailData, "caseId": component.get("v.myCaseId")  });
         cmh18evt_EmailSend.fire();            
     },
     // local example of how to handle the email has been sent event ...
     cmh18evt_EmailSent : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var results = event.getParam("results");
         if(results.errorMessage) {
             alert(results.errorMessage);
@@ -189,6 +210,9 @@
         helper.sendRefreshEvent(component,helper);
     },
     cmh18evt_AttachmentList : function(component,event,helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var attachments = event.getParam("attachments");
         var includedAttachments = [];
         console.log("cmh18evt_AttachmentList in edit panel", attachments);

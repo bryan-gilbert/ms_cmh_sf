@@ -1,6 +1,9 @@
 .THIS {
     
 }
+.THIS textarea {
+  height: 5rem;
+}
 .THIS ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;

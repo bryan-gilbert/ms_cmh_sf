@@ -1,10 +1,17 @@
 ({
+    doInit: function(component,event,helper) {
+        component.set("v.myCaseId", component.get("v.caseId"));
+        console.log("Init cmh18_TemplateLoader ", component.get("v.myCaseId"));    
+    },   
      /**  
      * Handle cmh18evt_PickTemplate
      * get the rendered email template subject, text and optional html body.
      * fire cmh18evt_TemplateRendered when these are ready.
      */
     cmh18evt_PickTemplate: function(component, event) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var templateId = event.getParam("templateId");
         var globals = component.get("v.globals");
         var whoId = globals.userId;
@@ -25,11 +32,13 @@
                     var renderedHtml = list.length > 2 ? list[2] : /* html is optional */ undefined;
                     var renderedText = list[1];
                     var renderedSubject = list[0];
+                    console.log("Fire cmh18evt_TemplateRendered ", component.get("v.myCaseId"));
                     var cmh18evt_TemplateRendered = $A.get("e.c:cmh18evt_TemplateRendered");
                     var params = {
                         "renderedSubject": renderedSubject
                         ,"renderedText": renderedText
                         ,"renderedHtml": renderedHtml
+                        ,"caseId": component.get("v.myCaseId")
                     };
                     cmh18evt_TemplateRendered.setParams(params);
                     cmh18evt_TemplateRendered.fire();

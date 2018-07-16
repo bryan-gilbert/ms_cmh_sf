@@ -1,0 +1,42 @@
+<aura:component controller="cmh18apex_Server" >
+    <!-- input -->
+    <aura:attribute name="caseId" type="String" />    
+    <!-- working vars -->
+    <aura:attribute name="caseComment" type="String" default=" "/>
+    <aura:attribute name="theCase" type="Case"/>
+    <aura:attribute name="modified" type="Boolean" default="false"/>
+    <!-- handlers -->
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:registerEvent name="cmh18evt_RefreshFromServer" type="c:cmh18evt_RefreshFromServer" />    
+       
+<div>
+    <div style="cursor: pointer;" onclick="{!c.toggleEdit}">
+      <section class="slds-clearfix">
+        <div class="slds-float--left"> 
+            <lightning:icon class="slds-show" aura:id="toggledElem" iconName="utility:add" size="x-small" alternativeText="show edit"/>
+            <lightning:icon class="slds-hide" aura:id="toggledElem" iconName="utility:dash" size="x-small" alternativeText="hide edit"/>
+        </div>
+        <div class="slds-m-left--large">Add Case Comment</div>
+      </section>
+    </div>
+      
+    <div aura:id="toggledElem" class="slds-hide slds-p-around--medium">
+    <div class="slds-grid" >
+	    <div class="slds-button-group slds-no-flex eep_action_group" role="group"> 
+            <div class="eep_action">
+                <lightning:button variant="brand" disabled="{! !v.modified }" label="Submit" onclick="{!c.save}"/>
+            </div>        
+            <div class="eep_action">    
+                <lightning:button variant="base" disabled="{! !v.modified}" label="Cancel" onclick="{!c.cancel}"/>
+            </div>
+    	</div> 
+    </div> 
+    <div class="slds-scrollable">
+        <lightning:textarea type="text" value="{!v.caseComment}" name="CaseComment" onchange="{!c.changed}"/>            
+    </div> 
+    </div> 
+    
+        
+</div>
+</aura:component>

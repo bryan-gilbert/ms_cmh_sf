@@ -1,5 +1,12 @@
 ({
+    doInit: function(component,event,helper) {
+        component.set("v.myCaseId", component.get("v.caseId"));
+        console.log("Init cmh18_EmailSender ", component.get("v.myCaseId"));    
+    },   
 	cmh18evt_EmailSend : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var action = component.get("c.sendEmailMessage");	
         var params = event.getParams("emailData");
         var eventData = params.emailData;
@@ -41,20 +48,20 @@
                     results.errorMessage ="Unknown error";
                 }
             }
-            console.log("Emit email has been sent event ", params);
+            console.log("Fire cmh18evt_EmailSent ", component.get("v.myCaseId"));
             var cmh18evt_EmailSent = $A.get("e.c:cmh18evt_EmailSent");
-            cmh18evt_EmailSent.setParams({results: results});
+            cmh18evt_EmailSent.setParams({results: results, "caseId": component.get("v.myCaseId")});
             cmh18evt_EmailSent.fire();            
         });
         $A.enqueueAction(action);
 	},
     // local example of how to handle the email has been sent event ...
     cmh18evt_EmailSent : function(component, event, handler) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var results = event.getParam("results");
         component.set("v.results", results);
         console.log("Handle email sent event error: ", results.errorMessage, " success: ", results.successMessage);
     },   
-    doInit : function(component, event, helper) {
-    	console.log("Load cmh18_EmailSender component ", component.get("v.version"));
-    },    
 })

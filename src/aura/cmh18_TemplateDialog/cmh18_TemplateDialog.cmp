@@ -3,6 +3,9 @@
 <aura:attribute name="version" type="String" default="etd-v0.13"/>
 <aura:attribute name="globals" type="Object" /> 
 <aura:attribute name="title" type="String" default="Select Email Template" />    
+<aura:attribute name="caseId" type="String" />        
+<aura:attribute name="myCaseId" type="String" />    
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
    
 <aura:method name="openDialog" action="{!c.openModal}"/>
@@ -28,7 +31,7 @@
           </div>
           <!-- BODY -->
           <div class="slds-modal__content slds-p-around--medium">
-              <c:cmh18_TemplatePicker globals="{!v.globals}"/>              
+              <c:cmh18_TemplatePicker globals="{!v.globals}" caseId="{!v.caseId}"/>              
           </div>
           <!-- FOOTER -->
           <div class="slds-modal__footer">

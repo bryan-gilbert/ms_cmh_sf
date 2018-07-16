@@ -1,10 +1,12 @@
 <aura:component>
-    <aura:attribute name="recordId" type="String" description="Record to which the files should be attached" />
-<aura:registerEvent name="cmh18evt_RefreshAttachments" type="c:cmh18evt_RefreshAttachments"/>
+	<aura:registerEvent name="cmh18evt_RefreshAttachments" type="c:cmh18evt_RefreshAttachments"/>
+	<aura:attribute name="caseId" type="String" />        
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
     <lightning:fileUpload  
         multiple="true" 
-        recordId="{!v.recordId}" 
+        recordId="{!v.myCaseId}" 
         onuploadfinished="{!c.handleUploadFinished}" />
     <!-- accept=".pdf, .png" -->
 </aura:component>

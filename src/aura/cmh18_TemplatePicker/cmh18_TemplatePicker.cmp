@@ -11,6 +11,9 @@
 <aura:attribute name="searchSubject" type="String"/>
 <aura:attribute name="message" type="String" />
 <aura:attribute name="selectedCount" type="Integer" />
+<aura:attribute name="caseId" type="String" />        
+<aura:attribute name="myCaseId" type="String" />    
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
 <aura:registerEvent name="cmh18evt_PickTemplate" type="c.cmh18evt_PickTemplate"/>
 <aura:registerEvent name="cmh18evt_UserDataSave" type="c.cmh18evt_UserDataSave"/>

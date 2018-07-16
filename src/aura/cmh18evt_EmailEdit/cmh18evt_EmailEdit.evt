@@ -9,4 +9,5 @@ If direction is 'open' and action is anything but 'new' then the emailId is requ
     <aura:attribute name="direction" type="String"/>
     <aura:attribute name="action" type="String"/>
     <aura:attribute name="emailId" type="String"/>
+    <aura:attribute name="caseId" type="String"/>        
 </aura:event>

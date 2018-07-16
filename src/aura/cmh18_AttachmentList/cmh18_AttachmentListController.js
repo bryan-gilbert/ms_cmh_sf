@@ -1,29 +1,24 @@
 ({
     doInit: function(component,event,helper) {
-        var thisId = component.getGlobalId();
-        console.log("INITIALIZE attachment list with THISID " + thisId);
-    },
-    locationChange : function(component,event,helper) {
-        var thisId = component.getGlobalId();
-        console.log("LOCATIONCHANGE attachment list with THISID " + thisId );        
-    },    
+        component.set("v.myCaseId", component.get("v.caseId"));
+        console.log("Init cmh18_AttachmentList ", component.get("v.myCaseId"));    
+    },   
     cmh18evt_GlobalDataChange : function(component, event, helper) {
-        var thisId = component.getGlobalId();
-        var globals = event.getParam("globals");
-        if(globals) {
-            console.log("cmh18_AttachmentList GLOBALS changed THISID: " + thisId
-                        + " mainId: " 
-                        + globals.mainId + " V: " + component.get("v.version") + " caseId: " + globals.caseId);
-            component.set("v.caseId", globals.caseId);
-            component.set("v.caseNumber", globals.caseNumber);
-            var fileInput = component.find("fileUploadInput")
-            fileInput.set("v.recordId", globals.caseId);
-        }else {
-            alert("Error globals did not come along in the global data change event");
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
         }
+        var globals = event.getParam("globals");
+        var eventCaseId = event.getParam("caseId");
+        component.set("v.caseNumber", globals.caseNumber);
+        var fileInput = component.find("fileUploadInput")
+        fileInput.set("v.recordId", globals.caseId);
     },
 	cmh18evt_AttachmentsLoaded : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var attachmentsData = event.getParam("attachmentsData");        
+        var eventCaseId = event.getParam("caseId");
         var allDocs = attachmentsData.allDocs;
         var attachmentRecords = attachmentsData.attachments;
         var links = attachmentsData.links;
@@ -39,12 +34,13 @@
         component.set("v.emailId", '');
         helper.selectSort(component,event,helper);
         helper.fireAttachmentListEvent(component);        
-	},
-    onRender : function(component,event,helper){
-        helper.checkboxesDisplay(component,helper);
-    },    
+	},   
     cmh18evt_EmailView : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var emailId = event.getParam("emailId");
+        var eventCaseId = event.getParam("caseId");
         // no need to get the event's caseCommentId
         component.set("v.emailId", emailId);
         console.log("Attachment list respond to view email event", emailId);
@@ -54,18 +50,19 @@
         }        
     },
 	cmh18evt_EmailEdit : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var direction = event.getParam("direction");
-        console.log("TODO cmh18evt_EmailEdit implement spinner and show until list is loaded.")        
-        component.set("v.showCheckBoxes", direction === 'open');
+        component.set("v.emailEditMode", direction === 'open');
         if(direction === 'close') {
             console.log("TODO cmh18evt_EmailEdit do we need anything on the close event?")
         } else {
             var requestedAction = event.getParam("action");
-            console.log("cmh18evt_EmailEdit action: ", requestedAction, " showing checkboxes? ", component.get("v.showCheckBoxes"))
+            console.log("cmh18evt_EmailEdit action: ", requestedAction, " showing checkboxes? ", component.get("v.emailEditMode"))
             component.set("v.checkSelected",'forward' === requestedAction); 
             helper.selectSort(component,event,helper);
             helper.fireAttachmentListEvent(component);   
-            helper.checkboxesDisplay(component,helper);            
         }
 	}, 
     onCheckbox : function(component, event, helper) {
@@ -85,9 +82,4 @@
         component.set("v.attachments", attachments);
         helper.fireAttachmentListEvent(component);
     },
-    upload : function(component,event,helper) {
-        alert("The file upload feature is under development.");
-        // TODO implement file upload.  One possible solution 
-        // https://developer.salesforce.com/blogs/developer-relations/2017/05/build-lightning-file-uploader-component.html
-    }
 })

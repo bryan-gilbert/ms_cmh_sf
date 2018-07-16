@@ -2,9 +2,10 @@
     <!-- uses cmh18_EditEmailPanel, cmh18_EmailDetail, and cmh18_UserInfo -->
     <!-- https://github.com/bryan-gilbert/ms_cmh_sf -->
     <aura:attribute name="emails" type="EmailMessage[]" />
-    <aura:attribute name="version" type="String" default="cmh-main-v0.190"/>
+    <aura:attribute name="version" type="String" default="cmh-main-v0.231"/>
     <aura:attribute name="globals" type="Object" default="{UserId:'1'}"/>
 	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="myCaseId" type="String" />
 	<aura:attribute name="caseNumber" type="String" />
     <aura:handler event="aura:locationChange" action="{!c.locationChange}"/>    
 
@@ -12,25 +13,28 @@
    	<aura:attribute name="showInfo" type="Boolean" /> 
 
 	<aura:registerEvent name="cmh18evt_GlobalDataChange" type="c:cmh18evt_GlobalDataChange"/>
-    
+<!--    
 <div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId} &nbsp; caseN: {!v.caseNumber}</div>
+-->
+
 	<div class="slds-grid slds-gutters">
 		<div class="slds-col slds-size_2-of-4">            
             <c:cmh18_CaseItemList caseId="{!v.recordId}"/>
-            <c:cmh18_EditEmailPanel/>
-            <c:cmh18_AttachmentList/>              
+            <c:cmh18_EditEmailPanel caseId="{!v.recordId}"/>
+            <c:cmh18_AttachmentList caseId="{!v.recordId}"/>              
         </div>
         <!-- End Left and start Right side panel -->
 		<div class="slds-col slds-size_2-of-4 cmh18_cev_right_panel">
-            <c:cmh18_NextAction recordId="{!v.recordId}"/>
-			<c:cmh18_EmailDetail/>
-            <c:cmh18_CaseCommentDetail/>
+            <c:cmh18_NextAction caseId="{!v.recordId}"/>
+            <c:cmh18_CaseCommentAdd caseId="{!v.recordId}"/>
+			<c:cmh18_EmailDetail caseId="{!v.recordId}"/>
+            <c:cmh18_CaseCommentDetail caseId="{!v.recordId}"/>
 		</div>
 	</div>
 
     <!-- include non-UI elements -->
-    <c:cmh18_EmailSender/>
-    <c:cmh18_EmailLoader />
+    <c:cmh18_EmailSender  caseId="{!v.recordId}"/>
+    <c:cmh18_EmailLoader  caseId="{!v.recordId}"/>
     <c:cmh18_AttachmentsLoader caseId="{!v.recordId}"/>
 
     <!-- include user info with optional UI -->
@@ -46,8 +50,8 @@
         </button>
         </aura:set>
     </aura:if>            
-    <c:cmh18_UserInfo aura:id="userInfo" showInfo="{!v.showInfo}" globals="{!v.globals}"/>   
+    <c:cmh18_UserInfo aura:id="userInfo" showInfo="{!v.showInfo}" globals="{!v.globals}"  caseId="{!v.recordId}"/>  
 
-<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.recordId} &nbsp; caseN: {!v.caseNumber}</div>
+<div class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.myRecordId} &nbsp; caseN: {!v.caseNumber}</div>
     
 </aura:component>

@@ -7,7 +7,9 @@ we need a unique ID for each declaration so the bevt_AutocompleteSelect event ca
 identify which input's autocomplete was just resolved along with the selected value.
 -->
 <aura:component>
-
+<aura:attribute name="caseId" type="String" />    
+<aura:attribute name="myCaseId" type="String" />    
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 	<!--declare input attributes-->
 	<aura:attribute name="autoCompleteId" type="String" />
 	<aura:attribute name="label" type="String" />

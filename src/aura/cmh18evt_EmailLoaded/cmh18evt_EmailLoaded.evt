@@ -8,4 +8,5 @@ status, date, id, to, cc, from, fromAddress, subject, html, text, hasAttachments
 
  -->
     <aura:attribute name="emailData" type="Object"/>
+    <aura:attribute name="caseId" type="String"/>    
 </aura:event>

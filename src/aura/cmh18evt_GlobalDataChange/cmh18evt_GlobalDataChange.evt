@@ -2,4 +2,5 @@
 <aura:event type="APPLICATION" 
 description="Notify of change to global data and provide the global object">
     <aura:attribute name="globals" type="Object"/>
+    <aura:attribute name="caseId" type="String"/>        
 </aura:event>

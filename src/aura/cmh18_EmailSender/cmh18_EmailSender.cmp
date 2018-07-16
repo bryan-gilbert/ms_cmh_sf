@@ -12,7 +12,9 @@
     emailData.attachmentIdList : String[]
     emailData.documentIdList : String[]
     -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />   
+	<aura:attribute name="caseId" type="String" />        
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
     <!-- This component sends the email on behalf of the sender of the cmh18evt_EmailSend event -->
     <aura:handler event="c:cmh18evt_EmailSend" action="{!c.cmh18evt_EmailSend}" />

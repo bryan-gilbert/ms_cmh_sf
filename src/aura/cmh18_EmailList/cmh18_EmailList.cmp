@@ -1,11 +1,12 @@
 <!-- cmh18_EmailList this component is no longer used and has been replaced with a combined email and case comment list -->
-
 <aura:component controller="cmh18apex_Server" >
+	<aura:attribute name="caseId" type="String" />        
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:attribute name="emails" type="EmailMessage[]" />
     <aura:attribute name="addresses" type="String[]" />
     <aura:attribute name="version" type="String" default="elist-v0.94"/>
     <aura:attribute name="globals" type="Object"/>
-	<aura:attribute name="caseId" type="String" />
 	<aura:attribute name="count" type="Integer" />
     <aura:attribute name="selectedEmail" type="String" default="02sf4000002QegeAAC"/>
 	<aura:attribute name="message" type="String" default="empty" />
@@ -15,7 +16,6 @@
     <aura:handler event="c:cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
     <aura:handler event="c:cmh18evt_RefreshFromServer" action="{!c.cmh18evt_RefreshFromServer}"/>
     <aura:handler event="c:cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>
-
     
     <aura:registerEvent name="cmh18evt_EmailView" type="c:cmh18evt_EmailView" />
 	<aura:registerEvent name="cmh18evt_EmailEdit" type="c:cmh18evt_EmailEdit" />    
@@ -46,7 +46,7 @@
 			<tbody>
 				<aura:iteration items="{!v.emails}" indexVar="key" var="email">                    
 				<tr class="{!email.displayClass}" label="{!key}">
-                    <c:cmh18_EmailListItem email="{!email}"/>
+                    <c:cmh18_EmailListItem email="{!email}"  caseId="{!v.caseId}"/>
 				</tr>
 				</aura:iteration>
 			</tbody>

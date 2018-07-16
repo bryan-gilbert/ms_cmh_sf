@@ -1,3 +1,4 @@
+<!-- cmh18_CaseItemList -->
 <aura:component controller="cmh18apex_Server" >
     <aura:attribute name="items" type="Object[]" />
     <aura:attribute name="emails" type="EmailMessage[]" />
@@ -5,17 +6,18 @@
     <aura:attribute name="addresses" type="String[]" />
     <aura:attribute name="version" type="String" default="elist-v0.03"/>
     <aura:attribute name="globals" type="Object"/>
-	<aura:attribute name="caseId" type="String" />
 	<aura:attribute name="count" type="Integer" />
     <aura:attribute name="selectedItemId" type="String"/>
 	<aura:attribute name="message" type="String" default="empty" />
     <aura:attribute name="isOpen" type="Boolean" default="true"/>    
+	<aura:attribute name="caseId" type="String" />        
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
  
     <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>
     <aura:handler event="c:cmh18evt_EmailEdit" action="{!c.cmh18evt_EmailEdit}"/>
     <aura:handler event="c:cmh18evt_RefreshFromServer" action="{!c.cmh18evt_RefreshFromServer}"/>
     <aura:handler event="c:cmh18evt_GlobalDataChange" action="{!c.cmh18evt_GlobalDataChange}"/>
-
     
     <aura:registerEvent name="cmh18evt_EmailView" type="c:cmh18evt_EmailView" />
 	<aura:registerEvent name="cmh18evt_EmailEdit" type="c:cmh18evt_EmailEdit" />    
@@ -32,27 +34,26 @@
 					<span class="slds-text-heading_small">Items ({!v.count})</span>
 				</h2>
 			</div>
-      <div class="slds-no-flex">
-        <lightning:button variant="base" label="New" title="New"  onclick="{!c.fireNewEmailEditEvent }" >
-        <lightning:icon class="icn" iconName="utility:email" size="small" alternativeText="refresh" />                
-        </lightning:button>    
-        <lightning:button variant="base" label="Refresh" title="Refresh"  onclick="{!c.refresh }" >
-        <lightning:icon class="icn" iconName="utility:refresh" size="small" alternativeText="refresh" />                
-        </lightning:button>    
-      </div>
-            
+			<div class="slds-no-flex">
+				<lightning:button variant="base" label="New" title="New"  onclick="{!c.fireNewEmailEditEvent }" >
+				<lightning:icon class="icn" iconName="utility:email" size="small" alternativeText="refresh" />                
+				</lightning:button>    
+				<lightning:button variant="base" label="Refresh" title="Refresh"  onclick="{!c.refresh }" >
+				<lightning:icon class="icn" iconName="utility:refresh" size="small" alternativeText="refresh" />                
+				</lightning:button>    
+			</div>         
 		</header>
 	</div>
-<div class="slds-scrollable" style="max-height: 32rem;">    
+<div class="slds-scrollable cev-email-list" style="max-height: 32rem;">    
 	<div class="slds-card__body">
 		<table class="slds-table slds-table_fixed-layout slds-table_bordered">
 			<tbody>
 				<aura:iteration items="{!v.items}" indexVar="key" var="item">                    
 				<tr class="{!item.displayClass}" label="{!key}">
                     <aura:if isTrue="{!item.isEmail}">
-                        <c:cmh18_EmailListItem email="{!item}"/>
+                        <c:cmh18_EmailListItem caseId="{!v.caseId}" email="{!item}"/>
                         <aura:set attribute="else">
-                        <c:cmh18_CaseCommentListItem comment="{!item}"/>
+                        <c:cmh18_CaseCommentListItem caseId="{!v.caseId}" comment="{!item}"/>
                         </aura:set>
                     </aura:if>                        
 				</tr>
@@ -63,5 +64,5 @@
     </div>
 </article> 	
 </aura:if>    
-<span class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</span>
+<!-- span class="slds-text-body_small slds-text-color_weak">{!v.version} &nbsp;-&nbsp; {!v.caseId}&nbsp;</span -->
 </aura:component>

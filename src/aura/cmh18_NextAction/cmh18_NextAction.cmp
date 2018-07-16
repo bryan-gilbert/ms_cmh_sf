@@ -1,39 +1,36 @@
 <aura:component controller="cmh18apex_Server" >
     <!-- input -->
-    <aura:attribute name="recordId" type="String" />    
+    <aura:attribute name="caseId" type="String" />    
     <!-- working vars -->
-    <aura:attribute name="nextAction" type="String" default="no next action"/>
+    <aura:attribute name="nextAction" type="String" default=" "/>
+    <aura:attribute name="originalText" type="String" default=""/>
+    <aura:attribute name="theCase" type="Case"/>
+    <aura:attribute name="modified" type="Boolean" default="false"/>
     <!-- handlers -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
     <aura:handler event="c:cmh18evt_RefreshFromServer" action="{!c.cmh18evt_RefreshFromServer}"/>
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:registerEvent name="cmh18evt_RefreshFromServer" type="c:cmh18evt_RefreshFromServer" />    
     
-<article class="slds-card">    
-	<div class="slds-card__header slds-grid">
-		<header class="slds-media slds-media_center slds-has-flexi-truncate">
-			<div class="slds-media__body">
-				<h2 class="slds-card__header-title">
-					<span class="slds-text-heading_small">Next Action</span>
-				</h2>
-			</div>
-            <div class="slds-no-flex">
-                <div class="cev_indicator_icon">                    
-                <lightning:button variant="base"  title="Edit Next Action"  onclick="{!c.editNextAction}" >
-                <lightning:icon class="icn" iconName="utility:task" size="small" alternativeText="edit next action" />                
-                </lightning:button>    
-                </div>
-                <div class="cev_indicator_icon">                    
-                <lightning:button variant="base"  title="Add Case Comment"  onclick="{!c.addComment}" >
-                <lightning:icon class="icn" iconName="utility:comments" size="small" alternativeText="add case comment" />                
-                </lightning:button>    
-                </div>
-                
+    
+<div>
+    <div class="slds-grid" >
+        <div class="slds-media__body">
+            <h2 class="slds-card__header-title">
+                <span class="slds-text-heading_small">Next Action</span>
+            </h2>
+        </div>            
+	    <div class="slds-button-group slds-no-flex eep_action_group" role="group"> 
+            <div class="eep_action">
+                <lightning:button variant="brand" disabled="{! !v.modified }" label="Submit" onclick="{!c.saveNextData}"/>
+            </div>        
+            <div class="eep_action">    
+                <lightning:button variant="base" disabled="{! !v.modified}" label="Cancel" onclick="{!c.cancelNextData}"/>
             </div>
-		</header>        
-	</div>
-    <div class="slds-tile cmh18_ed_body" >
-		<div class="slds-scrollable" style="max-height: 10rem;">     
-			<aura:unescapedHtml value="{!v.nextAction}"/>
-	    </div>         
-    </div>
-</article>    
+    	</div> 
+    </div> 
+    <div class="slds-scrollable">
+        <lightning:textarea type="text" value="{!v.nextAction}" name="NextAction" onchange="{!c.nextActionContentChanged}"/>            
+    </div>         
+</div>
 </aura:component>

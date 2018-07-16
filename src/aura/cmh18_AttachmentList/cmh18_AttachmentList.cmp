@@ -1,16 +1,18 @@
+<!-- cmh18_AttachmentList -->
 <aura:component>
-<aura:attribute name="version" type="String" default="aList-v0.45"/>
+<aura:attribute name="caseId" type="String" />    
+<aura:attribute name="thisId" type="String" />    
+<aura:attribute name="version" type="String" default="aList-v0.49"/>
 <aura:attribute name="globals" type="Object" />    
 <aura:attribute name="attachments" type="Attachment[]"/>
 <aura:attribute name="count" type="Integer"/>
-<aura:attribute name="caseId" type="String" />
 <aura:attribute name="caseNumber" type="String" />
 <aura:attribute name="emailId" type="String" />
-<aura:attribute name="showCheckBoxes" type="Boolean" default="false"/>    
+<aura:attribute name="emailEditMode" type="Boolean" default="false"/>    
 <aura:attribute name="checkSelected" type="Boolean" default="false"/>    
 
+<aura:attribute name="myCaseId" type="String" />    
 <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-<aura:handler name="render" value="{!this}" action="{!c.onRender}"/>  
 <aura:handler event="aura:locationChange" action="{!c.locationChange}"/>    
     
 <aura:handler event="c:cmh18evt_AttachmentsLoaded" action="{!c.cmh18evt_AttachmentsLoaded}" />
@@ -21,101 +23,105 @@
     <!-- cmh18evt_AttachmentList fired by this component when there is a change in selection -->
 <aura:registerEvent name="cmh18evt_AttachmentList" type="c:cmh18evt_AttachmentList" />
 
-
 <article class="slds-card">
 	<div class="slds-card__header slds-grid">
     <header class="slds-media slds-media_center slds-has-flexi-truncate">
-      <div class="slds-media__body">
-        <h2 class="slds-card__header-title">
-            <span class="slds-text-heading_small">Attachments ({!v.count})</span>
-        </h2>
-      </div>
-      <div class="slds-no-flex">
-   <c:cmh18_FileUploadInput aura:id="fileUploadInput" recordId="{!v.caseId}"/>          
-<!--        <lightning:button variant="base" label="Upload" onclick="{! c.upload }" >
-        <lightning:icon class="icn" iconName="utility:upload" size="small" alternativeText="upload" />                
-        </lightning:button>    
--->
-      </div>
-        
+        <div class="slds-media__body">
+            <h2 class="slds-card__header-title">
+                <span class="slds-text-heading_small">Attachments ({!v.count})</span>
+            </h2>
+        </div>
+        <div class="slds-no-flex">
+            <c:cmh18_FileUploadInput aura:id="fileUploadInput" caseId="{!v.caseId}"/>          
+        </div>        
     </header>            
 	</div>
+
 <div class="slds-scrollable" style="max-height: 20rem;">    
     <div class="slds-card__body">
 		<table class="slds-table slds-table_fixed-layout slds-table_bordered">
 			<tbody>
                 <aura:iteration items="{!v.attachments}" indexVar="inx" var="attachment">   
                     <tr class="{!attachment.isSelected ? 'selected_row' : ''}">
-                    <td class="cev-col-action" > 
-                    <div class="slds-button-group" role="group" title="Action">
-                        <!-- preview-->
-						<aura:if isTrue="{!attachment.isAttachment}">
-                            <button class="slds-button slds-button_neutral cmh18_list_action"> 
-                            <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" > 
-                            <lightning:icon class="icn" iconName="utility:preview" size="xx-small" alternativeText="Preview" />
-                            </a>
-                            </button>                        
-                            <button class="slds-button slds-button_neutral cmh18_list_action">                             
-                            <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" 
-                            target="_blank"  download="{!attachment.name}">    
-                            <lightning:icon class="icn" iconName="utility:download" size="xx-small" alternativeText="Download" />
-                            </a>
-                        </button>
-                        <aura:set attribute="else">
-                            <button class="slds-button slds-button_neutral cmh18_list_action"> 
-                                <a target="_blank"  href="{! '/lightning/r/ContentDocument/'  + attachment.contentDocId + '/view'}" > 
-                            <lightning:icon class="icn" iconName="utility:preview" size="xx-small" alternativeText="Preview" />
-                            </a>
-                            </button>                        
-                        </aura:set>
-                        </aura:if>
-                        
-                    </div>
-                    </td>
-                    <td class="cev-col-indicators"> 
-                        <div class="cev_indicator_icon">
-						<aura:if isTrue="{!attachment.isAttachment}">
-    	                    <lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="Attachment" />
-                        <aura:set attribute="else">
-	                        <lightning:icon class="icn" iconName="utility:file" size="xx-small" alternativeText="Document" />
-                        </aura:set>
-                        </aura:if>
-                        </div>                            
-                        <div class="cev_indicator_icon">
-						<aura:if isTrue="{!attachment.parentIsCase}">
-	                        <lightning:icon class="icn" iconName="utility:case" size="xx-small" alternativeText="Case" />
-                        <aura:set attribute="else">
-                        	<lightning:icon class="{! 'icn' + attachment.isSelected ? 'selected' : ''}" iconName="utility:email" size="xx-small" alternativeText="Email" />
-                        </aura:set>
-                        </aura:if>
-                        </div>
-                        <div class="cev_indicator_icon">
-                          <label class="slds-checkbox">  
-                              <!-- add class cev_attachment_checkbox so code can find all checkboxes -->
-                          <input class="cev_attachment_checkbox" type="checkbox" id="{!'chk'+attachment.id}" data-value="{!attachment.id}" onclick="{!c.onCheckbox}"/>
-                          <span class="slds-checkbox--faux"></span>          
-                        </label>
-                        </div>
-                    </td>
+<!-- Row Begin -->                        
+<td class="cev-col-action" > 
+<div class="cev-action-group">
+	<div class="slds-button-group" role="group" title="Action">
+	<!-- preview-->
+        <aura:if isTrue="{!attachment.isAttachment}">
+            <!-- when editing email do not show preview. A click on preview wipes out email in progress -->
+            <aura:if isTrue="{! !v.emailEditMode}"> 
+                <button class="slds-button slds-button_neutral cmh18_list_action"> 
+                    <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" > 
+                    <lightning:icon class="icn" iconName="utility:preview" size="xx-small" alternativeText="Preview" />
+                    </a>
+                </button> 
+            </aura:if>                                
+            <button class="slds-button slds-button_neutral cmh18_list_action">                             
+                <a href="{! '/servlet/servlet.FileDownload?file='  + attachment.id }" 
+                target="_blank"  download="{!attachment.name}">    
+                <lightning:icon class="icn" iconName="utility:download" size="xx-small" alternativeText="Download" />
+                </a>
+            </button>
+        <aura:set attribute="else">
+            <button class="slds-button slds-button_neutral cmh18_list_action"> 
+                <a target="_blank"  href="{! '/lightning/r/ContentDocument/'  + attachment.contentDocId + '/view'}" > 
+                <lightning:icon class="icn" iconName="utility:preview" size="xx-small" alternativeText="Preview" />
+                </a>
+            </button>                        
+        </aura:set>
+        </aura:if>
+        <aura:if isTrue="{! v.emailEditMode}"> <!-- only show check boxes while editing email -->
+            <div class="cev_indicator_icon">
+                <label class="slds-checkbox">  
+                <!-- add class cev_attachment_checkbox so code can find all checkboxes -->
+                <input class="cev_attachment_checkbox" type="checkbox" id="{!'chk'+attachment.id}" data-value="{!attachment.id}" onclick="{!c.onCheckbox}"/>
+                <span class="slds-checkbox--faux"></span>          
+                </label>
+            </div>
+        </aura:if>        
+	</div>
+</div>
 
-                    <td class="cev-col-date"> 
-                    <div >
-                        <div><ui:outputDate format="YYYY-MM-DD" value="{!attachment.lastModifiedDate}" /> </div>
-                        <div><ui:outputDate format="hh:mm a" value="{!attachment.lastModifiedDate}" /> </div>
-                    </div>
-                    </td>
-                    <td class="cev-col-subject" > 
-                        <div class="slds-cell-wrap"  title="{!attachment.name}">{!attachment.name}</div>
-                        <div>{!attachment.size}</div>
-                    </td>
+<div class="cev-action-group">
+    <div class="cev_indicator_icon">
+        <aura:if isTrue="{!attachment.isAttachment}">
+            <lightning:icon class="icn" iconName="utility:attach" size="xx-small" alternativeText="Attachment" />
+        <aura:set attribute="else">
+            <lightning:icon class="icn" iconName="utility:file" size="xx-small" alternativeText="Document" />
+        </aura:set>
+        </aura:if>
+    </div>                            
+    <div class="cev_indicator_icon">
+        <aura:if isTrue="{!attachment.parentIsCase}">
+            <lightning:icon class="icn" iconName="utility:case" size="xx-small" alternativeText="Case" />
+        <aura:set attribute="else">
+            <lightning:icon class="{! 'icn' + attachment.isSelected ? 'selected' : ''}" iconName="utility:email" size="xx-small" alternativeText="Email" />
+        </aura:set>
+        </aura:if>
+    </div>
+</div>                        
+</td>
+
+<td class="cev-col-date"> 
+    <div >
+        <div><ui:outputDate format="YYYY-MM-DD" value="{!attachment.lastModifiedDate}" /> </div>
+        <div><ui:outputDate format="hh:mm a" value="{!attachment.lastModifiedDate}" /> </div>
+    </div>
+</td>
+<td class="cev-col-subject" > 
+    <div class="slds-cell-wrap"  title="{!attachment.name}">{!attachment.name}</div>
+    <div>{!attachment.size}</div>
+</td>
+<!-- Row End -->                        
                     </tr>
                 </aura:iteration>
 			</tbody>
 		</table>
 	</div>
-    </div>    
-	<footer class="slds-card__footer">
-    <span class="slds-text-body_small slds-text-color_weak">{!v.version}</span>	
-  	</footer>
+</div>  
+<!--
+<span class="slds-text-body_small slds-text-color_weak">{!v.version} c: {!v.myCaseId} num: {!v.caseNumber} </span>	
+-->
 </article>            
 </aura:component>

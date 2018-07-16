@@ -1,21 +1,16 @@
 ({
 	doInit : function(component, event, helper) {
-        //http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
-        var uid = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        
-        var thisId = component.getGlobalId();
-        console.log("INITIALIZE AllInOne with THISID " + thisId + " generated uid " + uid);        
-		helper.loadGlobalData(component,helper, uid);
+        // stash a copy of the incoming record ID on initialization. This is because
+        // the recordIs property is bound to a property outside this component and will
+        // change when the user navigates to another record.
+        component.set("v.myCaseId", component.get("v.recordId"));
+		helper.loadGlobalData(component,helper);
 	}, 	
     openUserInfo : function(component, event, helper) {
         component.set("v.showInfo", true);
     },
     closeUserInfo : function(component, event, helper) {
         component.set("v.showInfo", false);
-    },
-    locationChange : function(component,event,helper) {
-        var thisId = component.getGlobalId();
-        console.log("LOCATIONCHANGE AllInOne with THISID " + thisId );        
     },
 
 })

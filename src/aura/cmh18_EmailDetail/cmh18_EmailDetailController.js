@@ -1,6 +1,13 @@
 ({
+    doInit: function(component,event,helper) {
+        component.set("v.myCaseId", component.get("v.caseId"));
+        console.log("Init cmh18_EmailDetail ", component.get("v.myCaseId"));    
+    },   
     // Handle request to open email viewer.  Fire the event to load an email record
 	cmh18evt_EmailView : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         component.set("v.isLoaded", false);
         console.log("In CMH 18 Email Detail event handler");
         var emailId = event.getParam("emailId");        
@@ -10,6 +17,9 @@
 	},
     // Handle the event an email record has been retrieved
     cmh18evt_EmailLoaded : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var emailData = event.getParam("emailData");
         console.log("In email viewer cmh18evt_EmailLoaded ", emailData);
         if (emailData.error) {
@@ -35,6 +45,9 @@
         }     
     },
     cmh18evt_AttachmentList : function(component,event,helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var attachments = event.getParam("attachments");
         var includedAttachments = [];
         console.log("In email detail attachment list handler")

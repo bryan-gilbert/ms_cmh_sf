@@ -1,6 +1,6 @@
 /*
 See main outer component
 */
-.THIS {
-	
+.THIS .cev-email-list{
+	border-bottom: 2px solid t(cmh18_iconFillColor); 
 }

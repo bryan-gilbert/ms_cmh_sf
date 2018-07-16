@@ -5,5 +5,6 @@ combined list of emails and case comments.
 <aura:event type="APPLICATION" description="User selected a record to view">
     <aura:attribute name="emailId" type="String"/>
     <aura:attribute name="caseCommentId" type="String"/>    
-    <aura:attribute name="caseComment" type="Object"/>    
+    <aura:attribute name="caseComment" type="Object"/>   
+    <aura:attribute name="caseId" type="String"/>        
 </aura:event>

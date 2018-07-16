@@ -6,6 +6,9 @@
     <aura:attribute name="fromAdress" type="String" />
     <aura:attribute name="date" type="Date" />
     <aura:attribute name="body" type="String" />    
+	<aura:attribute name="caseId" type="String" />        
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
     <aura:handler event="c:cmh18evt_EmailView" action="{!c.cmh18evt_EmailView}"/>	
 
@@ -23,7 +26,7 @@
 			</div>
 		</header>
         </div>
-	<div class="slds-card__body slds-table_bordered">
+	<div class="slds-card__body">
       <dl class="slds-list_horizontal slds-wrap">
         <dt class="slds-item_label  " title="Date">Date:</dt>
         <dd class="slds-item_detail " title="Date Value">
@@ -32,8 +35,7 @@
         <dt class="slds-item_label  " title="Who">Who:</dt>
         <dd class="slds-item_detail " title="Who Value">
             <div>{!v.caseComment.LastModifiedBy.Name}</div>                                   
-        </dd>
-          
+        </dd>          
     </dl>
     </div>
     <div class="slds-tile cmh18_ed_body" >
@@ -43,5 +45,5 @@
 </aura:if>  
 </div>           
 </div>
-	<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>          
+	<!-- div class="slds-text-body_small slds-text-color_weak">{!v.version}</div -->
 </aura:component>

@@ -1,4 +1,7 @@
 <aura:component controller="cmh18apex_Server">
+	<aura:attribute name="caseId" type="String" />        
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 	<aura:attribute name="globals" type="Object" />    
     <aura:attribute name="version" type="String" default="eLoader-v0.4"/>
     <aura:attribute name="emailId" type="String" default=""/>
@@ -6,5 +9,7 @@
     <aura:handler event="c:cmh18evt_LoadEmail" action="{!c.cmh18evt_LoadEmail}"/>	
 	<!-- cmh18evt_EmailLoaded fired by this component when an email record has been retrieved. -->
 	<aura:registerEvent name="cmh18evt_EmailLoaded" type="c:cmh18evt_EmailLoaded" />
+<!--
     <span class="slds-text-body_small slds-text-color_weak">{!v.version}&nbsp;</span>	
+-->
 </aura:component>

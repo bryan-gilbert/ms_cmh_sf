@@ -3,15 +3,16 @@
 		component.set("v.globals", globals);
 		component.set("v.caseNumber",globals.theCase.CaseNumber);
         console.log("fire_GlobalDataChange", globals.caseId);
+    	console.log("Fire cmh18evt_GlobalDataChange ", component.get("v.myCaseId"));
         var cmh18evt_GlobalDataChange = $A.get("e.c:cmh18evt_GlobalDataChange");
-        cmh18evt_GlobalDataChange.setParams({"globals" : globals});
+        cmh18evt_GlobalDataChange.setParams({"globals" : globals, "caseId": component.get("v.myCaseId")});
         cmh18evt_GlobalDataChange.fire();
         
         var userInfo = component.find("userInfo");
         userInfo.setInfo(globals.userInfo, globals.orgInfo);
     },
 	loadGlobalData : function(component, helper) {	
-        var caseId = component.get("v.recordId");
+        var caseId = component.get("v.myCaseId");
         var version = component.get("v.version");
         var globalId = component.getGlobalId();
         console.log("INITIALIZE AllInOne with global id " + globalId);           

@@ -75,6 +75,7 @@ MRU_MAX : 7,
         var data = globals.userInfo.cmh18_data__c
         console.log("TPH userData. based on ", data);
         var userData = data && data.length>0 ?  JSON.parse(data) : {};
+        userData.mruTemplates = userData.mruTemplates || [];
         console.log("TPH userData.mruTemplates", userData.mruTemplates);
         return userData.mruTemplates;        
     },
@@ -84,8 +85,9 @@ MRU_MAX : 7,
         mruIds.unshift(id); // add to the beginning
         console.log("After unshift", mruIds);
         while(mruIds.length > this.MRU_MAX) mruIds.pop();
+    	console.log("Fire cmh18evt_UserDateSave ", component.get("v.myCaseId"));
         var cmh18evt_UserDataSaveAction = $A.get("e.c:cmh18evt_UserDataSave");
-        cmh18evt_UserDataSaveAction.setParams({"key": "mruTemplates", "value" : mruIds});
+        cmh18evt_UserDataSaveAction.setParams({"key": "mruTemplates", "value" : mruIds, "caseId": component.get("v.myCaseId")});
         cmh18evt_UserDataSaveAction.fire();        
         return mruIds;        
     },   

@@ -2,4 +2,5 @@
 <aura:event type="APPLICATION" description="Send email">
     <!-- See the email sender componet for more information on the contents of the data that is needed -->
     <aura:attribute name="emailData" type="Object"/>
+    <aura:attribute name="caseId" type="String"/>        
 </aura:event>

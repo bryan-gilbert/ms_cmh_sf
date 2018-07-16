@@ -3,6 +3,9 @@
 <!-- autoCompleteId:  Id of the auto complete component. This is returned with the entry if user clicks on me. -->
 <aura:attribute name="autoCompleteId" type="String"/> 
 <aura:attribute name="entry" type="String" />
+<aura:attribute name="caseId" type="String" />    
+<aura:attribute name="myCaseId" type="String" />    
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 <aura:registerEvent name="bevt_AutocompleteSelect" type="c:bevt_AutocompleteSelect"/>    
 <li role="presentation">
     <span class="slds-lookup__item-action slds-media slds-media--center" role="option">

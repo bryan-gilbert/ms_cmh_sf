@@ -1,4 +1,7 @@
 <aura:component>
+	<aura:attribute name="caseId" type="String" />        
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:attribute name="version" type="String" default="ed-v0.55"/>
     <aura:attribute name="emailId" type="String" default=""/>
     <aura:attribute name="isLoaded" type="Boolean" default="false"/>
@@ -24,23 +27,20 @@
 
 <!-- BEING UI -->
    <div id="view">
-       <div class="email_details">
 <div>{!v.error}</div>           
 <aura:if  isTrue="{!v.isLoaded}">    
+       <div class="email_details">
     <article class="slds-card">
 	<div class="slds-card__header slds-grid">      
 		<header class="slds-media slds-media_center slds-has-flexi-truncate">
 			<div class="slds-media__body">
 				<h2 class="slds-card__header-title">
-					<span class="slds-text-heading_small">Email:</span>
+					<span class="slds-text-heading_small">Email: {!v.subject}</span>
 				</h2>
-                <h2 class="slds-card__header-title">
-                    <span class="slds-text-heading_small">{!v.subject}</span>
-                </h2>
 			</div>
 		</header>
         </div>
-	<div class="slds-card__body slds-table_bordered">
+	<div class="slds-card__body">
       <dl class="slds-list_horizontal slds-wrap">
         <dt class="slds-item_label" title="To">To:</dt>
         <dd class="slds-item_detail " title="To Value">{!v.to}</dd>
@@ -76,8 +76,8 @@
         </dl>
     </div>
     </article>
-</aura:if>  
 </div>           
+</aura:if>  
 </div>
-	<div class="slds-text-body_small slds-text-color_weak">{!v.version}</div>          
+	<!-- div class="slds-text-body_small slds-text-color_weak">{!v.version}</div -->
 </aura:component>

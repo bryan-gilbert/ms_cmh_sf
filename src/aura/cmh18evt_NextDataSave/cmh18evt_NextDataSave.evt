@@ -1,0 +1,6 @@
+<!-- cmh18evt_NextDataSave -->
+<aura:event type="APPLICATION" 
+description="Request to update the case Next_Action__c field">
+    <aura:attribute name="nextAction" type="String"/>
+    <aura:attribute name="caseId" type="String"/>        
+</aura:event>

@@ -1,8 +1,15 @@
 ({
+    doInit: function(component,event,helper) {
+        component.set("v.myCaseId", component.get("v.caseId"));
+        console.log("Init cmh18_EmailLoader ", component.get("v.myCaseId"));    
+    },   
     // handles a email load request event. Fire cmh18evt_EmailLoaded when done.
 	cmh18evt_LoadEmail : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var emailId = event.getParam("emailId");
-        console.log("In email loader event handler id: ", emailId);
+        console.log("In email loader event handler id: ", emailId, "caseId", component.get("v.myCaseId"));
         var action = component.get("c.getEmail");
 		action.setParams({"id": emailId});
         action.setCallback(this, function(response){
@@ -34,7 +41,7 @@
                 }
             }
             var loadedEvent = $A.get("e.c:cmh18evt_EmailLoaded");
-            loadedEvent.setParams({"emailData": emailData});
+            loadedEvent.setParams({"emailData": emailData, "caseId": component.get("v.myCaseId")});
             loadedEvent.fire();
         });
         $A.enqueueAction(action);	        

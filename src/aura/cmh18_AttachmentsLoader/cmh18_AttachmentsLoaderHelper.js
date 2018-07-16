@@ -12,7 +12,7 @@
             data.attachments = attachments;
             console.log("Loaded attachments ", attachments.length)
             if(responses === 2) {
-                helper.finish(data,caseId);
+                helper.finish(component,data,caseId);
             }    
         });        
         var action2 = component.get("c.getDocumentLinksForCase");
@@ -31,7 +31,7 @@
                 console.log("Loaded documents ", docsList.length)
                 
                 if(responses === 2) {
-                    helper.finish(data,caseId);
+                    helper.finish(component,data,caseId);
                 }    
             });      
         });   
@@ -56,7 +56,7 @@
         });
         $A.enqueueAction(action);        
     },      
-    finish : function(data, caseId){
+    finish : function(component, data, caseId){
         var merged = [];
         console.log("attachments merge results");
         data.attachments.forEach(function(a) {
@@ -92,8 +92,9 @@
         data.allDocs = merged;
         console.log("attachments fire loaded event");
 
+    	console.log("Fire cmh18evt_AttachmentsLoaded ", component.get("v.myCaseId"));
         var loadedEvent = $A.get("e.c:cmh18evt_AttachmentsLoaded");
-        loadedEvent.setParams({"attachmentsData": data});
+        loadedEvent.setParams({"attachmentsData": data, "caseId": component.get("v.myCaseId")});
         loadedEvent.fire();
     },
 /*

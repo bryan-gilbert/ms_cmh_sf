@@ -1,12 +1,13 @@
 ({  
-    doInit : function(component, event, helper) {
-      var list = component.get("v.originalList");
-      console.log("Init has list ", list);
+    doInit: function(component,event,helper) {
+    	component.set("v.myCaseId", component.get("v.caseId"));
+    	var list = component.get("v.originalList");
+        console.log("Init b_InputWithAutocomplete ", component.get("v.myCaseId"), list);    
     },
 	keyUp : function(component, event, helper) {
 		var searchTerm = component.get("v.searchTerm").trim();
         var keyCode = event.getParams().keyCode;
-        console.log("kyUp event with keycode", keyCode);
+        console.log("b_InputWithAutocomplete kyUp event with keycode", keyCode);
         var searchBox = helper.findSearchBox(component);
         if(keyCode === 27) {
             // escape
@@ -16,7 +17,7 @@
 			return;
         }
 		if( searchTerm.length > 0 ){
-            console.log("keyUp open with ", searchTerm);
+            console.log("b_InputWithAutocomplete keyUp open with ", searchTerm);
 			helper.show(searchBox);
 			helper.searchHelper(component,event,searchTerm);
             if(keyCode === 13) {
@@ -31,12 +32,12 @@
             }
 		}
 		else{  
-            console.log("keyUp close");
+            console.log("b_InputWithAutocomplete keyUp close");
 			helper.hide(searchBox);
 		}         
 	},
     onblur : function(component,event,helper) {
-        console.log("clear the search field and hide the search drop down");
+        console.log("b_InputWithAutocomplete clear the search field and hide the search drop down");
         var entry = component.get("v.searchTerm");
         if(entry.length > 0){
             helper.addEntry(component,helper,entry);
@@ -52,7 +53,7 @@
             list.sort();            
             component.set("v.originalList", list);
             component.set("v.activeList", list);            
-            console.log("setList with new list ", list);
+            console.log("b_InputWithAutocomplete setList with new list ", list);
             var prePopList = params.prePopList;
             if(prePopList && prePopList.length>0){
                 prePopList.forEach(function(entry){
@@ -80,7 +81,7 @@
             if("focus" === eventType) {
                 component.set("v.searchTerm",entry);  
             } else if ("escape" === eventType){
-                console.log("lookup item says to exit");
+                console.log("b_InputWithAutocomplete lookup item says to exit");
                 component.set("v.searchTerm","");            
                 var searchBox = helper.findSearchBox(component);
                 helper.hide(searchBox);

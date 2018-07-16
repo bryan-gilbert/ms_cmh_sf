@@ -5,4 +5,5 @@ attachments : Attachment[]
 error : String
 -->
     <aura:attribute name="attachmentsData" type="Object"/>
+    <aura:attribute name="caseId" type="String"/>        
 </aura:event>

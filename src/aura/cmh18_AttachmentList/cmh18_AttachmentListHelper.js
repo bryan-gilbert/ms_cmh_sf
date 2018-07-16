@@ -6,8 +6,7 @@
         for (var i=0; i<elements.length; i++) {
             var ctarget = elements[i];
             ctarget.checked = false;
-        }        
-        
+        }                
         console.log("Attachment list respond to view email event", emailId);
         var attachments = component.get("v.attachments");
         attachments.forEach(function(a) {
@@ -46,27 +45,12 @@
         }  
         // all work is done ... now update the UI by reloading the list into the component
         component.set("v.attachments", attachments);
-        var show = component.get("v.showCheckBoxes");
-        component.set("v.showCheckBoxes", ! show);
-        component.set("v.showCheckBoxes", show);
     },
     fireAttachmentListEvent : function(component) {
+    	console.log("Fire cmh18evt_AttachmentList ", component.get("v.myCaseId"));
         var cmh18evt_AttachmentList = $A.get("e.c:cmh18evt_AttachmentList");
         var attachments = component.get("v.attachments");
-        cmh18evt_AttachmentList.setParams({"attachments": attachments});
+        cmh18evt_AttachmentList.setParams({"attachments": attachments, "caseId": component.get("v.myCaseId")});
         cmh18evt_AttachmentList.fire();
 	}, 
-    checkboxesDisplay : function(component,helper){
-        var checkboxes = document.getElementsByClassName("cev_attachment_checkbox");
-        var show = component.get("v.showCheckBoxes");
-        console.log("In checkboxesDisplay" + show + " have how many checkboxes? ", checkboxes.length);
-        for (var i=0; i<checkboxes.length; i++) {
-            var ctarget = checkboxes[i];
-            //console.log("ctarget ", ctarget.getAttribute("data-value"));
-            if(show)
-            ctarget.removeAttribute("disabled");            
-            else 
-            ctarget.setAttribute("disabled", "disabled");            
-        }         
-    }, 
 })

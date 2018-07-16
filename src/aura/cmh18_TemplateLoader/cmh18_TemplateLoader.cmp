@@ -1,8 +1,11 @@
 <!-- cmh18_TemplateLoader -->
 <aura:component controller="cmh18_EmailTemplatesController">
+	<aura:attribute name="caseId" type="String" />        
 	<aura:attribute name="globals" type="Object" />    
     <aura:attribute name="version" type="String" default="etl-v0.10"/>
     <aura:attribute name="templateId" type="String" default=""/>
+	<aura:attribute name="myCaseId" type="String" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
     <!-- cmh18evt_PickTemplate fired by email template picker when user selects template-->
     <aura:handler event="c.cmh18evt_PickTemplate" action="{!c.cmh18evt_PickTemplate}"/>

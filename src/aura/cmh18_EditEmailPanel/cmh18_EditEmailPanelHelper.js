@@ -103,9 +103,14 @@
 	updateContent : function(component) {
         var helperData = component.get("v.helperData");
         console.log("re data ", helperData.re);
-        var subject = helperData.renderedSubject ? helperData.renderedSubject + " - " : "";
+        var subject = '';
+        if(helperData.renderedSubject) {
+            subject = helperData.renderedSubject;
+        } else {
             subject += helperData.re ? helperData.re + " " : "";
-            subject += helperData.originalSubject ? helperData.originalSubject + " " : "";
+            subject += helperData.originalSubject ? helperData.originalSubject + " " : "";            
+        }
+        
         var cNumSubject = " Case: " + helperData.caseNumber;
         if(!subject.includes(cNumSubject)) {
             subject += cNumSubject;
@@ -127,12 +132,15 @@
         component.set("v.body", body);
 	},
     sendCloseEvent: function(component,helper) {
+    	console.log("Fire cmh18evt_EmailEdit ", component.get("v.myCaseId"));
         var cmh18evt_EmailEdit = $A.get("e.c:cmh18evt_EmailEdit");
-        cmh18evt_EmailEdit.setParams({direction: 'close' });
+        cmh18evt_EmailEdit.setParams({direction: 'close', "caseId": component.get("v.myCaseId") });
         cmh18evt_EmailEdit.fire(); 
     },
     sendRefreshEvent: function(component,helper) {
+    	console.log("Fire cmh18evt_RefreshFromServer ", component.get("v.myCaseId"));
         var cmh18evt_RefreshFromServer = $A.get("e.c:cmh18evt_RefreshFromServer");
+        cmh18evt_RefreshFromServer.setParams({"caseId": component.get("v.myCaseId") });
         cmh18evt_RefreshFromServer.fire(); 
     },
     validateEmailAddressList : function(list, listName) {

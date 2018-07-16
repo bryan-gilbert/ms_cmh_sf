@@ -6,16 +6,16 @@
             //console.log("test includes ", elem);
             return elem.includes(searchTerm);
         });
-        console.log("searchHelper has list ", list, " searchTerm", searchTerm, " selectedList", selectedList);
+        console.log("b_InputWithAutocomplete searchHelper has list ", list, " searchTerm", searchTerm, " selectedList", selectedList);
         component.set("v.filteredList", selectedList);
 	},
 	hide : function(element) {
-        console.log("hide element ", element);
+        console.log("b_InputWithAutocomplete hide element ", element);
 		$A.util.addClass(element, 'slds-hide');
 		$A.util.removeClass(element, 'slds-show');  
 	},
 	show : function(element) {
-        console.log("show element ", element);
+        console.log("b_InputWithAutocomplete show element ", element);
 		$A.util.addClass(element, 'slds-show');
 		$A.util.removeClass(element, 'slds-hide');	
 	},
@@ -35,13 +35,14 @@
     },
     fireNewListEvent : function(component,helper){
         var autoCompleteId = component.get("v.autoCompleteId");
+    	console.log("b_InputWithAutocomplete Fire bevt_AutocompleteList ", component.get("v.myCaseId"));
         var bevt_AutocompleteList = $A.get("e.c:bevt_AutocompleteList");
         var list = component.get("v.selectedList");        
-        bevt_AutocompleteList.setParams({"autoCompleteId": autoCompleteId, "list": list});
+        bevt_AutocompleteList.setParams({"autoCompleteId": autoCompleteId, "list": list, "caseId": component.get("v.myCaseId") });
         bevt_AutocompleteList.fire();        
     },
     addEntry : function (component,helper, entry){
-        console.log("add entry ", entry);
+        console.log("b_InputWithAutocomplete add entry ", entry);
         // create a pill with the selected entry
         var pills = component.get("v.selectedList");
         pills.push(entry);
@@ -55,7 +56,7 @@
         helper.fireNewListEvent(component,helper); 
     },
     removeEntry : function(component,helper,entry){
-        console.log("clear entry ", entry);
+        console.log("b_InputWithAutocomplete clear entry ", entry);
         var pills = component.get("v.selectedList");
         var newPills = pills.filter(function(p) {
             return p !== entry;

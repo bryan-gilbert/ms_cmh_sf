@@ -1,0 +1,180 @@
+<!-- cmh18_CaseHeader -->
+<aura:component controller="cmh18apex_Server"  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+<aura:attribute name="version" type="String" default="cmh-header-v0.1"/>
+<aura:attribute name="recordId" type="String" />
+<aura:attribute name="myCaseId" type="String" />
+<aura:attribute name="theCase" type="Case" />
+<aura:attribute name="activeEditors" type="Object" />
+<aura:attribute name="modified" type="Boolean" default="false" />
+    
+<aura:attribute name="statuses" type="Object[]" default="[]"/>
+<aura:attribute name="selectedStatus" type="String" default=""/>
+    
+<aura:attribute name="types" type="Object[]" default="[]"/>
+<aura:attribute name="selectedType" type="String" default=""/>
+
+<aura:attribute name="priorities" type="Object[]" default="[]"/>
+<aura:attribute name="selectedPriority" type="String" default=""/>
+
+<aura:attribute name="segments" type="Object[]" default="[]"/>
+<aura:attribute name="selectedSegment" type="String" default=""/>
+
+<aura:attribute name="selectedFollowUp" type="String" default="2017-09-15"/>
+    
+    
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+<aura:handler event="c:cmh18evt_RefreshFromServer" action="{!c.cmh18evt_RefreshFromServer}"/>
+<aura:registerEvent name="cmh18evt_RefreshFromServer" type="c:cmh18evt_RefreshFromServer" />    
+<!--
+select Id, Next_Action__c, ParentId, CaseNumber, CreatedDate, LastModifiedDate, Description, IsClosed, IsDeleted, Origin, OwnerId, Owner.NamePriority
+, Reason, Status, Subject, Type, Segment__c , ClosedDate, Follow_up_date__c ,AccountId, ContactId from Case WHERE Id = :caseId
+
+-->                
+<div>
+	<header class="cmh18_caseHeader slds-page-header">
+        <div class="slds-grid primaryFieldRow">
+            <div class="profilePicWrapper slds-media slds-no-space">
+                <div class="slds-media__figure slds-icon forceEntityIcon" style="background-color: #F2CF5B">
+                    <span class="uiImage">
+                    <lightning:icon class="icn" iconName="standard:case" alternativeText="Case" />		
+                    </span>
+                </div>
+            </div>
+            <div class="slds-media__body">
+                <p class="entityNameTitle slds-breadcrumb__item slds-line-height--reset" >
+                    <span>Case: </span>&nbsp;<span>{!v.theCase.CaseNumber}</span>&nbsp;&nbsp;
+                    <span>Owner: </span>&nbsp;<span>{!v.theCase.Owner.Name}</span>
+                </p>
+                <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle" title="{!v.theCase.Subject}">
+                    <span class="uiOutputText">{!v.theCase.Subject}</span>
+                </h1>
+            </div>
+            <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer">
+                <ul class="branding-actions slds-button-group slds-m-left--xx-small oneActionsRibbon" >
+                    <li class="slds-button slds-button--neutral slds-truncate">
+                    <a href="javascript:void(0);" title="Triage"  class="forceActionLink" role="button" onclick="{!c.invokeToTriage}">
+                    <div class="slds-truncate" title="Triage">Triage </div>
+                    </a>
+                    </li>
+                    <li class="slds-button slds-button--neutral slds-truncate">
+                    <a href="javascript:void(0);" title="Take Ownership"  class="forceActionLink" role="button" onclick="{!c.invokeTakeOwnership}">
+                    <div class="slds-truncate" title="Take Ownership">Take Ownership </div>
+                    </a>
+                    </li>
+                    <li class="slds-button slds-button--neutral slds-truncate">
+                    <a href="javascript:void(0);" title="Trash"  class="forceActionLink" role="button" onclick="{!c.invokeTrash}">
+                    <div class="slds-truncate" title="Trash">Trash </div>
+                    </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+		<div class="slds-grid slds-page-header__detail-row chm18_headerProperties">
+			<div class="slds-col">
+				<div class="slds-grid slds-grid_vertical">
+					<div class="slds-col"><span>Priority</span></div>
+                    <aura:if isTrue="{!v.activeEditors.priority}">                        
+                        <lightning:select value="{!v.selectedPriority}">
+                            <aura:iteration items="{!v.priorities}" var="elem">
+                            <option text="{!elem.label}" value="{!elem.value}" selected="{!v.selectedPriority}"/>
+                            </aura:iteration>
+                        </lightning:select>  
+                        <aura:set attribute="else">
+                            <div class="slds-col"><span>{!v.theCase.Priority}
+                             <a href="javascript:void(0);" class="cmh18_header_edit_icon"  role="button" onclick="{!c.editPriority}">                        
+                             <lightning:icon class="icn" iconName="utility:edit" size="xx-small" alternativeText="Edit" /></a>
+                             </span></div>                            
+                        </aura:set>   
+                    </aura:if>                    
+				</div>
+            </div>
+			<div class="slds-col">
+				<div class="slds-grid slds-grid_vertical">
+					<div class="slds-col"><span>Type</span></div>
+                    <aura:if isTrue="{!v.activeEditors.type}">                        
+                        <lightning:select value="{!v.selectedType}">
+                            <aura:iteration items="{!v.types}" var="elem">
+                            <option text="{!elem.label}" value="{!elem.value}" selected="{!v.theCase.Type}"/>
+                            </aura:iteration>
+                        </lightning:select>  
+                        <aura:set attribute="else">
+                            <div class="slds-col"><span>{!v.theCase.Type}
+                             <a href="javascript:void(0);" class="cmh18_header_edit_icon"  role="button" onclick="{!c.editType}">                        
+                             <lightning:icon class="icn" iconName="utility:edit" size="xx-small" alternativeText="Edit" /></a>
+                             </span></div>                            
+                        </aura:set>   
+                    </aura:if>
+				</div>
+            </div>
+			<div class="slds-col">
+				<div class="slds-grid slds-grid_vertical">
+					<div class="slds-col"><span>Status</span></div>
+                    <aura:if isTrue="{!v.activeEditors.status}">                        
+                        <lightning:select value="{!v.selectedStatus}">
+                            <aura:iteration items="{!v.statuses}" var="elem">
+                            <option text="{!elem.label}" value="{!elem.value}" selected="{!v.theCase.Status}"/>
+                            </aura:iteration>
+                        </lightning:select>  
+                        <aura:set attribute="else">
+                            <div class="slds-col"><span>{!v.theCase.Status}
+                             <a href="javascript:void(0);" class="cmh18_header_edit_icon"  role="button" onclick="{!c.editStatus}">                        
+                             <lightning:icon class="icn" iconName="utility:edit" size="xx-small" alternativeText="Edit" /></a>
+                             </span></div>                            
+                        </aura:set>   
+                    </aura:if>
+				</div>
+            </div>
+			<div class="slds-col">
+				<div class="slds-grid slds-grid_vertical">
+					<div class="slds-col"><span>Follow Up</span></div>
+                    <aura:if isTrue="{!v.activeEditors.followUp}">  
+                        <ui:inputDate aura:id="followUpDate" class="field" value="{!v.selectedFollowUp}" displayDatePicker="true" />                         
+                        <aura:set attribute="else">
+                            <div class="slds-col"><span>
+                                <ui:outputDate format="YYYY-MM-DD" value="{!v.theCase.Follow_up_date__c}" />
+                             <a href="javascript:void(0);" class="cmh18_header_edit_icon"  role="button" onclick="{!c.editFollowUp}">                        
+                             <lightning:icon class="icn" iconName="utility:edit" size="xx-small" alternativeText="Edit" /></a>
+                             </span></div>                            
+                        </aura:set>   
+                    </aura:if>                                        
+				</div>                
+            </div>
+            
+			<div class="slds-col">
+				<div class="slds-grid slds-grid_vertical">
+					<div class="slds-col"><span>Segment</span></div>
+                    <aura:if isTrue="{!v.activeEditors.segment}">                        
+                        <lightning:select value="{!v.selectedSegment}">
+                            <aura:iteration items="{!v.segments}" var="elem">
+                            <option text="{!elem.label}" value="{!elem.value}" selected="{!v.theCase.Segment__c}"/>
+                            </aura:iteration>
+                        </lightning:select>  
+                        <aura:set attribute="else">
+                            <div class="slds-col"><span>{!v.theCase.Segment__c}
+                             <a href="javascript:void(0);" class="cmh18_header_edit_icon"  role="button" onclick="{!c.editSegment}">                        
+                             <lightning:icon class="icn" iconName="utility:edit" size="xx-small" alternativeText="Edit" /></a>
+                             </span></div>                            
+                        </aura:set>   
+                    </aura:if>                    
+				</div>
+            </div>
+			<div class="slds-col">
+				<div class="slds-grid slds-grid_vertical">
+					<div class="slds-col"><span>Parent</span></div>
+					<div class="slds-col"><span>{!v.theCase.ParentId}</span></div>
+				</div>
+            </div>
+
+		</div>
+        <aura:if isTrue="{!v.modified}">
+		<div class="slds-grid slds-page-header__detail-row chm18_headerProperties">
+			<div class="slds-col">
+					<span><lightning:button variant="brand" label="Submit" onclick="{!c.saveEdit}"/></span>
+					<span><lightning:button variant="base" label="Cancel" onclick="{!c.cancelEdit}"/></span>
+			</div>                       
+        </div>
+</aura:if>            
+            
+	</header>
+</div>
+</aura:component>

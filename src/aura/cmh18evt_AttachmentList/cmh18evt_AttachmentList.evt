@@ -1,4 +1,5 @@
 <!--  cmh18evt_AttachmentList -->
 <aura:event type="APPLICATION" description="The attachment list selections have changed">
     <aura:attribute name="attachments" type="Object"/>
+    <aura:attribute name="caseId" type="String"/>    
 </aura:event>

@@ -1,36 +1,44 @@
 ({
+    doInit: function(component,event,helper) {
+        component.set("v.myCaseId", component.get("v.caseId"));
+        console.log("Init cmh18_UserInfo ", component.get("v.myCaseId"));    
+    },   
 	setInfo : function(component,event,helper) {
 		var params = event.getParam('arguments');
 		if (params) {
 		    component.set("v.userInfo", params.userInfo);
 		    component.set("v.orgInfo", params.orgInfo);
+	        console.log("cmh18_UserInfo setinfo user and org");
 		}
 	},
     cmh18evt_UserDataSave : function(component,event,helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         var key = event.getParam("key");
         var value = event.getParam("value");
-        console.log("update user data["+key+"] ", value);
+        console.log("cmh18_UserInfo update user data["+key+"] ", value);
         var globals = component.get("v.globals");
         var userInfo = globals.userInfo;
-        console.log("update userInfo ", userInfo);
+        console.log("cmh18_UserInfo update userInfo ", userInfo);
         var cmh18_data__c = userInfo.cmh18_data__c;
         var dataObj = cmh18_data__c && cmh18_data__c.length>0 ?  JSON.parse(cmh18_data__c) : {};
-        console.log("update user data["+key+"] old/new ", dataObj[key] , value);
+        console.log("cmh18_UserInfo update user data["+key+"] old/new ", dataObj[key] , value);
         dataObj[key] = value;
         cmh18_data__c = JSON.stringify(dataObj);
         var action = component.get("c.updateUserData");
 		action.setParams({"theData": cmh18_data__c});
         action.setCallback(this, function(response){
             var state = response.getState();
-            console.log("Saved user data", state);
+            console.log("cmh18_UserInfo Saved user data", state);
             if (state === "SUCCESS") {                
             	var theUser = response.getReturnValue();
                 component.set("v.userInfo", theUser);
                 globals.userInfo = theUser;
                 var data = globals.userInfo.cmh18_data__c;
-                console.log("Data sent / saved: ", cmh18_data__c, data);
+                console.log("cmh18_UserInfo Data sent / saved: ", cmh18_data__c, data);
 				globals.userInfo.userData = data && data.length>0 ?  JSON.parse(data) : {};
-                console.log("cmh18evt_UserDataSave globals.userInfo.userData", globals.userInfo.userData);
+                console.log("cmh18_UserInfo globals.userInfo.userData", globals.userInfo.userData);
             } else if (state === "ERROR") {                
                 var error = "Unknown Error";
                 var errors = response.getError();
@@ -46,11 +54,15 @@
    saveUserData: function(component,event,helper) {
     var key = component.get("v.key");
     var value = component.get("v.value");
+    console.log("cmh18_UserInfo Fire cmh18evt_UserDataSave ", component.get("v.myCaseId"));
     var cmh18evt_UserDataSaveAction = $A.get("e.c:cmh18evt_UserDataSave");
-    cmh18evt_UserDataSaveAction.setParams({"key": key, "value" : value});
+    cmh18evt_UserDataSaveAction.setParams({"key": key, "value" : value, "caseId": component.get("v.myCaseId")});
     cmh18evt_UserDataSaveAction.fire();
    },
     cmh18evt_GlobalDataChange : function(component, event, helper) {
+        if (event.getParam("caseId") !== component.get("v.myCaseId")) {
+            return;
+        }
         console.log("cmh18_UserInfo cmh18evt_GlobalDataChange " + component.get("v.version"));
         var globals = event.getParam("globals");
         component.set("v.globals", globals);

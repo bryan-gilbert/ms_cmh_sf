@@ -42,12 +42,17 @@
         var merged = [];
         emails.forEach(function(a) {
             a.isEmail = true;
+            a.date = a.MessageDate;
             merged.push(a);
         });
         comments.forEach(function(a) {
             a.isEmail = false;
+            a.date = a.LastModifiedDate;
             merged.push(a);
         });
+        merged.sort(function(a,b){
+         return new Date(b.date) - new Date(a.date);            
+        })
         component.set("v.items", merged);
         component.set("v.count", merged.length); 
         helper.itemSelected(component,helper);
