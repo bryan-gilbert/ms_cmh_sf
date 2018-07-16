@@ -108,6 +108,7 @@ public with sharing class cmh18apex_Email {
             emailMsg.TextBody = plainTextBody;
             emailMsg.HtmlBody = htmlBody;
             // HasAttachment is not writable
+            //emailMsg.HasAttachment = true;
             emailMsg.Incoming = false;
             emailMsg.ParentId = caseId;
             //emailMsg.ReplyToEmailMessageId = 
@@ -124,7 +125,9 @@ public with sharing class cmh18apex_Email {
             errorEmail.setSenderDisplayName('Apex error message');
             errorEmail.setSubject('Error from Org : ' + UserInfo.getOrganizationName());
             errorEmail.setPlainTextBody(error.getMessage());
+        if(!Test.isRunningTest()){
             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { errorEmail });
+        }
             return errorMessage('ERROR: ' + error.getMessage());
         }
     }
